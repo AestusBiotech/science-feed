@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0b0d10" />
+  <title>feed</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="icon.svg" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="dot"></span>
+      <h1>feed</h1>
+      <span class="datestamp" id="datestamp"></span>
+    </div>
+    <nav class="tabs">
+      <button class="tab active" data-view="feed">Feed</button>
+      <button class="tab" data-view="saved">Saved <span class="count" id="saved-count">0</span></button>
+    </nav>
+  </header>
+
+  <main id="view-feed" class="view">
+    <div id="feed" class="feed"></div>
+    <div id="sentinel" class="sentinel"></div>
+    <div id="caught-up" class="caught-up" hidden>
+      <span>you're caught up</span>
+      <small>that's the batch for today</small>
+    </div>
+  </main>
+
+  <main id="view-saved" class="view" hidden>
+    <div class="saved-filters" id="saved-filters"></div>
+    <ul id="saved-list" class="saved-list"></ul>
+    <div id="saved-empty" class="saved-empty">Nothing saved yet. Tap the bookmark on a card.</div>
+  </main>
+
+  <div id="toast" class="toast" hidden></div>
+
+  <div id="sheet-backdrop" class="sheet-backdrop" hidden>
+    <div id="sheet" class="sheet" role="menu" aria-label="Card options">
+      <button class="sheet-item" data-act="more">More like this</button>
+      <button class="sheet-item" data-act="less">Less like this</button>
+      <button class="sheet-item" data-act="mute">Mute this source</button>
+      <button class="sheet-item cancel" data-act="cancel">Cancel</button>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/smiles-drawer@2/dist/smiles-drawer.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

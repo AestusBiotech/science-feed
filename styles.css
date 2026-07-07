@@ -1,0 +1,364 @@
+:root {
+  --bg: #0b0d10;
+  --surface: #14181d;
+  --surface-2: #1b2027;
+  --border: #262c34;
+  --text: #e8eaed;
+  --text-dim: #9aa3ad;
+  --text-faint: #6b747e;
+
+  /* lane colors */
+  --orgchem: #14b8a6;
+  --biochem: #a78bfa;
+  --radiopharma: #ff6f5e;
+  --startups: #f5a524;
+  --biotechnews: #4f9bff;
+  --wildcard: #ec4899;
+
+  --maxw: 480px;
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+}
+
+body { overflow-y: scroll; }
+
+/* ---------- top bar ---------- */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: env(safe-area-inset-top) 16px 0;
+  background: rgba(11, 13, 16, 0.82);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+.brand { display: flex; align-items: baseline; gap: 8px; padding-top: 12px; }
+.brand h1 { font-size: 20px; font-weight: 700; margin: 0; letter-spacing: -0.02em; }
+.brand .dot {
+  width: 9px; height: 9px; border-radius: 50%;
+  background: var(--radiopharma);
+  align-self: center;
+  box-shadow: 0 0 10px var(--radiopharma);
+}
+.datestamp { margin-left: auto; font-size: 12px; color: var(--text-faint); }
+
+.tabs { display: flex; gap: 4px; padding: 10px 0 8px; }
+.tab {
+  appearance: none;
+  border: none;
+  background: transparent;
+  color: var(--text-dim);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.tab.active { color: var(--text); background: var(--surface-2); }
+.count {
+  font-size: 11px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: var(--border);
+  color: var(--text-dim);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.tab.active .count { background: var(--radiopharma); color: #1a0f0d; }
+
+/* ---------- views ---------- */
+.view { max-width: var(--maxw); margin: 0 auto; padding: 12px 12px 96px; }
+
+/* ---------- feed cards ---------- */
+.feed { display: flex; flex-direction: column; gap: 14px; }
+
+.card {
+  --lane: var(--wildcard);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 14px 15px 10px;
+  position: relative;
+  overflow: hidden;
+  animation: rise 0.4s ease both;
+}
+.card::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: var(--lane);
+}
+@keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+.card.lane-orgchem { --lane: var(--orgchem); }
+.card.lane-biochem { --lane: var(--biochem); }
+.card.lane-radiopharma { --lane: var(--radiopharma); }
+.card.lane-startups { --lane: var(--startups); }
+.card.lane-biotechnews { --lane: var(--biotechnews); }
+.card.lane-wildcard { --lane: var(--wildcard); }
+
+.card-head { display: flex; align-items: center; gap: 8px; margin-bottom: 9px; }
+.badge {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: lowercase;
+  color: var(--lane);
+  background: color-mix(in srgb, var(--lane) 16%, transparent);
+  padding: 3px 9px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+.prov {
+  font-size: 12px;
+  color: var(--text-faint);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.title {
+  font-size: 16.5px;
+  font-weight: 650;
+  line-height: 1.3;
+  margin: 0 0 8px;
+  letter-spacing: -0.01em;
+}
+.hook { font-size: 15px; color: var(--text); margin: 0 0 12px; }
+
+/* molecule / media */
+.mol {
+  background: #f6f8fa;
+  border-radius: 12px;
+  padding: 6px;
+  margin: 0 0 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.mol canvas { width: 100%; max-width: 320px; height: auto; }
+.mol-meta { font-size: 12px; color: #5b6470; padding: 2px 0 4px; font-variant-numeric: tabular-nums; }
+
+.shown {
+  font-size: 12px;
+  color: var(--text-faint);
+  margin: 0 0 10px;
+  padding-left: 15px;
+  position: relative;
+}
+.shown::before { content: "◦"; position: absolute; left: 2px; color: var(--lane); }
+
+/* action row */
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border-top: 1px solid var(--border);
+  padding-top: 6px;
+  margin: 0 -3px;
+}
+.act {
+  appearance: none;
+  border: none;
+  background: transparent;
+  color: var(--text-dim);
+  font-size: 13.5px;
+  font-weight: 600;
+  font-family: inherit;
+  padding: 8px 10px;
+  border-radius: 9px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+}
+.act:hover { background: var(--surface-2); color: var(--text); }
+.act svg { width: 17px; height: 17px; stroke: currentColor; fill: none; stroke-width: 2; }
+.act.saved { color: var(--lane); }
+.act.saved svg { fill: var(--lane); stroke: var(--lane); }
+.act.more { margin-left: auto; font-size: 18px; letter-spacing: 1px; padding: 8px 12px; }
+
+/* explain expand */
+.explain {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.28s ease;
+}
+.explain.open { grid-template-rows: 1fr; }
+.explain > .explain-inner { overflow: hidden; }
+.explain-inner-pad { padding: 4px 2px 8px; }
+
+.snippet {
+  font-size: 12.5px;
+  color: var(--text-faint);
+  font-style: italic;
+  border-left: 2px solid var(--border);
+  padding: 2px 0 2px 10px;
+  margin: 6px 0 12px;
+}
+.beat { margin-bottom: 11px; }
+.beat-label {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--lane);
+  margin-bottom: 2px;
+}
+.beat p { margin: 0; font-size: 14.5px; }
+.beat.catch .beat-label { color: var(--text-dim); }
+
+.deeper {
+  appearance: none;
+  width: 100%;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 11px;
+  border-radius: 11px;
+  cursor: pointer;
+  margin-top: 4px;
+}
+.deeper:hover { border-color: var(--lane); }
+
+/* ---------- caught up ---------- */
+.caught-up { text-align: center; padding: 40px 0 10px; color: var(--text-faint); }
+.caught-up span { display: block; font-size: 15px; font-weight: 600; color: var(--text-dim); }
+.caught-up small { font-size: 12.5px; }
+.sentinel { height: 1px; }
+
+/* ---------- saved view ---------- */
+.saved-filters { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+.chip {
+  appearance: none;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-dim);
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  padding: 5px 11px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+.chip.active { background: var(--text); color: var(--bg); border-color: var(--text); }
+
+.saved-list { list-style: none; margin: 0; padding: 0; }
+.saved-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 4px;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+}
+.saved-row.read { opacity: 0.5; }
+.unread-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--lane, var(--radiopharma));
+  margin-top: 6px;
+  flex: none;
+}
+.saved-row.read .unread-dot { background: transparent; border: 1px solid var(--text-faint); }
+.saved-main { flex: 1; min-width: 0; }
+.saved-title { font-size: 14.5px; font-weight: 600; margin: 0 0 2px; line-height: 1.3; }
+.saved-meta { font-size: 12px; color: var(--text-faint); }
+.saved-meta .lane-tag { color: var(--lane); font-weight: 700; }
+.saved-remove {
+  appearance: none; border: none; background: transparent;
+  color: var(--text-faint); font-size: 20px; cursor: pointer;
+  padding: 0 6px; line-height: 1; flex: none;
+}
+.saved-remove:hover { color: var(--radiopharma); }
+.saved-empty { text-align: center; color: var(--text-faint); padding: 50px 20px; font-size: 14px; }
+.saved-empty.hidden { display: none; }
+
+/* ---------- toast ---------- */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 28px;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-size: 13.5px;
+  font-weight: 500;
+  padding: 11px 18px;
+  border-radius: 999px;
+  z-index: 60;
+  opacity: 0;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+  max-width: 90vw;
+  text-align: center;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ---------- bottom sheet ---------- */
+.sheet-backdrop[hidden] { display: none; }
+.sheet-backdrop {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 50;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+.sheet {
+  width: 100%;
+  max-width: var(--maxw);
+  background: var(--surface);
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  border: 1px solid var(--border);
+  padding: 8px 8px calc(8px + env(safe-area-inset-bottom));
+  animation: sheetUp 0.22s ease both;
+}
+@keyframes sheetUp { from { transform: translateY(100%); } to { transform: none; } }
+.sheet-item {
+  appearance: none;
+  width: 100%;
+  border: none;
+  background: transparent;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  text-align: left;
+  padding: 15px 16px;
+  border-radius: 12px;
+  cursor: pointer;
+}
+.sheet-item:hover { background: var(--surface-2); }
+.sheet-item.cancel { color: var(--text-faint); text-align: center; margin-top: 4px; }
+
+@media (min-width: 520px) {
+  .card { border-radius: 18px; }
+}

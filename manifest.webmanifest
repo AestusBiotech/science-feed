@@ -1,0 +1,14 @@
+{
+  "name": "Science Feed",
+  "short_name": "feed",
+  "description": "A personal feed of science — org chem, biochem, radiopharma, biotech.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0b0d10",
+  "theme_color": "#0b0d10",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

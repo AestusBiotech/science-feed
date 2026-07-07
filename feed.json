@@ -1,0 +1,196 @@
+{
+  "generated": "2026-07-06",
+  "note": "v0.1 batch — real items pulled from ClinicalTrials.gov, bioRxiv, and ChEMBL. Hooks and explain-beats hand-written in-voice.",
+  "cards": [
+    {
+      "id": "prrt-dosimetry",
+      "lane": "radiopharma",
+      "source": "ClinicalTrials.gov",
+      "type": "trial",
+      "date": null,
+      "provenanceNote": "Phase 2 · recruiting",
+      "title": "Dosimetry-Based PRRT Versus Standard-Dose PRRT With Lu-177-DOTATOC in Neuroendocrine Patients",
+      "hook": "Right now most people getting this Lu-177 therapy get roughly the same dose, tumor be damned. This trial actually measures how much radiation each patient's tumor takes up and adjusts the next cycle to match. It's the obvious move, which makes you wonder why it's taken this long to test it properly.",
+      "url": "https://clinicaltrials.gov/study/NCT04917484",
+      "image": { "kind": "none" },
+      "shownBecause": "radiopharma — your field, weighted up",
+      "explain": {
+        "snippet": "Randomized study comparing dosimetry-guided PRRT against standard fixed-dose Lu-177-DOTATOC in neuroendocrine tumor patients.",
+        "gist": "PRRT with Lu-177-DOTATOC is usually given as four fixed cycles. This trial images each patient to see the actual absorbed dose and tailors treatment instead of assuming one size fits all.",
+        "interesting": "If tailoring works, it means some patients are being under-treated today and others are getting exposure they didn't need. Same drug, better aim.",
+        "catch": "Single-center Phase 2 of 100 people, with the readout running into late 2025. Dosimetry is also fiddly to standardize, which is part of why fixed dosing stuck around."
+      }
+    },
+    {
+      "id": "malonate-endogenous",
+      "lane": "biochem",
+      "source": "bioRxiv",
+      "type": "preprint",
+      "date": "2026-05-23",
+      "title": "Cells Engage Endogenous Malonate Synthesis to Drive Mitochondrial Metabolism",
+      "hook": "Every biochem class teaches malonate as the thing you add to a tube to block complex II. This paper says cells make their own malonate on purpose, as an actual metabolic signal. If it holds up a line in the textbook needs rewriting, though 'if it holds up' is carrying weight here since it's a preprint.",
+      "url": "https://doi.org/10.64898/2026.05.22.727248",
+      "image": { "kind": "none" },
+      "shownBecause": "biochem — you save a lot of metabolism papers",
+      "explain": {
+        "snippet": "Malonate is often described as an endogenous inhibitor of complex II, but the cellular source has been unclear. The authors identify an endogenous synthesis route feeding mitochondrial metabolism.",
+        "gist": "Malonate has a textbook role as an experimental inhibitor of complex II. The authors show cells synthesize it themselves and use it to tune mitochondrial metabolism.",
+        "interesting": "That flips a reagent into a regulator. Endogenous metabolite control of the electron transport chain is the kind of finding that spawns follow-up work for years.",
+        "catch": "Preprint, not peer reviewed, and 'cells make a known inhibitor on purpose' is exactly the sort of clean story that sometimes doesn't survive review."
+      }
+    },
+    {
+      "id": "artemisinin",
+      "lane": "orgchem",
+      "source": "ChEMBL",
+      "type": "compound",
+      "date": null,
+      "provenanceNote": "reference compound",
+      "title": "Artemisinin (C15H22O5)",
+      "hook": "Artemisinin is the antimalarial built around a peroxide bridge, the strained O-O bond most chemists treat as a stability headache. Here it's the whole mechanism. Worth remembering it came out of a plant traditional Chinese medicine had used for centuries before anyone pulled out the active piece.",
+      "url": "https://www.ebi.ac.uk/chembl/explore/compound/CHEMBL269671",
+      "image": {
+        "kind": "molecule",
+        "smiles": "C[C@@H]1CC[C@H]2[C@@H](C)C(=O)O[C@@H]3O[C@@]4(C)CC[C@@H]1[C@]32OO4",
+        "formula": "C15H22O5",
+        "mw": "282.34"
+      },
+      "shownBecause": "org chem — matches structures you've opened",
+      "explain": {
+        "snippet": "Artemisinin (C15H22O5), a sesquiterpene lactone with an endoperoxide bridge. First-in-class antimalarial, natural product.",
+        "gist": "A sesquiterpene lactone from sweet wormwood with an endoperoxide (O-O) bridge that most stable drugs would never carry.",
+        "interesting": "That peroxide is the business end. Iron in the parasite cleaves it and the resulting radicals do the killing, which is why the whole drug class hangs off one unusual bond.",
+        "catch": "Resistance is creeping up in parts of Southeast Asia, so the 'solved problem' framing doesn't fully hold anymore."
+      }
+    },
+    {
+      "id": "beeline-raise",
+      "lane": "startups",
+      "source": "funding news",
+      "type": "funding",
+      "date": null,
+      "provenanceNote": "recent",
+      "title": "Boston Biotech Adds $126M On Top of an Already Large Raise",
+      "hook": "Boston biotech pulled another $126m on top of the $300m they already had. BMS and Bain put more in before any real data is public, which barely happens right now. Either they know something the rest of us don't, or they've got cash to burn.",
+      "url": null,
+      "image": { "kind": "none" },
+      "shownBecause": "startups — funding rounds in your feed",
+      "explain": {
+        "snippet": "Series financing; total raised now north of $420m, with participation from Bristol Myers Squibb and Bain Capital.",
+        "gist": "A Boston biotech added $126m to an already large raise, with a pharma (BMS) and a big fund (Bain) doubling down.",
+        "interesting": "Insiders adding money before data is public is a real signal in a market where most investors are sitting on their hands.",
+        "catch": "Big pre-data raises also correlate with expensive programs that need the cash because the science is slow. The signal cuts both ways."
+      }
+    },
+    {
+      "id": "lipoic-acid",
+      "lane": "biochem",
+      "source": "bioRxiv",
+      "type": "preprint",
+      "date": "2026-05-23",
+      "title": "Functional Partitioning of Lipoic Acid Decouples Cellular Abundance From Mitochondrial Utilization",
+      "hook": "Lipoic acid goes into basically every 'mitochondrial support' supplement stack. This paper finds that how much is sitting in the cell has little to do with how much the mitochondria actually put to use. Doesn't prove the pills do nothing, but it does dent the 'more in equals more working' pitch.",
+      "url": "https://doi.org/10.64898/2026.05.22.727209",
+      "image": { "kind": "none" },
+      "shownBecause": "biochem — mitochondria topics you engage with",
+      "explain": {
+        "snippet": "Lipoic acid is widely included in mitochondrial cocktails, yet its mechanism is unclear. The authors define intracellular partitioning that decouples abundance from mitochondrial utilization.",
+        "gist": "Lipoic acid gets recommended for mitochondrial disorders. The authors show cellular abundance and actual mitochondrial use are two different things.",
+        "interesting": "It reframes a popular supplement as a distribution problem, not a supply problem. Taking more doesn't obviously mean more reaches where it's meant to work.",
+        "catch": "Cell-level work, not a clinical trial, so it says nothing directly about whether anyone feels better on it. Preprint, too."
+      }
+    },
+    {
+      "id": "stampede2",
+      "lane": "radiopharma",
+      "source": "ClinicalTrials.gov",
+      "type": "trial",
+      "date": null,
+      "provenanceNote": "Phase 3 · recruiting",
+      "title": "STAMPEDE2: Adding 177Lu-PSMA-617 Earlier in Metastatic Prostate Cancer",
+      "hook": "STAMPEDE is the giant prostate-cancer platform trial that keeps bolting on new arms, and this one throws Lu-PSMA-617 at men earlier instead of saving it for last. 3,360 patients means whatever comes out the other end will actually settle something. Downside is you wait years for that kind of answer.",
+      "url": "https://clinicaltrials.gov/study/NCT06320067",
+      "image": { "kind": "none" },
+      "shownBecause": "radiopharma — your field, weighted up",
+      "explain": {
+        "snippet": "Phase 3 multi-arm multi-stage RCT adding 177Lu-PSMA-617, SABR, and other agents to androgen deprivation in metastatic prostate cancer.",
+        "gist": "A huge platform trial testing whether moving Lu-PSMA-617 earlier in metastatic prostate cancer beats current standard of care.",
+        "interesting": "Radioligand therapy has mostly been a late-line option. Pushing it earlier, inside a trial big enough to trust, is how it either becomes standard or doesn't.",
+        "catch": "Primary completion is 2031. Platform trials are powerful and glacially slow, and early-line use means more people exposed if the benefit turns out small."
+      }
+    },
+    {
+      "id": "nanopipette-ms",
+      "lane": "wildcard",
+      "source": "bioRxiv",
+      "type": "preprint",
+      "date": "2026-05-23",
+      "title": "Sub-50 nm Nanopipette Emitters for Native Electrospray Ionization Mass Spectrometry",
+      "hook": "Native mass spec is great until salt wrecks the spectrum, which is always. This group pulled the spray emitter down under 50 nanometers and got clean protein signal without the usual desalting song and dance. Deeply niche, but anyone who's fought salt adducts at 2am will get why it matters.",
+      "url": "https://doi.org/10.64898/2026.05.20.726677",
+      "image": { "kind": "none" },
+      "shownBecause": "wildcard — outside your usual lanes, on purpose",
+      "explain": {
+        "snippet": "Cross-platform assessment of sub-50 nm nanopipette emitters for native electrospray ionization MS; reduced salt adduction and source activation energy.",
+        "gist": "Sub-50 nm glass emitters for native ESI-MS that cut salt adduction, tested across more than one instrument platform.",
+        "interesting": "Salt handling is the perpetual tax on native MS. A hardware fix that works across platforms is more useful than a one-rig trick.",
+        "catch": "Emitters that small are fragile and finicky to make reproducibly, so 'works in the paper' and 'works in your hands on a Tuesday' are different claims."
+      }
+    },
+    {
+      "id": "paclitaxel-biosynthesis",
+      "lane": "orgchem",
+      "source": "bioRxiv",
+      "type": "preprint",
+      "date": "2026-05-23",
+      "title": "Missing Taxane C13α-O-Deacetylases Re-Delineate the Biosynthetic Pathway of Paclitaxel",
+      "hook": "The paclitaxel biosynthesis pathway has had missing enzymes for years, an awkward gap for a drug this famous. This group says they found the two that were missing and redrew the route. The prize is brewing Taxol in yeast instead of stripping it out of yew bark, assuming the pathway actually reconstitutes end to end.",
+      "url": "https://doi.org/10.64898/2026.04.28.721278",
+      "image": { "kind": "none" },
+      "shownBecause": "org chem — biosynthesis papers you've saved",
+      "explain": {
+        "snippet": "Discovery of missing taxane C13α-O-deacetylases that re-delineates the biosynthetic pathway of paclitaxel.",
+        "gist": "Two long-missing enzymes (C13α-O-deacetylases) in the Taxol pathway, filling a gap that has blocked full biosynthetic reconstruction.",
+        "interesting": "Complete the pathway and you can move paclitaxel production into engineered microbes, away from slow extraction from yew trees.",
+        "catch": "Finding the enzymes and getting the whole pathway to run in a host are very different milestones, and this is the first one, on a preprint."
+      }
+    },
+    {
+      "id": "betabart",
+      "lane": "biotechnews",
+      "source": "ClinicalTrials.gov",
+      "type": "trial",
+      "date": null,
+      "provenanceNote": "Phase 1/2a · recruiting",
+      "title": "177Lu-BetaBart: An Anti-B7-H3 Radio-Antibody Aimed at Ten Tumor Types at Once",
+      "hook": "Radiopharm Theranostics is putting a Lu-177-tagged antibody against B7-H3 into ten different tumor types in one shot. B7-H3 sits on a lot of cancers, so the wide net has some logic. Still, aiming a first-in-human at ten indications at once reads as either real confidence or not knowing which one will land.",
+      "url": "https://clinicaltrials.gov/study/NCT07189871",
+      "image": { "kind": "none" },
+      "shownBecause": "biotech news — radiopharma pipeline moves",
+      "explain": {
+        "snippet": "Phase 1/2a of 177Lu-BetaBart, a Lu-177-labeled anti-B7-H3 monoclonal antibody, across ten solid tumor types.",
+        "gist": "A company is taking a Lu-177 antibody-radioconjugate against B7-H3 into an unusually broad first-in-human basket.",
+        "interesting": "Antibody-targeted radioligands are the step past small-molecule PSMA agents, and B7-H3 being broadly expressed is the whole thesis.",
+        "catch": "Ten indications in a Phase 1/2a of about 60 people means very few patients per tumor type. Early signals will be noisy."
+      }
+    },
+    {
+      "id": "sinefungin",
+      "lane": "biochem",
+      "source": "bioRxiv",
+      "type": "preprint",
+      "date": "2026-05-23",
+      "title": "Unconventional Biocatalytic Strategies Build the Nucleoside Analog Sinefungin",
+      "hook": "Sinefungin is a natural knockoff of SAM that biochemists have leaned on as a tool for decades, without anyone knowing how the microbe actually builds it. This paper works out the enzymes, and some of the steps aren't in the standard biosynthetic playbook. More of a tool-compound origin story than a drug, but the chemistry is genuinely odd in a good way.",
+      "url": "https://doi.org/10.64898/2026.05.21.726688",
+      "image": { "kind": "none" },
+      "shownBecause": "biochem — enzymology, adjacent to your saves",
+      "explain": {
+        "snippet": "Unconventional biocatalytic strategies orchestrate synthesis of the nucleoside antimetabolite sinefungin, a SAM analog.",
+        "gist": "The biosynthetic route to sinefungin, a SAM-mimicking nucleoside antimetabolite, worked out for the first time.",
+        "interesting": "The enzymes use chemistry outside the usual nucleoside playbook, which is the kind of thing that hands synthetic biologists new tools.",
+        "catch": "Sinefungin itself is too toxic to be a drug, so this is mechanism and toolkit, not a pipeline story. Preprint."
+      }
+    }
+  ]
+}
