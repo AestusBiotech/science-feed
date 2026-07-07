@@ -1,6 +1,6 @@
 /* offline cache. network-first for local files so edits always show;
    cache-first only for the cross-origin CDN lib. bump VERSION to invalidate. */
-const VERSION = "sciencefeed-v0-2";
+const VERSION = "sciencefeed-v0-3";
 const SHELL = [
   "./",
   "./index.html",

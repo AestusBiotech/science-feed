@@ -25,6 +25,12 @@ const state = {
   ordered: [],
   rendered: 0,
   batch: 4,
+  queue: [],            // flat list of { card, cycle } the endless feed draws from
+  qptr: 0,              // index of the next queued item to render
+  cycle: 0,             // how many times we've looped the whole pool
+  seenScroll: new Set(),// card ids already shown this scroll session
+  lastRenderedCycle: 0,
+  io: null,
   saved: loadSet(STORE.saved),
   read: loadSet(STORE.read),
   muted: loadSet(STORE.muted),
@@ -68,7 +74,12 @@ async function init(){
 }
 
 /* ---------- ranking: floor, not funnel ---------- */
-function rankFeed(){
+function rankFeed(){ state.ordered = buildCycle(); }
+
+// One pass over the whole pool, ranked. Called fresh for every loop of the
+// endless feed, so re-ranking (saves, more/less, mutes) and the score jitter
+// keep each cycle from being an identical rerun of the last.
+function buildCycle(){
   const visible = state.cards.filter(c => !state.muted.has(c.source));
 
   const scored = visible.map(c => ({ c, s: scoreCard(c) }))
@@ -87,7 +98,7 @@ function rankFeed(){
   const wIdx = scored.findIndex(c => c.lane === "wildcard");
   if (wIdx > 5){ const [w] = scored.splice(wIdx, 1); scored.splice(4, 0, w); }
 
-  state.ordered = scored;
+  return scored;
 }
 
 function scoreCard(c){
@@ -99,6 +110,7 @@ function scoreCard(c){
     s += 0.5;                                 // undated (trials/compounds) sit mid
   }
   s += 0.12 * savedLaneCount(c.lane);          // engagement nudge
+  s += Math.random() * 0.18;                   // jitter: reshuffle near-ties each cycle
   return s;
 }
 
@@ -111,36 +123,101 @@ function savedLaneCount(lane){
   return n;
 }
 
-/* ---------- lazy feed rendering ---------- */
+/* ---------- endless feed rendering ----------
+   No dead-end. When the ranked pool runs out we loop it (buildCycle re-ranks),
+   marking repeats as "seen" and dropping a quiet divider so it reads as a loop
+   rather than a bug. The DOM is capped so a long scroll doesn't pile up canvases. */
+const DOM_CAP = 60;
+
 function startLazyFeed(){
   const feed = document.getElementById("feed");
   feed.innerHTML = "";
-  state.rendered = 0;
+  state.queue = [];
+  state.qptr = 0;
+  state.cycle = 0;
+  state.lastRenderedCycle = 0;
+  state.seenScroll = new Set();
   document.getElementById("caught-up").hidden = true;
+
+  fillQueue(state.batch * 3);
+
+  // empty pool (e.g. everything muted): show the caught-up note and stop.
+  if (!state.queue.length){
+    document.getElementById("caught-up").hidden = false;
+    return;
+  }
 
   renderBatch();
 
   const sentinel = document.getElementById("sentinel");
-  const io = new IntersectionObserver((entries) => {
-    if (entries[0].isIntersecting){
-      if (state.rendered >= state.ordered.length){
-        io.disconnect();
-        document.getElementById("caught-up").hidden = false;
-      } else {
-        renderBatch();
-      }
-    }
-  }, { rootMargin: "300px" });
-  io.observe(sentinel);
+  if (state.io) state.io.disconnect();
+  state.io = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting) renderBatch();
+  }, { rootMargin: "700px" });
+  state.io.observe(sentinel);
+}
+
+// keep at least `target` items queued ahead of the render pointer.
+function fillQueue(target){
+  while (state.queue.length - state.qptr < target){
+    const cyc = buildCycle();
+    if (!cyc.length) break;                    // nothing to show — bail, don't spin
+    state.cycle++;
+    for (const c of cyc) state.queue.push({ card: c, cycle: state.cycle });
+  }
 }
 
 function renderBatch(){
   const feed = document.getElementById("feed");
-  const end = Math.min(state.rendered + state.batch, state.ordered.length);
-  for (let i = state.rendered; i < end; i++){
-    feed.appendChild(renderCard(state.ordered[i]));
+  fillQueue(state.batch * 3);
+
+  const end = Math.min(state.qptr + state.batch, state.queue.length);
+  for (let i = state.qptr; i < end; i++){
+    const { card, cycle } = state.queue[i];
+
+    // divider when we wrap into a new loop (never before the very first card)
+    if (cycle > state.lastRenderedCycle){
+      if (feed.children.length) feed.appendChild(loopDivider());
+      state.lastRenderedCycle = cycle;
+    }
+
+    const seen = state.seenScroll.has(card.id);
+    const el = renderCard(card);
+    if (seen){
+      el.classList.add("seen");
+      const tag = document.createElement("span");
+      tag.className = "seen-tag";
+      tag.textContent = "seen";
+      el.querySelector(".card-head").appendChild(tag);
+    }
+    state.seenScroll.add(card.id);
+    feed.appendChild(el);
   }
-  state.rendered = end;
+  state.qptr = end;
+  trimFeed();
+}
+
+function loopDivider(){
+  const d = document.createElement("div");
+  d.className = "loop-divider";
+  d.innerHTML = `<span>that's the fresh batch</span><small>looping back through the pile</small>`;
+  return d;
+}
+
+// cap DOM size, trimming from the top and compensating scroll so the viewport
+// doesn't jump. Trimmed cards stay in the queue and just re-render later.
+function trimFeed(){
+  const feed = document.getElementById("feed");
+  if (feed.children.length <= DOM_CAP) return;
+
+  const gap = 14; // matches .feed gap in styles.css
+  let removed = 0;
+  while (feed.children.length > DOM_CAP){
+    const n = feed.firstElementChild;
+    removed += n.getBoundingClientRect().height + gap;
+    n.remove();
+  }
+  window.scrollBy(0, -removed);
 }
 
 /* ---------- card ---------- */

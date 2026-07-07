@@ -247,6 +247,24 @@ body { overflow-y: scroll; }
 }
 .deeper:hover { border-color: var(--lane); }
 
+/* ---------- seen cards + loop divider (endless scroll) ---------- */
+.card.seen { opacity: 0.72; }
+.seen-tag {
+  margin-left: auto;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-faint);
+  border: 1px solid var(--border);
+  padding: 1px 7px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+.loop-divider { text-align: center; padding: 20px 0 6px; }
+.loop-divider span { display: block; font-size: 13px; font-weight: 600; color: var(--text-dim); }
+.loop-divider small { font-size: 11.5px; color: var(--text-faint); }
+
 /* ---------- caught up ---------- */
 .caught-up { text-align: center; padding: 40px 0 10px; color: var(--text-faint); }
 .caught-up span { display: block; font-size: 15px; font-weight: 600; color: var(--text-dim); }
