@@ -1,13 +1,23 @@
 """Best-effort article images for cards that arrive without one.
 
 Crossref / PubMed / arXiv give abstracts, not pictures, so those cards render
-text-only. Here we fetch the article's landing page and lift its social-share
-image (og:image / twitter:image / link rel=image_src) - for most publishers
-that is the paper's first figure or a journal cover.
+text-only. Two strategies, tried in order:
+
+1. Deterministic publisher URLs (no network). A few publishers - RSC most
+   importantly - serve their graphical-abstract image at a path fully
+   determined by the DOI. We build that link straight from the DOI string,
+   without ever fetching the page. This is the ONLY thing that works for RSC:
+   it bot-blocks its article pages from every datacenter IP (both CI and any
+   server-side scraper get 403), yet the reader's own browser - a residential
+   client that isn't blocked - loads the image just fine. See rsc_ga_image.
+
+2. og:image scraping (network). Fetch the landing page and lift its
+   social-share image (og:image / twitter:image / link rel=image_src) - for
+   most other publishers that is the paper's first figure or a journal cover.
 
 Everything is best-effort: any block, timeout, or missing tag just leaves the
-image empty and the card renders text-only, exactly as before. Some publishers
-(ACS, RSC, SNM) sit behind bot protection and will simply return nothing.
+image empty and the card renders text-only, exactly as before. If a built or
+scraped URL turns out to 404, the reader's browser drops the <img> on error.
 """
 from __future__ import annotations
 
@@ -38,6 +48,42 @@ _HREF_RE = re.compile(r'href\s*=\s*["\']([^"\']+)["\']', re.I)
 # Social/share cards, in the order we trust them.
 _WANTED = ("og:image:secure_url", "og:image:url", "og:image",
            "twitter:image:src", "twitter:image")
+
+
+# --------------------------------------------------------------------------
+# Deterministic publisher image URLs (no network)
+# --------------------------------------------------------------------------
+# RSC DOIs since 2020 encode the year and journal in the suffix:
+#   10.1039/d6cc02260j  ->  d = post-2020 scheme, 6 = 2026, cc = Chem. Commun.
+# The graphical abstract is served at a fixed path built from those pieces, so
+# we never have to touch the bot-blocked article page to know the image URL.
+_RSC_DOI_RE = re.compile(r"10\.1039/(d(\d)([a-z]{2})[0-9a-z]+)", re.I)
+
+
+def rsc_ga_image(url: str) -> str:
+    """Graphical-abstract GIF URL for an RSC DOI, or "" if `url` isn't one.
+
+    Pure string work - no request is made. The URL may 404 for the rare
+    article without a graphical abstract; the reader's browser drops the image
+    on error, so a wrong guess costs nothing beyond a text-only card.
+    """
+    m = _RSC_DOI_RE.search(url or "")
+    if not m:
+        return ""
+    doi_body = m.group(1).lower()          # d6cc02260j
+    year = 2020 + int(m.group(2))          # 6 -> 2026
+    journal = m.group(3).upper()           # cc -> CC
+    return (f"https://pubs.rsc.org/image/article/{year}/{journal}/"
+            f"{doi_body}/{doi_body}-ga.gif")
+
+
+def publisher_image(url: str) -> str:
+    """Deterministic image URL for a known publisher, or "" if none applies.
+
+    Dispatch point for the no-network builders. RSC is the one that matters
+    today (its pages 403 every scraper); other publishers can slot in here.
+    """
+    return rsc_ga_image(url)
 
 
 def og_image(url: str, session: requests.Session | None = None) -> str:
@@ -90,12 +136,17 @@ def enrich(cards: list[dict], pause: float = 0.3, log=print) -> int:
     added = 0
     todo = [c for c in cards if not (c.get("image") or "").strip()]
     for i, card in enumerate(todo, 1):
-        img = og_image(card.get("url", ""), session)
+        url = card.get("url", "")
+        # Prefer the deterministic publisher URL (free, and works for hosts that
+        # 403 every scraper); fall back to scraping the share image otherwise.
+        built = publisher_image(url)
+        img = built or og_image(url, session)
         if img:
             card["image"] = img[:500]
             added += 1
         if log:
-            log(f"  image {i}/{len(todo)} "
-                f"{'ok ' if img else '-- '}{card.get('url', '')[:60]}")
-        time.sleep(pause)
+            how = "built" if built else ("ok   " if img else "--   ")
+            log(f"  image {i}/{len(todo)} {how} {url[:60]}")
+        if not built:
+            time.sleep(pause)   # only rate-limit the calls that actually fetch
     return added
