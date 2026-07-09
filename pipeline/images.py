@@ -61,10 +61,11 @@ _WANTED = ("og:image:secure_url", "og:image:url", "og:image",
 # social-share widget icons (twitter/facebook/linkedin/mendeley) that HighWire
 # pages embed. None of these say anything about the article - never use them.
 _JUNK_RE = re.compile(
-    r"(logo|favicon|/icon|spacer|loading|sprite|placeholder|generic[-_]cover"
-    r"|/badge|_\d+x\d+\.|cover-hires|pubmed-meta-image|googleusercontent\.com"
+    r"(logo|favicon|/icon|spacer|loading|sprite|placeholder|[-_/]cover"
+    r"|/badge|_\d+x\d+\.|pubmed-meta-image|googleusercontent\.com"
     r"|news\.google|/highwire/images/|twitter\.png|fb-blue|fb-\w|linkedin"
-    r"|mendeley|/social[-/])", re.I)
+    r"|mendeley|/social[-/]|sitebuilderassets|/umbrella/|eurekaselect\.com/images"
+    r"|/bentham/)", re.I)
 # HighWire / Silverchair article figures: .../F1.medium.gif, .../F2.large.jpg.
 # These journals (JNM and friends) ship an empty og:image but embed the real
 # first figure at this predictable, article-owned path, so reach for it
@@ -77,6 +78,43 @@ _FIGURE_RE = re.compile(r'\bsrc\s*=\s*["\']([^"\']*/F\d+\.[^"\']+)["\']', re.I)
 def is_junk_image(url: str) -> bool:
     """True for boilerplate images (logos, covers, banners) worth rejecting."""
     return bool(url) and bool(_JUNK_RE.search(url))
+
+
+# <meta name="citation_doi" content="10.xxxx/..."> in either attribute order.
+_CITATION_DOI_RE = re.compile(
+    r'<meta\b(?=[^>]*\bname\s*=\s*["\']citation_doi["\'])'
+    r'[^>]*\bcontent\s*=\s*["\']([^"\']+)["\']', re.I)
+_DOI_HREF_RE = re.compile(r'href\s*=\s*["\']https?://(?:dx\.)?doi\.org/([^"\']+)["\']', re.I)
+_PUBMED_RE = re.compile(r"https?://pubmed\.ncbi\.nlm\.nih\.gov/(\d+)", re.I)
+_ESUMMARY = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi"
+
+
+def _citation_doi(html: str) -> str:
+    """The DOI an abstract page points at, from citation_doi or a doi.org link."""
+    m = _CITATION_DOI_RE.search(html) or _DOI_HREF_RE.search(html)
+    return unescape(m.group(1).strip()) if m else ""
+
+
+def _pubmed_doi(pmid: str) -> str:
+    """The article DOI for a PMID, via NCBI E-utilities (JSON, not scraped).
+
+    The PubMed *page* is a bot-challenged stub for us and carries no picture
+    anyway; the esummary API reliably hands back the DOI so we can image the
+    publisher instead.
+    """
+    try:
+        r = requests.get(_ESUMMARY,
+                         params={"db": "pubmed", "id": pmid, "retmode": "json"},
+                         headers={"User-Agent": BROWSER_UA}, timeout=TIMEOUT)
+        if r.status_code >= 400:
+            return ""
+        rec = r.json().get("result", {}).get(pmid, {})
+        for aid in rec.get("articleids", []):
+            if aid.get("idtype") == "doi" and aid.get("value"):
+                return str(aid["value"]).strip()
+    except Exception:
+        return ""
+    return ""
 
 
 def _new_session():
@@ -97,11 +135,21 @@ def _fetch(session, url: str):
         return None
 
 
-def og_image(url: str, session=None) -> str:
+def og_image(url: str, session=None, _depth: int = 0) -> str:
     """Return a share-card or first-figure image URL for `url`, or ""."""
     if not url or not url.startswith("http"):
         return ""
-    r = _fetch(session or _new_session(), url)
+    session = session or _new_session()
+
+    # PubMed abstract pages have no image of their own (and stub us as a bot);
+    # resolve the DOI via the API and image the publisher instead.
+    if _depth == 0:
+        pm = _PUBMED_RE.match(url)
+        if pm:
+            doi = _pubmed_doi(pm.group(1))
+            return og_image("https://doi.org/" + doi, session, _depth=1) if doi else ""
+
+    r = _fetch(session, url)
     if r is None or r.status_code >= 400:
         return ""
     html = r.text[:MAX_HTML_BYTES]
@@ -130,7 +178,20 @@ def og_image(url: str, session=None) -> str:
             if not _JUNK_RE.search(cand):
                 return _absolutize(cand, base)
 
-    return _first_figure(html, base)
+    fig = _first_figure(html, base)
+    if fig:
+        return fig
+
+    # Abstract-only landing pages (PubMed, Europe PMC) carry no picture of
+    # their own but name the real article via citation_doi. Follow it once to
+    # the publisher, who usually has a share card or figure.
+    if _depth == 0:
+        doi = _citation_doi(html)
+        if doi:
+            follow = "https://doi.org/" + doi
+            if follow.rstrip("/") != url.rstrip("/"):
+                return og_image(follow, session, _depth=1)
+    return ""
 
 
 def _first_figure(html: str, base: str) -> str:
