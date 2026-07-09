@@ -14,6 +14,7 @@ import argparse
 import json
 
 import common as c
+import images
 
 BATCH = 30
 
@@ -114,6 +115,13 @@ def main() -> None:
     keep = min(args.keep, c.MAX_ITEMS_PER_RUN)
     scored.sort(key=lambda x: x["score"], reverse=True)
     survivors = scored[:keep]
+
+    # Abstract-only sources (Crossref/PubMed/arXiv) arrive without a picture;
+    # scrape the article's share image so those cards aren't all text. Only the
+    # keepers are fetched, and it's best-effort - a block just leaves it empty.
+    added = images.enrich(survivors, log=c.log)
+    c.log(f"images: +{added} for {len(survivors)} survivors")
+
     c.write_json(c.SURVIVORS, survivors)
     if survivors:
         lo, hi = survivors[-1]["score"], survivors[0]["score"]
