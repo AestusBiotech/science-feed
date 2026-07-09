@@ -1,6 +1,6 @@
 {
-  "name": "feed",
-  "short_name": "feed",
+  "name": "Unrot",
+  "short_name": "Unrot",
   "description": "A personal curated feed — science, in one voice.",
   "start_url": ".",
   "scope": "./",
