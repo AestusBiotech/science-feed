@@ -1,5 +1,24 @@
 [
  {
+  "id": "635b952243e2b38c14586b88e4101558b42f318d",
+  "source": "crossref",
+  "url": "https://doi.org/10.1186/s41181-026-00473-9",
+  "original_title": "Synthesis and in vivo evaluation of a bifunctional, glutamic acid derived chelator for the 203/212Pb theranostic pair",
+  "title": "A lead chelator tuned by charge engineering",
+  "blurb": "Glutamic acid-derived bifunctional chelator for Pb-203/212 theranostics, with charge optimization to improve pharmacokinetics. Charge engineering is a sensible design principle, though lead chelators are hardly in short supply.",
+  "lane": "radiopharma",
+  "published": "2026-07-04",
+  "harvested": "2026-07-09",
+  "score": 93,
+  "preprint": false,
+  "venue": "EJNMMI Radiopharmacy and Chemistry",
+  "image": "https://media.springernature.com/full/springer-static/cover-hires/journal/41181",
+  "ricky": {
+   "endorsed_at": "2026-07-09T08:56:13+00:00"
+  },
+  "blurb_long": "Glutamic acid-derived bifunctional chelator for Pb-203/212 theranostics, with charge optimization to improve pharmacokinetics. Charge engineering is a sensible design principle, though lead chelators are hardly in short supply. The logic is straightforward: if a series of chelators can differ mainly in their net charge, you can optimize biodistribution for a given target without major structural redesign. But that only works if the different charges actually produce meaningful differences in vivo, and building up enough variants to optimize across is real work. Whether this approach solves a bottleneck in lead-212/-203 theranostics or mainly adds another option to a space that usually isn't constrained by chelator choice is what the data need to show."
+ },
+ {
   "id": "8d795d2e37b78571eb16227ecf838804e4692f00",
   "source": "crossref",
   "url": "https://doi.org/10.2967/jnumed.126.272415",
