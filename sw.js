@@ -4,7 +4,7 @@
    - feed chunks: cache-first (append-only, never change once written).
    the shell is still precached on install for the very first offline load. */
 
-const VERSION = 'feed-v3';
+const VERSION = 'feed-v4';
 const SHELL = `shell-${VERSION}`;
 const DATA = `data-${VERSION}`;
 
@@ -56,6 +56,28 @@ function cacheFirst(request, cacheName) {
     }));
 }
 
+// Only the newest chunk is still being rewritten (the pipeline appends to it
+// until it fills, then rolls over); older chunks are frozen. So serve the
+// current chunk network-first — otherwise nightly updates never reach an
+// already-cached reader — and keep the frozen ones cache-first for speed and
+// offline. The manifest (network-first, fetched before any chunk on load)
+// tells us which chunk is current.
+async function chunkStrategy(request) {
+  let current = null;
+  const manifestUrl = new URL('./data/feed/manifest.json', self.location).toString();
+  const cachedManifest = await caches.match(manifestUrl);
+  if (cachedManifest) {
+    try {
+      const m = await cachedManifest.json();
+      if (Array.isArray(m.chunks) && m.chunks.length) {
+        current = m.chunks[m.chunks.length - 1];
+      }
+    } catch (_) { /* fall through to cache-first */ }
+  }
+  const isCurrent = current && new URL(request.url).pathname.endsWith('/' + current);
+  return isCurrent ? networkFirst(request, DATA) : cacheFirst(request, DATA);
+}
+
 self.addEventListener('fetch', (e) => {
   const { request } = e;
   if (request.method !== 'GET') return;
@@ -68,9 +90,9 @@ self.addEventListener('fetch', (e) => {
     return;
   }
 
-  // feed chunks are append-only — safe and fast to serve from cache.
+  // feed chunks: current one network-first (still changing), rest cache-first.
   if (/\/data\/feed\/chunk-\d+\.json$/.test(url.pathname)) {
-    e.respondWith(cacheFirst(request, DATA));
+    e.respondWith(chunkStrategy(request));
     return;
   }
 
