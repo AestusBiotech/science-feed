@@ -34,6 +34,7 @@ import feedparser
 import requests
 
 import common as c
+import images
 
 UA = "personal-science-feed/1.0 (single-user reading list; mailto:info@aestusbiotech.com)"
 BROWSER_UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
@@ -151,22 +152,29 @@ def _entry_image(entry, summary_html: str = "") -> str:
     and publisher RSS (media:content / enclosure figures, or an <img> in the
     summary HTML). Text-only posts and the abstract-only APIs (Crossref, PubMed,
     arXiv) have none — those just come back as "" and render text-only.
+
+    Feeds also love to hand back boilerplate — Google News' shared icon,
+    bioRxiv's server logo — so junk is dropped here; a later scrape may still
+    find a real figure for the same card.
     """
+    def _ok(u: str) -> bool:
+        return u.startswith("http") and not images.is_junk_image(u)
+
     for m in (getattr(entry, "media_thumbnail", None) or []):
         u = (m.get("url") or "").strip()
-        if u.startswith("http"):
+        if _ok(u):
             return u
     for m in (getattr(entry, "media_content", None) or []):
         u = (m.get("url") or "").strip()
-        if u.startswith("http") and (m.get("medium") == "image" or _IMG_EXT_RE.search(u)):
+        if _ok(u) and (m.get("medium") == "image" or _IMG_EXT_RE.search(u)):
             return u
     for link in (getattr(entry, "links", None) or []):
         if link.get("rel") == "enclosure" and (link.get("type") or "").startswith("image/"):
             u = (link.get("href") or "").strip()
-            if u.startswith("http"):
+            if _ok(u):
                 return u
     m = _IMG_SRC_RE.search(summary_html or "")
-    if m and m.group(1).strip().startswith("http"):
+    if m and _ok(m.group(1).strip()):
         return m.group(1).strip()
     return ""
 

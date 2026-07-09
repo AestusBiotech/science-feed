@@ -55,19 +55,28 @@ _HREF_RE = re.compile(r'href\s*=\s*["\']([^"\']+)["\']', re.I)
 _WANTED = ("og:image:secure_url", "og:image:url", "og:image",
            "twitter:image:src", "twitter:image")
 
-# Site chrome and placeholders that publishers sometimes hand back as an
-# og:image or leak as the first <img>: logos, favicons, generic journal covers,
-# sized brand banners (jnm_256x115.png), spinners. Never use these.
+# Boilerplate that publishers and aggregators hand back in place of a real
+# picture: site logos and favicons, generic journal covers, PubMed's NLM
+# banner, bioRxiv's server logo, Google News' shared feed icon, and the row of
+# social-share widget icons (twitter/facebook/linkedin/mendeley) that HighWire
+# pages embed. None of these say anything about the article - never use them.
 _JUNK_RE = re.compile(
     r"(logo|favicon|/icon|spacer|loading|sprite|placeholder|generic[-_]cover"
-    r"|/badge|_\d+x\d+\.)", re.I)
-_IMG_TAG_RE = re.compile(r"<img\b[^>]*>", re.I)
-_SRC_RE = re.compile(r'\bsrc\s*=\s*["\']([^"\']+)["\']', re.I)
-_IMGEXT_RE = re.compile(r"\.(?:jpg|jpeg|png|gif|webp)(?:[?#]|$)", re.I)
+    r"|/badge|_\d+x\d+\.|cover-hires|pubmed-meta-image|googleusercontent\.com"
+    r"|news\.google|/highwire/images/|twitter\.png|fb-blue|fb-\w|linkedin"
+    r"|mendeley|/social[-/])", re.I)
 # HighWire / Silverchair article figures: .../F1.medium.gif, .../F2.large.jpg.
 # These journals (JNM and friends) ship an empty og:image but embed the real
-# first figure with this predictable filename, so reach for it directly.
+# first figure at this predictable, article-owned path, so reach for it
+# directly. We deliberately do NOT fall back to a generic first-<img> scan:
+# publisher pages salt in related-article thumbnails and share icons, so an
+# untargeted grab risks captioning a card with some other paper's figure.
 _FIGURE_RE = re.compile(r'\bsrc\s*=\s*["\']([^"\']*/F\d+\.[^"\']+)["\']', re.I)
+
+
+def is_junk_image(url: str) -> bool:
+    """True for boilerplate images (logos, covers, banners) worth rejecting."""
+    return bool(url) and bool(_JUNK_RE.search(url))
 
 
 def _new_session():
@@ -125,17 +134,15 @@ def og_image(url: str, session=None) -> str:
 
 
 def _first_figure(html: str, base: str) -> str:
-    """The article's first real figure, when the page has no share card."""
+    """The article's own first figure, when the page has no share card.
+
+    Restricted to the HighWire/Silverchair F-number path, which is always the
+    current article's figure. Anything looser risks a related-article thumbnail.
+    """
     m = _FIGURE_RE.search(html)
     if m:
-        return _absolutize(unescape(m.group(1).strip()), base)
-    for tag in _IMG_TAG_RE.findall(html):
-        src = _SRC_RE.search(tag)
-        if not src:
-            continue
-        cand = unescape(src.group(1).strip())
-        if (cand.startswith("http") and _IMGEXT_RE.search(cand)
-                and not _JUNK_RE.search(cand)):
+        cand = unescape(m.group(1).strip())
+        if not _JUNK_RE.search(cand):
             return _absolutize(cand, base)
     return ""
 
@@ -149,17 +156,30 @@ def _absolutize(src: str, base: str) -> str:
 
 
 def enrich(cards: list[dict], pause: float = 0.3, log=print) -> int:
-    """Fill `image` on every card that lacks one. Returns the count added."""
+    """Give every card a real image where we can. Returns the count added.
+
+    Processes cards that have no image *or* whose image is boilerplate (a logo,
+    cover, or banner that slipped through an earlier harvest). When a card's
+    only image is junk and we can't find a real one, we clear it so it renders
+    clean text rather than a misleading picture.
+    """
     session = _new_session()
     added = 0
-    todo = [c for c in cards if not (c.get("image") or "").strip()]
+    todo = [c for c in cards
+            if not (c.get("image") or "").strip() or is_junk_image(c.get("image", ""))]
     for i, card in enumerate(todo, 1):
+        had_junk = is_junk_image(card.get("image", ""))
         img = og_image(card.get("url", ""), session)
         if img:
             card["image"] = img[:500]
             added += 1
+            status = "ok "
+        elif had_junk:
+            card["image"] = ""
+            status = "junk-cleared "
+        else:
+            status = "-- "
         if log:
-            log(f"  image {i}/{len(todo)} "
-                f"{'ok ' if img else '-- '}{card.get('url', '')[:60]}")
+            log(f"  image {i}/{len(todo)} {status}{card.get('url', '')[:60]}")
         time.sleep(pause)
     return added
