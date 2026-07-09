@@ -58,7 +58,14 @@ jobs:
           if [ -n "$(git status --porcelain data/)" ]; then
             git add data/
             git commit -m "feed: backfill (cap ${{ github.event.inputs.max_items }})"
-            git push
+            # A long run can finish after someone else has pushed to main. The
+            # feed commit only touches data/, so rebase onto the latest main and
+            # retry rather than throwing the whole run away.
+            for i in 1 2 3; do
+              git push && break
+              echo "push rejected; rebasing on latest main and retrying ($i/3)"
+              git pull --rebase --autostash origin main
+            done
           else
             echo "no feed changes — nothing to commit"
           fi
