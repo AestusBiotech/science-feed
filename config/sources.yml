@@ -1,0 +1,152 @@
+# Sources for the harvester. Edit freely — the pipeline reads this at runtime
+# and never hardcodes topics. Each source names the lane it usually feeds; the
+# curator can override the lane per item.
+#
+# Design notes (why it's built this way):
+#   - Papers first. Primary literature + preprints are the bulk; Reddit is a
+#     minority garnish. No Hacker News (it was an arbitrary-outbound-link vector).
+#   - ACS / RSC / J. Nucl. Med. block datacenter IPs on their RSS, so we pull
+#     them through Crossref (api.crossref.org) instead — reliable, and the link
+#     is the version-of-record DOI. Nature / Science / Cell / Springer /
+#     ScienceDirect RSS work fine and are used directly.
+#   - News, industry, and business signal comes through Google News RSS queries
+#     (news.google.com/rss/search). It is a stable endpoint that resolves from
+#     CI and links out to the original publisher, and the curator (interests.md)
+#     is the quality gate, so a slightly broad query is fine. Derek Lowe's own
+#     "In the Pipeline" feed 403s from datacenter IPs like the ACS/RSC ones, so
+#     his commentary rides in through the chem/pharma news query below.
+#   - Reddit cards ALWAYS link to the discussion thread, never the outbound site
+#     (that is where the Wikipedia / dead-blog junk used to leak in).
+#   - Wikipedia is banned globally and dead links are dropped; see harvest.py.
+#
+# Lanes must match this canonical list (used for the curator's lane choices).
+# Bioconjugation / crosslinking / ADC linker chemistry is NOT a lane — it is a
+# cross-cutting priority (see interests.md) that rides in org chem, biochem, and
+# radiopharma, because it is the throughline of both of the reader's jobs.
+lanes:
+  - org chem
+  - biochem
+  - radiopharma
+  - biotech news
+  - methods
+  - wildcard
+
+# Recency knobs enforced at harvest time (see harvest.py). Items older than the
+# cap are dropped before they ever reach the curator. Journals and preprints are
+# intentionally uncapped here — they arrive newest-first and the curator applies
+# the "prefer last 2 years" scoring instead.
+recency:
+  reddit_max_age_hours: 48      # last 48h only on Reddit
+  news_max_age_days: 31         # news/industry items: last week ideal, ~1 month max
+
+# ---------------------------------------------------------------------------
+# Crossref: primary literature by journal ISSN (-> https://doi.org/<DOI>).
+# This is how we reach ACS, RSC and Wiley (their own feeds block CI) plus the
+# nuclear-medicine journals. `preprint: true` sources (ChemRxiv, by DOI prefix)
+# are tagged on the card.
+# ---------------------------------------------------------------------------
+crossref:
+  # --- ACS: synthesis & catalysis ---
+  - { issn: 1520-5126, lane: org chem,     name: "J. Am. Chem. Soc." }
+  - { issn: 1523-7052, lane: org chem,     name: "Org. Lett." }
+  - { issn: 0022-3263, lane: org chem,     name: "J. Org. Chem." }
+  - { issn: 2155-5435, lane: org chem,     name: "ACS Catalysis" }
+  - { issn: 1520-510X, lane: org chem,     name: "Inorg. Chem." }
+  # --- ACS: med chem, bioconjugation & delivery (the Aestus/ADC core) ---
+  - { issn: 1520-4804, lane: biochem,      name: "J. Med. Chem." }
+  - { issn: 1520-4995, lane: biochem,      name: "Biochemistry" }
+  - { issn: 1043-1802, lane: biochem,      name: "Bioconjugate Chem." }
+  - { issn: 1543-8392, lane: biochem,      name: "Mol. Pharmaceutics" }
+  - { issn: 2374-7943, lane: wildcard,     name: "ACS Cent. Sci." }
+  # --- ACS: process & analytical (methods lane) ---
+  - { issn: 1520-586X, lane: methods,      name: "Org. Process Res. Dev." }
+  - { issn: 1520-6882, lane: methods,      name: "Anal. Chem." }
+  # --- RSC ---
+  - { issn: 2041-6539, lane: org chem,     name: "Chem. Sci." }
+  - { issn: 1364-548X, lane: org chem,     name: "Chem. Commun." }
+  - { issn: 1460-4744, lane: org chem,     name: "Chem. Soc. Rev." }
+  # --- Wiley: broad synthesis + antibody therapeutics / ADCs ---
+  - { issn: 1521-3773, lane: org chem,     name: "Angew. Chem. Int. Ed." }
+  - { issn: 1942-0870, lane: biotech news, name: "mAbs" }
+  # --- Nuclear medicine & radiochemistry ---
+  - { issn: 0161-5505, lane: radiopharma,  name: "J. Nucl. Med." }
+  - { issn: 1619-7089, lane: radiopharma,  name: "Eur. J. Nucl. Med. Mol. Imaging" }
+  - { issn: 2365-421X, lane: radiopharma,  name: "EJNMMI Radiopharm. Chem." }
+  - { issn: 1099-1344, lane: radiopharma,  name: "J. Labelled Compd. Radiopharm." }
+  # --- Preprints (ChemRxiv, via Crossref DOI prefix) ---
+  - { prefix: "10.26434", lane: org chem,  name: "ChemRxiv", preprint: true }
+
+# ---------------------------------------------------------------------------
+# PubMed E-utilities. Most reliable route of all; links never paywall-wall the
+# abstract. Weighted toward the reader's two fields (radiopharma + bioconjugation)
+# and their day-job QC/analytical methods.
+# ---------------------------------------------------------------------------
+pubmed:
+  - { query: radiopharmaceutical OR "targeted radionuclide therapy" OR actinium-225 OR lutetium-177 OR lead-212, lane: radiopharma }
+  - { query: '("radioligand therapy" OR "alpha therapy" OR dosimetry) AND (prostate OR neuroendocrine OR PSMA)', lane: radiopharma }
+  - { query: '("bioconjugation" OR "antibody-drug conjugate" OR "site-specific conjugation" OR "bioorthogonal") AND (linker OR payload OR chelator OR crosslinker)', lane: biochem }
+  - { query: '("radiochemical purity" OR "quality control" OR "release testing") AND (radiopharmaceutical OR radionuclide OR radiolabeled)', lane: methods }
+  - { query: '"single molecule" AND (enzyme OR "protein folding" OR ribosome)', lane: biochem }
+
+# ---------------------------------------------------------------------------
+# arXiv categories (Atom feed). Physics-adjacent and quantitative bio preprints.
+# ---------------------------------------------------------------------------
+arxiv:
+  - { cat: physics.med-ph, lane: radiopharma, preprint: true }
+  - { cat: q-bio.BM,       lane: biochem,     preprint: true }
+
+# ---------------------------------------------------------------------------
+# Reddit: per-account RSS feed. Cards link to the THREAD, not the outbound URL.
+# Reddit killed its free API, so harvest uses the authenticated feed when
+# REDDIT_FEED_TOKEN + REDDIT_USER are set (GitHub secrets / local env); this is
+# what makes Reddit reliable from CI. 48h window enforced in harvest.
+# ---------------------------------------------------------------------------
+reddit:
+  - { sub: chemistry,        lane: org chem }
+  - { sub: OrganicChemistry, lane: org chem }
+  - { sub: biochemistry,     lane: biochem }
+  - { sub: nuclearmedicine,  lane: radiopharma }
+  - { sub: biotech,          lane: biotech news }
+  - { sub: labrats,          lane: methods }
+  - { sub: science,          lane: wildcard }
+
+# ---------------------------------------------------------------------------
+# RSS/Atom feeds (parsed with feedparser). Only feeds verified to resolve and
+# parse from CI are listed. `preprint: true` marks preprint servers; `news: true`
+# applies the news recency cap.
+# ---------------------------------------------------------------------------
+rss:
+  # --- Nature portfolio ---
+  - { url: "https://www.nature.com/nature.rss",    lane: wildcard }
+  - { url: "https://www.nature.com/nchem.rss",     lane: org chem }
+  - { url: "https://www.nature.com/natcatal.rss",  lane: org chem }
+  - { url: "https://www.nature.com/natsynth.rss",  lane: org chem }
+  - { url: "https://www.nature.com/nchembio.rss",  lane: biochem }
+  - { url: "https://www.nature.com/nbt.rss",       lane: biotech news }
+  - { url: "https://www.nature.com/nmeth.rss",     lane: methods }
+  - { url: "https://www.nature.com/nrd.rss",       lane: biotech news }
+  # --- Science (AAAS) ---
+  - { url: "https://www.science.org/action/showFeed?type=etoc&feed=rss&jc=science", lane: wildcard }
+  - { url: "https://www.science.org/action/showFeed?type=etoc&feed=rss&jc=stm",     lane: biotech news }
+  - { url: "https://www.science.org/action/showFeed?type=etoc&feed=rss&jc=sciadv",  lane: wildcard }
+  # --- Cell Press ---
+  - { url: "https://www.cell.com/cell/current.rss", lane: biochem }
+  # --- Nuclear medicine / radiochemistry methods (Springer/ScienceDirect RSS) ---
+  - { url: "https://rss.sciencedirect.com/publication/science/09698051", lane: radiopharma }  # Nucl. Med. Biol.
+  - { url: "https://rss.sciencedirect.com/publication/science/09698043", lane: methods }      # Appl. Radiat. Isot.
+  # --- Preprints ---
+  - { url: "http://connect.biorxiv.org/biorxiv_xml.php?subject=biochemistry", lane: biochem, preprint: true }
+  - { url: "http://connect.biorxiv.org/biorxiv_xml.php?subject=bioengineering", lane: biotech news, preprint: true }
+  # --- Long-form science writing ---
+  - { url: "https://www.quantamagazine.org/feed/", lane: wildcard }
+  # --- Biotech / industry news (recency-capped) ---
+  - { url: "https://www.fiercebiotech.com/rss/xml", lane: biotech news, news: true }
+  - { url: "https://www.statnews.com/feed/",        lane: biotech news, news: true }
+  # --- Google News queries: industry, supply, and the light business layer.
+  #     news:true applies the ~1-month cap; each query's when:30d agrees. ---
+  # radiopharma industry + isotope supply
+  - { url: "https://news.google.com/rss/search?q=%28radiopharmaceutical%20OR%20radioligand%20OR%20%22targeted%20alpha%20therapy%22%20OR%20%22actinium-225%22%20OR%20%22lutetium-177%22%20OR%20%22isotope%20supply%22%29%20when:30d&hl=en-US&gl=US&ceid=US:en", lane: radiopharma, news: true }
+  # ADC + bioconjugation, science and market (the Aestus competitive layer)
+  - { url: "https://news.google.com/rss/search?q=%28%22antibody-drug%20conjugate%22%20OR%20%22ADC%20linker%22%20OR%20bioconjugation%20OR%20%22protein%20conjugation%22%20OR%20crosslinker%29%20when:30d&hl=en-US&gl=US&ceid=US:en", lane: biotech news, news: true }
+  # chem / pharma industry commentary (catches Derek Lowe, whose own feed blocks CI)
+  - { url: "https://news.google.com/rss/search?q=%28%22Derek%20Lowe%22%20OR%20%22In%20the%20Pipeline%22%20OR%20%22medicinal%20chemistry%22%20OR%20%22process%20chemistry%22%29%20pharma%20when:30d&hl=en-US&gl=US&ceid=US:en", lane: biotech news, news: true }

@@ -1,0 +1,64 @@
+name: backfill archive
+
+# Run manually a few times in week one to build the vault, then never again.
+# Each run is capped so it can't overspend.
+
+on:
+  workflow_dispatch:
+    inputs:
+      max_items:
+        description: "cards to curate + rewrite this run (cost cap)"
+        default: "200"
+
+concurrency:
+  group: feed-pipeline
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  backfill:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: install deps
+        run: |
+          pip install -r pipeline/requirements.txt
+          npm install -g @anthropic-ai/claude-code
+
+      - name: run pipeline (backfill)
+        env:
+          # Subscription mode: Claude Code authenticates with the OAuth token
+          # from `claude setup-token`, not a metered ANTHROPIC_API_KEY.
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          REDDIT_FEED_TOKEN: ${{ secrets.REDDIT_FEED_TOKEN }}
+          REDDIT_USER: ${{ secrets.REDDIT_USER }}
+          MAX_ITEMS_PER_RUN: ${{ github.event.inputs.max_items }}
+          CANDIDATE_POOL_CAP: "600"
+        run: |
+          python pipeline/harvest.py --mode backfill
+          python pipeline/curate.py --keep "${{ github.event.inputs.max_items }}"
+          python pipeline/rewrite.py
+          python pipeline/assemble.py
+
+      - name: commit & push if changed
+        run: |
+          git config user.name "feed-bot"
+          git config user.email "info@aestusbiotech.com"
+          if [ -n "$(git status --porcelain data/)" ]; then
+            git add data/
+            git commit -m "feed: backfill (cap ${{ github.event.inputs.max_items }})"
+            git push
+          else
+            echo "no feed changes — nothing to commit"
+          fi

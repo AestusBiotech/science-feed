@@ -1,0 +1,20 @@
+[
+ {
+  "id": "8d795d2e37b78571eb16227ecf838804e4692f00",
+  "source": "crossref",
+  "url": "https://doi.org/10.2967/jnumed.126.272415",
+  "original_title": "Overall Survival with [177Lu]Lu-PSMA-617 Versus [177Lu]Lu-PSMA I&T: A Propensity Score-Matched Real-World Analysis",
+  "title": "Lu-177 PSMA-617 and PSMA I&T, matched head to head on survival",
+  "blurb": "A propensity-matched real-world comparison of the two Lu-177 PSMA ligands on overall survival, which is the question the registrational trials never ran directly against each other. Matching is not randomization and the usual real-world confounders apply, but it is the closest read we have on whether the ligand choice actually moves the outcome.",
+  "blurb_long": "A propensity-matched real-world comparison of the two Lu-177 PSMA ligands — PSMA-617 and PSMA I&T — on overall survival, the head-to-head the registrational trials never actually ran. Matching is not randomization and the usual real-world confounders apply, but it is the closest read anyone has on whether the ligand choice moves the outcome rather than just the biodistribution. The interesting part is that these two agents get used almost interchangeably in practice, on supply and reimbursement grounds, as if the choice were cosmetic. If a survival gap holds up here, that assumption is wrong and the whatever-is-in-the-hot-cell-today approach needs rethinking. Treat the magnitude with suspicion — matched cohorts flatter whichever arm had the healthier patients — but the question it forces is the right one.",
+  "lane": "radiopharma",
+  "published": "2026-07-02",
+  "harvested": "2026-07-08",
+  "score": 92,
+  "preprint": false,
+  "venue": "Journal of Nuclear Medicine",
+  "ricky": {
+   "endorsed_at": "2026-07-09T05:00:00+00:00"
+  }
+ }
+]

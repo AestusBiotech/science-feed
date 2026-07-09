@@ -1,1 +1,8 @@
 .claude/
+scratch/
+__pycache__/
+*.pyc
+
+# local secrets (Reddit feed token etc.) — never commit
+*.env
+pipeline/reddit-scan.env

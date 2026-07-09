@@ -1,4 +1,5 @@
-// Tiny static server for the science-feed prototype. No dependencies.
+// Tiny static server for local preview of the feed PWA. No dependencies.
+// (GitHub Pages serves the same files in production.)
 // Run:  node serve.js   →  http://localhost:5173
 const http = require("http");
 const fs = require("fs");
