@@ -14,7 +14,8 @@
   "venue": "Journal of Nuclear Medicine",
   "ricky": {
    "endorsed_at": "2026-07-09T05:00:00+00:00"
-  }
+  },
+  "image": "https://jnm.snmjournals.org/content/jnumed/early/2026/07/02/jnumed.126.272415/F1.medium.gif"
  },
  {
   "id": "5b80df4c4d68693af8ea490696086d5caf183885",
@@ -43,7 +44,8 @@
   "harvested": "2026-07-08",
   "score": 82,
   "preprint": false,
-  "venue": "Journal of Nuclear Medicine"
+  "venue": "Journal of Nuclear Medicine",
+  "image": "https://jnm.snmjournals.org/content/jnumed/early/2026/07/02/jnumed.126.272108/F1.medium.gif"
  },
  {
   "id": "8d8986c04e415e6437fbfcbe4d47ca46ff269a77",
@@ -72,7 +74,8 @@
   "harvested": "2026-07-08",
   "score": 82,
   "preprint": false,
-  "venue": "Journal of Nuclear Medicine"
+  "venue": "Journal of Nuclear Medicine",
+  "image": "https://jnm.snmjournals.org/content/jnumed/early/2026/07/02/jnumed.125.271916/F1.medium.gif"
  },
  {
   "id": "df5e28c37d5846c5f53953743374235103a93710",
@@ -101,7 +104,8 @@
   "harvested": "2026-07-08",
   "score": 80,
   "preprint": false,
-  "venue": "Journal of Medicinal Chemistry"
+  "venue": "Journal of Medicinal Chemistry",
+  "image": "https://pubs.acs.org/cms/10.1021/acs.jmedchem.6c00960/asset/images/acs.jmedchem.6c00960.social.jpeg_v03"
  },
  {
   "id": "177452b2e6c3d5a777c2b4e4a75ffaed876a1926",
@@ -115,7 +119,8 @@
   "harvested": "2026-07-08",
   "score": 81,
   "preprint": false,
-  "venue": "Journal of Medicinal Chemistry"
+  "venue": "Journal of Medicinal Chemistry",
+  "image": "https://pubs.acs.org/cms/10.1021/acs.jmedchem.6c00859/asset/images/acs.jmedchem.6c00859.social.jpeg_v03"
  },
  {
   "id": "7031dd96b67f471ce8a84784d470b1c3ef26d46d",
@@ -159,7 +164,8 @@
   "harvested": "2026-07-08",
   "score": 85,
   "preprint": false,
-  "venue": "Journal of Medicinal Chemistry"
+  "venue": "Journal of Medicinal Chemistry",
+  "image": "https://pubs.acs.org/cms/10.1021/acs.jmedchem.6c00897/asset/images/acs.jmedchem.6c00897.social.jpeg_v03"
  },
  {
   "id": "408b094f4ca73a2bc7152bb1485a7753de648754",
@@ -173,7 +179,8 @@
   "harvested": "2026-07-08",
   "score": 84,
   "preprint": false,
-  "venue": "Journal of Medicinal Chemistry"
+  "venue": "Journal of Medicinal Chemistry",
+  "image": "https://pubs.acs.org/cms/10.1021/acs.jmedchem.6c00777/asset/images/acs.jmedchem.6c00777.social.jpeg_v03"
  },
  {
   "id": "d791826e2f8c4aee97616ba3daf41f2b928beafe",
@@ -187,7 +194,8 @@
   "harvested": "2026-07-08",
   "score": 80,
   "preprint": false,
-  "venue": "Journal of Medicinal Chemistry"
+  "venue": "Journal of Medicinal Chemistry",
+  "image": "https://pubs.acs.org/cms/10.1021/acs.jmedchem.6c01302/asset/images/acs.jmedchem.6c01302.social.jpeg_v03"
  },
  {
   "id": "b70d4bbad10b60122d74fcde4943501cb21839f7",
@@ -201,7 +209,8 @@
   "harvested": "2026-07-08",
   "score": 83,
   "preprint": false,
-  "venue": "ACS Central Science"
+  "venue": "ACS Central Science",
+  "image": "https://pubs.acs.org/cms/10.1021/acscentsci.6c00531/asset/images/acscentsci.6c00531.social.jpeg_v03"
  },
  {
   "id": "b6e29a12a9615bd1f8c456065e76400ce3878d5c",
@@ -215,7 +224,8 @@
   "harvested": "2026-07-08",
   "score": 86,
   "preprint": false,
-  "venue": "ACS Central Science"
+  "venue": "ACS Central Science",
+  "image": "https://pubs.acs.org/cms/10.1021/acscentsci.6c00783/asset/images/acscentsci.6c00783.social.jpeg_v03"
  },
  {
   "id": "b470157ab10269c20162858e16e8f292716fa2a0",
@@ -229,7 +239,8 @@
   "harvested": "2026-07-08",
   "score": 74,
   "preprint": false,
-  "venue": "Journal of Medicinal Chemistry"
+  "venue": "Journal of Medicinal Chemistry",
+  "image": "https://pubs.acs.org/cms/10.1021/acs.jmedchem.6c01269/asset/images/acs.jmedchem.6c01269.social.jpeg_v03"
  },
  {
   "id": "a0f6b029e9cfcf78bf2566d33c56c3cea90e00e7",
@@ -285,7 +296,8 @@
   "harvested": "2026-07-08",
   "score": 74,
   "preprint": false,
-  "venue": "Chemical Communications"
+  "venue": "Chemical Communications",
+  "image": "https://rscj.silverchair-cdn.com/rscj/content_public/journal/cc/issue/62/49/1/m_d6cc90217k-ga.png?Expires=1846550433&Signature=WOIgFrVYlWT9mxcsZFi9DWvdXsK3qfQgpyQA1V-MQ7Jxwhsr0EBizyWoqLnx2noEgxVdIt4BfDO1BYOZZQJkCxPX0rCM7GYlfeS-GPbObOnodLgGWlIkUBQyCWqUazOqJ30lOMcMMpXRMy1CS8IjKA24rgwSiqE2Kvan7GrDq7AHBNrGLORVJuVEMhpAes55kNvmLj4zW5Ip5xJBBcSiK9VUSgQia9deerCvaXClYfLSwlfA1v71nqyzP80tWtRQ1spIszy7ohnxrMpltDnIGCjcHG0~6p8tZbRwRvJDQD8O4l75HmINpOh6yiZloLEfcs-TziQvxGvH9nw413mWnw__&Key-Pair-Id=APKAIE5G5CRDK6RD"
  },
  {
   "id": "ff19772eec570df27fa1ea1abdddc6d35188ff11",
@@ -299,7 +311,8 @@
   "harvested": "2026-07-08",
   "score": 78,
   "preprint": false,
-  "venue": "Chemical Science"
+  "venue": "Chemical Science",
+  "image": "https://rscj.silverchair-cdn.com/rscj/content_public/journal/sc/pap/10.1039_d6sc02382g/1/m_d6sc02382g-t4.png?Expires=1786474084&Signature=1f9unsyTCdKX7VtW7K2gg-YZH42cqVNB-dqXOXbahTF6jZLg3lYDBebRFBXl6tprACT1mwM3D6xQAfEWkIpJMMmiCGkF5rfbjEa15J1rqSO4pf1r3mQEONT2uQEsMeI5W1X~KJ8JxiMQWZ4uiiqfmkqMHWLaY8K8QqWQAepEetsO3I6ldkdg5ADOEaKM6p7Rg9XLHCTh9tzUQpYRWVlhJzeXJ324GzJ3SX3InkIqN~lPvRDIDbVZJtUEmZclbdgFd0Xdjn20fRPbACVah44uBqiDKukNxiDB1Aie2v55TrTiibstZK422GOedNUOcV7ThELdbBkzKvkCkOfYv8y8uA__&Key-Pair-Id=APKAI"
  },
  {
   "id": "261b8131b2c288df9255a10feb43fbd7450d77ef",
@@ -431,7 +444,8 @@
   "harvested": "2026-07-08",
   "score": 83,
   "preprint": false,
-  "venue": "ACS Central Science"
+  "venue": "ACS Central Science",
+  "image": "https://pubs.acs.org/cms/10.1021/acscentsci.6c00525/asset/images/acscentsci.6c00525.social.jpeg_v03"
  },
  {
   "id": "28d1fda55654f03cdf142709157018e38be54014",
@@ -460,7 +474,8 @@
   "harvested": "2026-07-08",
   "score": 74,
   "preprint": false,
-  "venue": "ACS Central Science"
+  "venue": "ACS Central Science",
+  "image": "https://pubs.acs.org/cms/10.1021/acscentsci.6c00758/asset/images/acscentsci.6c00758.social.jpeg_v03"
  },
  {
   "id": "ec5161332098a0237653c3813cfafd492b36dd82",
@@ -474,7 +489,8 @@
   "harvested": "2026-07-08",
   "score": 76,
   "preprint": false,
-  "venue": "ACS Central Science"
+  "venue": "ACS Central Science",
+  "image": "https://pubs.acs.org/cms/10.1021/acscentsci.6c00394/asset/images/acscentsci.6c00394.social.jpeg_v03"
  },
  {
   "id": "b5e69aeb13b37f7f0ba9feec752e228ced1ca832",
