@@ -479,8 +479,7 @@ async function renderNext(n) {
 
 function updateStatus() {
   if (!state.manifest) return;
-  const total = state.manifest.total || 0;
-  els.status.textContent = total ? total.toLocaleString() + ' cards' : '';
+  els.status.textContent = '';
 }
 
 /* ---- lanes ------------------------------------------------------------ */
