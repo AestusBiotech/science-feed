@@ -1109,5 +1109,35 @@
   "preprint": false,
   "venue": "",
   "image": ""
+ },
+ {
+  "id": "c9d291497758a768d02af0ce977d6420f713adb1",
+  "source": "reddit",
+  "url": "https://www.reddit.com/r/OrganicChemistry/comments/1urps87/ironbased_photocatalysts_replacing_palladium_how/",
+  "original_title": "Iron-based photocatalysts replacing palladium — how close is this to being lab-practical?",
+  "title": "Iron-based photocatalysts replacing palladium — how close is this to being lab-practical?",
+  "blurb": "Recently, I had an interesting conversation with a student about sustainable chemistry and it sent me down a rabbit hole on iron-based photocatalysts as replacements for rare metals like palladium. The basic appeal makes sense; palladium and iridium are expensive, scarce, and environmentally costly to extract, while iron is abundant, cheap, and low toxicity. Apparently researchers at Nagoya University recently developed an iron catalyst that can synthesize complex pharmaceutical precursors using just blue LEDs, which seems like a big deal. Has anyone been following this? Genuinely curious how ",
+  "lane": "org chem",
+  "published": "2026-07-09",
+  "harvested": "2026-07-10",
+  "score": 0,
+  "preprint": false,
+  "venue": "r/OrganicChemistry",
+  "image": ""
+ },
+ {
+  "id": "47b0c40df26f8a86413fd1b258d01c9e24e49a14",
+  "source": "reddit",
+  "url": "https://www.reddit.com/r/NuclearMedicine/comments/1us2igq/elevated_badge_reading/",
+  "original_title": "Elevated badge reading",
+  "title": "Elevated badge reading",
+  "blurb": "New grad here and my first cumulative year badge reading was 0.16 which triggered the alara limit of 0.1 :-//// never had issues as a student through clinical…where I’m working is a bit more relaxed with radiation safety stuff, and I’m trying to break out of the bad habits I’ve adapted because clearly it’s affecting my readings. Need tips and what scenarios can seriously alter badge readings? Any techs here with stories of spills and radiation getting somewhere then severely altering badge readings? Would like to hear about stuff you’ve seen in the past, and how I can improve my technique. Cur",
+  "lane": "radiopharma",
+  "published": "2026-07-09",
+  "harvested": "2026-07-10",
+  "score": 0,
+  "preprint": false,
+  "venue": "r/nuclearmedicine",
+  "image": ""
  }
 ]
