@@ -75,8 +75,13 @@ def _prompt(batch: list[dict]) -> str:
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--keep", type=int, default=40,
-                    help="how many top-scoring items to keep")
+    ap.add_argument("--keep", type=int, default=100,
+                    help="how many top-scoring papers/news items to keep "
+                         "(reddit is kept separately and does not count here)")
+    ap.add_argument("--reddit-min", type=int, default=55,
+                    help="minimum curator score for a reddit thread to count as "
+                         "relevant; relevant reddit threads are kept uncapped and "
+                         "in addition to --keep")
     args = ap.parse_args()
 
     candidates = c.read_json(c.CANDIDATES, default=[]) or []
@@ -112,9 +117,18 @@ def main() -> None:
             scored.append(cand)
         c.log(f"  scored {start + len(batch)}/{len(candidates)}")
 
+    # Reddit is kept separately from the ranked papers/news pool: every thread
+    # the curator finds relevant that night is added on top, uncapped, and does
+    # NOT count against --keep. The papers/news pool stays a ranked top-N,
+    # bounded by the cost cap.
+    reddit = [x for x in scored
+              if x.get("source") == "reddit" and x["score"] >= args.reddit_min]
+    rest = [x for x in scored if x.get("source") != "reddit"]
+
     keep = min(args.keep, c.MAX_ITEMS_PER_RUN)
-    scored.sort(key=lambda x: x["score"], reverse=True)
-    survivors = scored[:keep]
+    rest.sort(key=lambda x: x["score"], reverse=True)
+    reddit.sort(key=lambda x: x["score"], reverse=True)
+    survivors = rest[:keep] + reddit
 
     # Abstract-only sources (Crossref/PubMed/arXiv) arrive without a picture;
     # scrape the article's share image so those cards aren't all text. Only the
@@ -124,8 +138,12 @@ def main() -> None:
 
     c.write_json(c.SURVIVORS, survivors)
     if survivors:
-        lo, hi = survivors[-1]["score"], survivors[0]["score"]
-        c.log(f"kept {len(survivors)} of {len(scored)} scored (score {lo}-{hi})")
+        n_reddit = len(reddit)
+        n_rest = len(survivors) - n_reddit
+        hi = max(x["score"] for x in survivors)
+        lo = min(x["score"] for x in survivors)
+        c.log(f"kept {len(survivors)} of {len(scored)} scored "
+              f"({n_rest} papers/news + {n_reddit} reddit; score {lo}-{hi})")
     else:
         c.log("kept 0 survivors")
 

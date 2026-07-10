@@ -35,10 +35,12 @@ SURVIVORS = SCRATCH / "survivors.json"     # curate.py  -> rewrite.py
 CARDS = SCRATCH / "cards.json"             # rewrite.py -> assemble.py
 
 # ---------------------------------------------------------------------------
-# Tunables (env-overridable). MAX_ITEMS_PER_RUN is the hard cost cap: no run
-# scores/rewrites more than this many items, so no run can overspend.
+# Tunables (env-overridable). MAX_ITEMS_PER_RUN caps the ranked papers/news
+# keep-cut (the curator's --keep is clamped to it) so that pool can't overspend.
+# Relevant reddit threads are kept in addition to this and are intentionally
+# uncapped — reddit volume is small, so it adds little cost.
 # ---------------------------------------------------------------------------
-MAX_ITEMS_PER_RUN = int(os.environ.get("MAX_ITEMS_PER_RUN", "60"))
+MAX_ITEMS_PER_RUN = int(os.environ.get("MAX_ITEMS_PER_RUN", "150"))
 CANDIDATE_POOL_CAP = int(os.environ.get("CANDIDATE_POOL_CAP", "400"))
 CARDS_PER_CHUNK = 100
 MODEL = "claude-haiku-4-5"  # locked by the plan. do not change.

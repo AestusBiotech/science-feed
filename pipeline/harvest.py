@@ -436,8 +436,14 @@ def main() -> None:
     # Shuffle before capping so a full pool is truncated fairly across sources
     # rather than dropping whichever sources happened to be harvested last.
     random.shuffle(candidates)
-    if len(candidates) > c.CANDIDATE_POOL_CAP:
-        candidates = candidates[: c.CANDIDATE_POOL_CAP]
+    # Reddit is exempt from the pool cap: every thread found that night reaches
+    # the curator uncapped, so any relevant one can make the feed. Only the much
+    # larger papers/news pool is truncated to hold scoring cost down.
+    reddit = [x for x in candidates if x.get("source") == "reddit"]
+    rest = [x for x in candidates if x.get("source") != "reddit"]
+    if len(rest) > c.CANDIDATE_POOL_CAP:
+        rest = rest[: c.CANDIDATE_POOL_CAP]
+    candidates = reddit + rest
 
     c.write_json(c.CANDIDATES, candidates)
     c.log(f"harvested {len(candidates)} new candidates "
