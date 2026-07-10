@@ -185,6 +185,45 @@ body {
 .save-btn.is-saved { color: var(--lane-radiopharma); }
 .save-btn.is-saved svg { fill: currentColor; }
 
+/* "Not interested" — thumbs-down; owns the auto-margin that pushes the button
+   group to the right, so the bookmark sits just left of it. */
+.hide-btn {
+  margin: -6px 0 -6px auto;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--text-faint);
+  cursor: pointer;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-tap-highlight-color: transparent;
+  transition: color .15s, background .15s;
+}
+.hide-btn svg {
+  width: 17px;
+  height: 17px;
+  display: block;
+  fill: currentColor;
+}
+@media (hover: hover) {
+  .hide-btn:hover { color: var(--lane-startups); background: var(--surface-hi); }
+}
+.hide-btn:active { color: var(--lane-startups); }
+/* when both buttons show, the bookmark drops its own auto-margin */
+.hide-btn + .save-btn { margin-left: 0; }
+
+/* collapse-out when dismissed via "Not interested" */
+.card.leaving {
+  opacity: 0;
+  transform: scale(.97);
+  transition: opacity .22s ease, transform .22s ease;
+  pointer-events: none;
+}
+
 .chip-saved[aria-pressed="true"] {
   background: var(--lane-radiopharma);
   border-color: var(--lane-radiopharma);
@@ -196,6 +235,19 @@ body {
   line-height: 1.32;
   font-weight: 650;
   letter-spacing: -0.01em;
+}
+/* only the title opens the source (new tab) — the rest of the card is inert */
+.card-title-link {
+  color: inherit;
+  text-decoration: none;
+}
+@media (hover: hover) {
+  .card-title-link:hover { text-decoration: underline; text-underline-offset: 2px; }
+}
+.card-title-link:focus-visible {
+  outline: 2px solid var(--lane, var(--accent));
+  outline-offset: 2px;
+  border-radius: 3px;
 }
 .card-blurb {
   margin: 0;
@@ -212,6 +264,8 @@ body {
   margin-top: 12px;
   background: var(--surface-hi);
   border: 1px solid var(--border);
+  cursor: zoom-in;                 /* opens the in-app viewer, not a new tab */
+  -webkit-tap-highlight-color: transparent;
 }
 
 .card-source {
@@ -429,4 +483,74 @@ body {
   .ricky-bubble { transform: translateX(-50%); transition: opacity .3s; }
   .ricky-pop.show .ricky-bubble { transform: translateX(-50%); }
   .card.flash { animation: none; }
+  .card.leaving { transition: opacity .12s ease; transform: none; }
+}
+
+/* ---- image lightbox --------------------------------------------------- */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: none;
+}
+.lightbox.show { display: block; }
+
+.lightbox-scrim {
+  position: absolute;
+  inset: 0;
+  background: rgba(2, 6, 5, .93);
+}
+
+.lightbox-stage {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: auto;
+  padding: 20px;
+  -webkit-overflow-scrolling: touch;
+}
+/* when zoomed, let the image overflow so it can be panned by scrolling */
+.lightbox-stage.zoomed {
+  display: block;
+  text-align: center;
+}
+
+.lightbox-img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 8px;
+  cursor: zoom-in;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+.lightbox-img.zoomed {
+  max-width: none;
+  max-height: none;
+  width: auto;
+  cursor: zoom-out;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: max(10px, env(safe-area-inset-top));
+  right: 12px;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, .5);
+  color: #fff;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-tap-highlight-color: transparent;
+}
+@media (hover: hover) {
+  .lightbox-close:hover { background: rgba(0, 0, 0, .72); }
 }

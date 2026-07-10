@@ -31,6 +31,12 @@ const SOURCE_WEIGHT = {
 const BOOKMARK_SVG =
   '<svg viewBox="0 0 24 24" aria-hidden="true">' +
   '<path d="M6 3h12a1 1 0 0 1 1 1v17l-7-4-7 4V4a1 1 0 0 1 1-1z"/></svg>';
+// thumbs-down — "not interested", hides the card for good
+const THUMBSDOWN_SVG =
+  '<svg viewBox="0 0 24 24" aria-hidden="true">' +
+  '<path d="M15 3H6c-.83 0-1.54.5-1.84 1.22l-3.02 7.05c-.09.23-.14.47-.14.73v2c0 ' +
+  '1.1.9 2 2 2h6.31l-.95 4.57-.03.32c0 .41.17.79.44 1.06L9.83 23l6.59-6.59c.36-.36' +
+  '.58-.86.58-1.41V5c0-1.1-.9-2-2-2zm4 0v12h4V3h-4z"/></svg>';
 
 /* ---- Ricky ------------------------------------------------------------- */
 // "Ricky's choice" is a permanent section, like saved. Endorsed picks live
@@ -62,6 +68,7 @@ const state = {
   nextChunk: -1,         // index into manifest.chunks, walked newest -> oldest
   shown: new Map(),      // id -> lastShown ms (mirror of IndexedDB)
   saved: new Map(),      // id -> card (mirror of IndexedDB 'saved' store)
+  hidden: new Map(),     // id -> hiddenAt ms — "not interested", never resurfaced
   session: new Set(),    // ids rendered in this scroll session
   fresh: [],             // never-shown cards for the current lane, newest-first
   lane: 'all',
@@ -81,13 +88,14 @@ function db() {
   if (dbp) return dbp;
   dbp = new Promise((resolve) => {
     let req;
-    try { req = indexedDB.open('feed', 3); }
+    try { req = indexedDB.open('feed', 4); }
     catch { return resolve(null); }
     req.onupgradeneeded = () => {
       const d = req.result;
       if (!d.objectStoreNames.contains('shown')) d.createObjectStore('shown');
       if (!d.objectStoreNames.contains('saved')) d.createObjectStore('saved');
       if (!d.objectStoreNames.contains('ricky')) d.createObjectStore('ricky');
+      if (!d.objectStoreNames.contains('hidden')) d.createObjectStore('hidden');
     };
     req.onsuccess = () => resolve(req.result);
     req.onerror = () => resolve(null);
@@ -150,6 +158,32 @@ async function unsaveCard(id) {
   if (!d) return;
   try { d.transaction('saved', 'readwrite').objectStore('saved').delete(id); }
   catch { /* ignore */ }
+}
+
+/* ---- IndexedDB (hidden / "not interested" set) ----------------------- */
+async function loadHidden() {
+  const d = await db();
+  if (!d) return;
+  await new Promise((resolve) => {
+    let tx;
+    try { tx = d.transaction('hidden', 'readonly').objectStore('hidden').openCursor(); }
+    catch { return resolve(); }
+    tx.onsuccess = () => {
+      const cur = tx.result;
+      if (!cur) return resolve();
+      state.hidden.set(cur.key, cur.value);
+      cur.continue();
+    };
+    tx.onerror = () => resolve();
+  });
+}
+async function hideCard(id) {
+  const now = Date.now();
+  state.hidden.set(id, now);
+  const d = await db();
+  if (!d) return;
+  try { d.transaction('hidden', 'readwrite').objectStore('hidden').put(now, id); }
+  catch { /* private mode etc. — in-memory mirror still works */ }
 }
 
 /* ---- IndexedDB (ricky-popped set) ------------------------------------- */
@@ -215,7 +249,8 @@ function rebuildFresh() {
   // card gets key = random^(1/weight); newer cards get more weight and trend
   // toward the front, but any card can surface early.
   const pool = state.loaded.filter(
-    (c) => laneMatch(c) && !state.shown.has(c.id) && !state.session.has(c.id));
+    (c) => laneMatch(c) && !state.shown.has(c.id) &&
+           !state.session.has(c.id) && !state.hidden.has(c.id));
   let min = Infinity, max = -Infinity;
   for (const card of pool) {
     if (card._order < min) min = card._order;
@@ -267,7 +302,8 @@ function pickVault() {
   // vault = genuinely resurfaced items: shown before, not yet this session.
   // never-shown cards are fresh, not vault, so they're excluded here.
   const pool = state.loaded.filter(
-    (c) => laneMatch(c) && state.shown.has(c.id) && !state.session.has(c.id));
+    (c) => laneMatch(c) && state.shown.has(c.id) &&
+           !state.session.has(c.id) && !state.hidden.has(c.id));
   if (!pool.length) return null;
   const now = Date.now();
   let eligible = pool.filter((c) => now - state.shown.get(c.id) > VAULT_AGE_MS);
@@ -277,11 +313,10 @@ function pickVault() {
 
 /* ---- rendering -------------------------------------------------------- */
 function renderCard(card, opts = {}) {
-  const a = document.createElement('a');
+  // The card is a plain container, not a link: only the title opens the source
+  // (new tab), the image opens the in-app zoom viewer, and the body text is inert.
+  const a = document.createElement('article');
   a.className = 'card';
-  a.href = card.url;
-  a.target = '_blank';
-  a.rel = 'noopener noreferrer';
   a.style.setProperty('--lane', LANE_COLORS[card.lane] || 'var(--text-faint)');
   if (card.ricky) a.classList.add('ricky');
   a.dataset.id = card.id;
@@ -312,6 +347,23 @@ function renderCard(card, opts = {}) {
     pre.textContent = 'preprint';
     meta.appendChild(pre);
   }
+  // "Not interested": hides the card for good. Not offered in the saved or
+  // Ricky lanes, where hiding makes no sense.
+  const inFeed = state.lane !== 'saved' && state.lane !== RICKY_LANE;
+  if (inFeed) {
+    const hide = document.createElement('button');
+    hide.type = 'button';
+    hide.className = 'hide-btn';
+    hide.innerHTML = THUMBSDOWN_SVG;
+    hide.setAttribute('aria-label', 'not interested');
+    hide.title = 'Not interested';
+    hide.addEventListener('click', (e) => {
+      e.stopPropagation();
+      dismissCard(card, a);
+    });
+    meta.appendChild(hide);
+  }
+
   const save = document.createElement('button');
   save.type = 'button';
   save.className = 'save-btn';
@@ -321,7 +373,6 @@ function renderCard(card, opts = {}) {
   save.setAttribute('aria-pressed', saved ? 'true' : 'false');
   save.setAttribute('aria-label', saved ? 'saved' : 'save');
   save.addEventListener('click', (e) => {
-    e.preventDefault();          // card is an <a>; don't follow the link
     e.stopPropagation();
     toggleSave(card, save, a);
   });
@@ -329,7 +380,13 @@ function renderCard(card, opts = {}) {
 
   const h = document.createElement('h2');
   h.className = 'card-title';
-  h.textContent = card.title;
+  const titleLink = document.createElement('a');
+  titleLink.className = 'card-title-link';
+  titleLink.href = card.url;
+  titleLink.target = '_blank';
+  titleLink.rel = 'noopener noreferrer';
+  titleLink.textContent = card.title;
+  h.appendChild(titleLink);
 
   const p = document.createElement('p');
   p.className = 'card-blurb';
@@ -353,6 +410,11 @@ function renderCard(card, opts = {}) {
     img.referrerPolicy = 'no-referrer';   // some hosts 403 hotlinks with a referrer
     // drop the figure (and its spacing) if the image is missing/blocked
     img.addEventListener('error', () => img.remove());
+    // tap the image to open it full-screen in-app (zoomable), not a new tab.
+    img.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openLightbox(card.image, card.title);
+    });
     a.append(img);
   }
   a.append(src);
@@ -375,6 +437,23 @@ function toggleSave(card, btn, cardEl) {
     btn.setAttribute('aria-pressed', 'true');
     btn.setAttribute('aria-label', 'saved');
   }
+}
+
+function dismissCard(card, cardEl) {
+  // "Not interested" — record it so it never resurfaces, then collapse it out.
+  hideCard(card.id);
+  state.session.add(card.id);          // don't let this session re-place it
+  let done = false;
+  const finish = () => {
+    if (done) return;
+    done = true;
+    cardEl.remove();
+    // keep the feed full after the gap it left
+    if (state.lane !== 'saved' && state.lane !== RICKY_LANE) fill();
+  };
+  cardEl.addEventListener('transitionend', finish, { once: true });
+  setTimeout(finish, 320);             // fallback if the transition doesn't fire
+  requestAnimationFrame(() => cardEl.classList.add('leaving'));
 }
 
 function renderSaved() {
@@ -651,12 +730,58 @@ function fireRicky() {
   showRickyPop(state.rickyQueue.shift());
 }
 
+/* ---- image lightbox --------------------------------------------------- */
+// Full-screen, in-app image viewer. Tap the image to toggle zoom (pan by
+// scrolling when zoomed); tap outside, the ✕, or Escape to close. Never a new tab.
+let lbEl = null;
+function buildLightbox() {
+  if (lbEl) return lbEl;
+  const lb = document.createElement('div');
+  lb.className = 'lightbox';
+  lb.innerHTML =
+    '<div class="lightbox-scrim"></div>' +
+    '<div class="lightbox-stage"><img class="lightbox-img" alt="" draggable="false"></div>' +
+    '<button type="button" class="lightbox-close" aria-label="close">✕</button>';
+  const stage = lb.querySelector('.lightbox-stage');
+  const img = lb.querySelector('.lightbox-img');
+  lb.querySelector('.lightbox-scrim').addEventListener('click', hideLightbox);
+  lb.querySelector('.lightbox-close').addEventListener('click', hideLightbox);
+  stage.addEventListener('click', hideLightbox);   // tapping the empty area closes
+  img.addEventListener('click', (e) => {
+    e.stopPropagation();                           // ...but tapping the image zooms
+    const z = img.classList.toggle('zoomed');
+    stage.classList.toggle('zoomed', z);
+    if (!z) stage.scrollTo(0, 0);
+  });
+  document.body.appendChild(lb);
+  lbEl = lb;
+  return lb;
+}
+function openLightbox(src, alt) {
+  const lb = buildLightbox();
+  const stage = lb.querySelector('.lightbox-stage');
+  const img = lb.querySelector('.lightbox-img');
+  img.classList.remove('zoomed');
+  stage.classList.remove('zoomed');
+  img.alt = alt || '';
+  img.src = src;
+  stage.scrollTo(0, 0);
+  lb.classList.add('show');
+  document.addEventListener('keydown', lbKey);
+}
+function hideLightbox() {
+  if (!lbEl) return;
+  lbEl.classList.remove('show');
+  document.removeEventListener('keydown', lbKey);
+}
+function lbKey(e) { if (e.key === 'Escape') hideLightbox(); }
+
 /* ---- boot ------------------------------------------------------------- */
 async function boot() {
   els.tail.innerHTML = '<span class="spinner"></span>';
   try {
     await Promise.all([
-      loadShown(), loadSaved(), loadManifest(),
+      loadShown(), loadSaved(), loadHidden(), loadManifest(),
       loadRickyPopped(), loadRickyIndex(),
     ]);
   } catch (e) {
