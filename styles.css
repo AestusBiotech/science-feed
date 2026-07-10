@@ -19,6 +19,9 @@
   --lane-biotech-news: #4f7d86;
   --lane-startups: #c58a5b;
   --lane-wildcard: #869490;
+
+  /* reddit brand orange — used for the reddit-source border + badge */
+  --reddit: #ff4500;
 }
 
 * { box-sizing: border-box; }
@@ -152,6 +155,25 @@ body {
   padding: 1px 8px;
   font-size: 11px;
   letter-spacing: .02em;
+}
+.reddit-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--reddit);
+  background: color-mix(in srgb, var(--reddit) 15%, transparent);
+  border: 1px solid color-mix(in srgb, var(--reddit) 45%, transparent);
+  border-radius: 999px;
+  padding: 1px 8px 1px 6px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .02em;
+}
+.reddit-badge svg {
+  width: 13px;
+  height: 13px;
+  fill: currentColor;
+  flex: 0 0 auto;
 }
 
 .save-btn {
@@ -335,6 +357,18 @@ body {
   border-color: var(--lane-radiopharma);
   color: #161200;
   font-weight: 700;
+}
+
+/* Reddit-source card: thin orange border + orange accent bar, so a discussion
+   thread reads differently from a paper at a glance. :not(.ricky) lets an
+   endorsed card keep its amber treatment when it's also from Reddit. */
+.card.reddit:not(.ricky) {
+  border-color: color-mix(in srgb, var(--reddit) 60%, transparent);
+  border-width: 1.5px;
+}
+.card.reddit:not(.ricky)::before {
+  background: var(--reddit);
+  opacity: 1;
 }
 
 /* Endorsed card: thin amber border + amber accent bar + the ribbon. This is

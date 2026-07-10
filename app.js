@@ -31,6 +31,17 @@ const SOURCE_WEIGHT = {
 const BOOKMARK_SVG =
   '<svg viewBox="0 0 24 24" aria-hidden="true">' +
   '<path d="M6 3h12a1 1 0 0 1 1 1v17l-7-4-7 4V4a1 1 0 0 1 1-1z"/></svg>';
+// Reddit "snoo" mark for the reddit-source badge. fill=currentColor via CSS.
+const REDDIT_MARK =
+  '<svg viewBox="0 0 20 20" aria-hidden="true">' +
+  '<path d="M10 0a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm5.01 11.17c.02.16.03.32.03.49 ' +
+  '0 2.5-2.91 4.53-6.5 4.53s-6.5-2.03-6.5-4.53c0-.17.01-.33.03-.49a1.5 1.5 0 1 1 ' +
+  '1.66-2.42 7.9 7.9 0 0 1 4.13-1.3l.78-3.68a.33.33 0 0 1 .39-.25l2.6.55a1.05 ' +
+  '1.05 0 1 1-.13.63l-2.32-.5-.7 3.3a7.9 7.9 0 0 1 4.06 1.3 1.5 1.5 0 1 1 1.66 ' +
+  '2.42zM6.9 11.4a1.05 1.05 0 1 0 2.1 0 1.05 1.05 0 0 0-2.1 0zm5.72 2.68a.33.33 ' +
+  '0 0 0-.46-.02c-.5.4-1.28.6-2.16.6s-1.66-.2-2.16-.6a.33.33 0 1 0-.44.5c.66.53 ' +
+  '1.57.78 2.6.78s1.94-.25 2.6-.78a.33.33 0 0 0 .02-.48zm-1.67-2.68a1.05 1.05 0 ' +
+  '1 0 2.1 0 1.05 1.05 0 0 0-2.1 0z"/></svg>';
 // thumbs-down — "not interested", hides the card for good
 const THUMBSDOWN_SVG =
   '<svg viewBox="0 0 24 24" aria-hidden="true">' +
@@ -319,6 +330,7 @@ function renderCard(card, opts = {}) {
   a.className = 'card';
   a.style.setProperty('--lane', LANE_COLORS[card.lane] || 'var(--text-faint)');
   if (card.ricky) a.classList.add('ricky');
+  if (card.source === 'reddit') a.classList.add('reddit');
   a.dataset.id = card.id;
 
   // permanent "Ricky endorsed this" tag on any endorsed card, everywhere.
@@ -341,6 +353,14 @@ function renderCard(card, opts = {}) {
   lane.className = 'lane-tag';
   lane.textContent = card.lane;
   meta.appendChild(lane);
+  // Reddit cards carry a small orange snoo badge next to the lane tag so it's
+  // instantly clear the card links to a discussion thread, not a paper.
+  if (card.source === 'reddit') {
+    const rb = document.createElement('span');
+    rb.className = 'reddit-badge';
+    rb.innerHTML = REDDIT_MARK + '<span>reddit</span>';
+    meta.appendChild(rb);
+  }
   if (card.preprint) {
     const pre = document.createElement('span');
     pre.className = 'preprint-tag';
