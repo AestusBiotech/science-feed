@@ -1,11 +1,12 @@
 /* personal curated feed — endless scroll, no backend.
-   fresh (never-shown, newest-first) interleaved with vault (resurfaced) at 3:1.
+   fresh (never-shown, newest-first) is the feed; resurfaced "vault" cards are
+   rare (~5%) and only sprinkle in until fresh runs out, then fill the tail.
    what's been shown is tracked in IndexedDB so vault items come back after ~14d. */
 
 'use strict';
 
 const FEED_DIR = './data/feed';
-const FRESH_PER_VAULT = 3;              // 3 fresh : 1 vault
+const VAULT_RATE = 0.05;               // ~5% of cards are resurfaced ("vault")
 const VAULT_AGE_MS = 14 * 864e5;        // resurface after ~14 days
 const PAGE = 8;                         // cards rendered per scroll step
 
@@ -525,22 +526,26 @@ function resetCycle() {
 }
 
 async function place() {
-  const vaultSlot = state.pos % (FRESH_PER_VAULT + 1) === FRESH_PER_VAULT;
-  let card = null, isVault = false;
+  let card = null;
 
-  if (vaultSlot) {
-    card = pickVault(); isVault = !!card;
-    if (!card) card = pickFresh();          // no vault to resurface yet -> serve fresh
+  // New content leads. While there are fresh (never-shown) cards for this lane
+  // the feed is essentially all-new; only a rare ~5% roll sprinkles in a
+  // resurfaced item. Once fresh runs out, vault fills the tail so scroll stays
+  // endless. (Returning users with nothing new therefore see resurfaced cards,
+  // which is unavoidable — but never the 1-in-4 firehose it used to be.)
+  if (state.fresh.length) {
+    if (Math.random() < VAULT_RATE) card = pickVault();   // occasional resurface
+    if (!card) card = pickFresh();
   } else {
-    card = pickFresh();
-    if (!card) { card = pickVault(); isVault = !!card; }
+    card = pickVault();                                    // fresh exhausted
+    if (!card) card = pickFresh();
   }
 
   if (!card) {
     // fresh and vault both empty for this lane. loop the pile to stay endless.
     if (!state.loaded.some(laneMatch)) return false;
     resetCycle();
-    card = pickVault(); isVault = !!card;
+    card = pickVault();
     if (!card) card = pickFresh();
     if (!card) return false;
   }
