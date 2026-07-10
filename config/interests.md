@@ -10,6 +10,15 @@ Trained chemist and biochemist. Skeptical by default: prefers a real result or a
 
 **The throughline — weight it up everywhere.** Bioconjugation is the spine of both jobs: crosslinker and linker chemistry, site-specific and bioorthogonal conjugation, ADC linker/payload design, protein labeling, and bifunctional chelators for radiolabeling (DOTA/DTPA and relatives). An item about how you *attach* one thing to another cleanly, selectively, and reproducibly is on-target no matter which lane it lands in.
 
+## Aestus relevance — the top ranking priority
+
+Aestus is a bioconjugation-reagent company: it makes and sells crosslinkers and the chemistry around them — NHS esters and Sulfo-NHS, maleimides, amine-, thiol-, and click-reactive groups; homo- and heterobifunctional crosslinkers; cleavable and photoreactive linkers (DSP, BS3, SMCC and their analogues). **Boost a paper's rank hard when it connects to what Aestus makes, sells, or could build.** This is the strongest single signal in the rubric — an item that hits any bucket below should clear the keep-cut even against a flashier off-target result, and should score toward the top of its range:
+
+- **Our chemistry in use** — crosslinking or bioconjugation methods, new linker designs, reaction conditions, labeling/conjugation protocols. Weight it up further when it improves yield, selectivity, or ease of use.
+- **Applications our reagents serve** — crosslinking mass spec (XL-MS), protein–protein interaction mapping, structural proteomics, antibody/protein conjugation, surface immobilization, hydrogels, ADCs. These are the workflows Aestus reagents sell into.
+- **Pipeline / adjacent opportunities** — reactive groups or modalities Aestus doesn't sell yet but could: new bioorthogonal handles, novel cleavable chemistries, emerging conjugation platforms. Score these up as forward-looking product signal (the blurb should read as a "possible product idea").
+- **Unmet needs / pain points** — papers where authors complain about existing reagents (poor solubility, instability, non-specificity, batch variability, cost). A named gap in the current toolkit is a gap Aestus could fill — treat that complaint as a reason to rank the paper *higher*, not lower.
+
 ## Lanes
 
 Assign exactly one lane per item. Use the closest fit; if nothing fits well, use `wildcard`. Bioconjugation/crosslinking/ADC items are not a lane of their own — route them to whichever of org chem, biochem, or radiopharma fits, and lean on the score to push them up.

@@ -85,6 +85,13 @@ pubmed:
   - { query: radiopharmaceutical OR "targeted radionuclide therapy" OR actinium-225 OR lutetium-177 OR lead-212, lane: radiopharma }
   - { query: '("radioligand therapy" OR "alpha therapy" OR dosimetry) AND (prostate OR neuroendocrine OR PSMA)', lane: radiopharma }
   - { query: '("bioconjugation" OR "antibody-drug conjugate" OR "site-specific conjugation" OR "bioorthogonal") AND (linker OR payload OR chelator OR crosslinker)', lane: biochem }
+  # --- Aestus core chemistry: crosslinker/linker reagents and reactive handles ---
+  - { query: '("NHS ester" OR "sulfo-NHS" OR maleimide OR "click chemistry" OR "strain-promoted" OR tetrazine OR "amine-reactive" OR "thiol-reactive") AND (protein OR peptide OR antibody OR conjugat*)', lane: biochem }
+  - { query: '(crosslinker OR "cross-linker" OR "cleavable linker" OR "photoreactive" OR "photo-crosslink*" OR diazirine OR "heterobifunctional") AND (protein OR bioconjugat* OR labeling OR "bioconjugation")', lane: biochem }
+  # --- Applications Aestus reagents serve: XL-MS, PPI mapping, structural proteomics ---
+  - { query: '("crosslinking mass spectrometry" OR "XL-MS" OR "cross-linking mass spectrometry" OR "chemical crosslinking") AND (proteom* OR "protein-protein interaction" OR structur*)', lane: biochem }
+  # --- Applications: immobilization and hydrogels ---
+  - { query: '("surface immobilization" OR "protein immobilization" OR "hydrogel") AND (crosslink* OR conjugat* OR "click chemistry" OR bioorthogonal)', lane: biochem }
   - { query: '("radiochemical purity" OR "quality control" OR "release testing") AND (radiopharmaceutical OR radionuclide OR radiolabeled)', lane: methods }
   - { query: '"single molecule" AND (enzyme OR "protein folding" OR ribosome)', lane: biochem }
 
@@ -148,5 +155,7 @@ rss:
   - { url: "https://news.google.com/rss/search?q=%28radiopharmaceutical%20OR%20radioligand%20OR%20%22targeted%20alpha%20therapy%22%20OR%20%22actinium-225%22%20OR%20%22lutetium-177%22%20OR%20%22isotope%20supply%22%29%20when:30d&hl=en-US&gl=US&ceid=US:en", lane: radiopharma, news: true }
   # ADC + bioconjugation, science and market (the Aestus competitive layer)
   - { url: "https://news.google.com/rss/search?q=%28%22antibody-drug%20conjugate%22%20OR%20%22ADC%20linker%22%20OR%20bioconjugation%20OR%20%22protein%20conjugation%22%20OR%20crosslinker%29%20when:30d&hl=en-US&gl=US&ceid=US:en", lane: biotech news, news: true }
+  # bioconjugation-reagent suppliers + crosslinker tools market (direct Aestus competitive intel)
+  - { url: "https://news.google.com/rss/search?q=%28%22crosslinker%22%20OR%20%22click%20chemistry%22%20OR%20%22NHS%20ester%22%20OR%20%22bioconjugation%20reagent%22%20OR%20%22labeling%20reagent%22%20OR%20maleimide%29%20%28reagent%20OR%20supplier%20OR%20kit%20OR%20launch%20OR%20market%29%20when:30d&hl=en-US&gl=US&ceid=US:en", lane: biotech news, news: true }
   # chem / pharma industry commentary (catches Derek Lowe, whose own feed blocks CI)
   - { url: "https://news.google.com/rss/search?q=%28%22Derek%20Lowe%22%20OR%20%22In%20the%20Pipeline%22%20OR%20%22medicinal%20chemistry%22%20OR%20%22process%20chemistry%22%29%20pharma%20when:30d&hl=en-US&gl=US&ceid=US:en", lane: biotech news, news: true }
