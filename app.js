@@ -845,8 +845,29 @@ async function boot() {
 }
 
 if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () =>
-    navigator.serviceWorker.register('./sw.js').catch(() => {}));
+  // An installed PWA resumes its session instead of re-navigating, so without a
+  // nudge it can sit on an old worker forever. Reload once when a *replacement*
+  // worker takes control so the fresh shell actually loads. hadController guards
+  // the first-install claim (null -> worker), which isn't a replacement.
+  const hadController = !!navigator.serviceWorker.controller;
+  let reloading = false;
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (!hadController || reloading) return;
+    reloading = true;
+    location.reload();
+  });
+
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js', { updateViaCache: 'none' })
+      .then((reg) => {
+        reg.update();                                    // check for a new build now
+        document.addEventListener('visibilitychange', () => {
+          // reopening the installed app fires this — recheck for a new worker.
+          if (document.visibilityState === 'visible') reg.update();
+        });
+      })
+      .catch(() => {});
+  });
 }
 
 boot();
