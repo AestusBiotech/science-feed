@@ -22,6 +22,7 @@ const SOURCE_LABEL = {
   reddit: 'reddit', hn: 'hn', arxiv: 'arXiv',
   pubmed: 'pubmed', rss: 'rss', web: 'web',
   crossref: 'journal', chemrxiv: 'ChemRxiv',
+  clinicaltrials: 'trial',
 };
 // Per-source lean in the fresh shuffle. Reddit threads from the reader's
 // subreddits get nudged forward so they surface a bit more (they're already
@@ -424,10 +425,14 @@ function renderCard(card, opts = {}) {
   if (card.image) {
     const img = document.createElement('img');
     img.className = 'card-image';
-    img.src = card.image;
     img.alt = '';
-    img.loading = 'lazy';
+    // Cards are already mounted lazily by the infinite scroll (only cards near
+    // the viewport exist in the DOM), so native loading="lazy" is redundant —
+    // and in practice it left in-view figures unfetched, so the feed looked
+    // pictureless. Load eagerly: the image fetches as soon as its card mounts.
+    img.loading = 'eager';
     img.decoding = 'async';
+    img.src = card.image;
     img.referrerPolicy = 'no-referrer';   // some hosts 403 hotlinks with a referrer
     // drop the figure (and its spacing) if the image is missing/blocked
     img.addEventListener('error', () => img.remove());
@@ -564,6 +569,15 @@ async function renderNext(n) {
 
   let placed = 0;
   while (placed < n) {
+    // Page in older chunks before resurfacing repeats: while this lane has no
+    // fresh cards left but the manifest still lists un-loaded chunks, pull the
+    // next one so all real content is shown before the vault loop begins.
+    // (Without this, a multi-chunk feed only ever loads the newest chunk and
+    // loops it — the older chunks, and their images, never appear.)
+    if (!state.fresh.length && state.nextChunk >= 0) {
+      await loadNextChunk();
+      continue;
+    }
     const ok = await place();
     if (ok) { placed += 1; continue; }
     // nothing to place — try pulling an older chunk, else stop.

@@ -4,7 +4,7 @@
    - feed chunks: cache-first (append-only, never change once written).
    the shell is still precached on install for the very first offline load. */
 
-const VERSION = 'feed-v5';
+const VERSION = 'feed-v6';
 const SHELL = `shell-${VERSION}`;
 const DATA = `data-${VERSION}`;
 
