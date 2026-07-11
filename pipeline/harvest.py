@@ -9,6 +9,8 @@ Sourcing shape (see sources.yml for the why):
     publisher RSS (Nature/Science/Cell/Springer/ScienceDirect).
   - Preprints: ChemRxiv (Crossref prefix), bioRxiv (RSS), arXiv (Atom). Tagged.
   - PubMed E-utilities for the reader's field.
+  - ClinicalTrials.gov (API v2) for trial readouts / status changes, and FDA
+    press-release RSS for approvals — the biotech-news signal layer.
   - Reddit, thread-linked only, last 48h. No Hacker News.
 
 Modes:
@@ -43,6 +45,20 @@ MAILTO = "info@aestusbiotech.com"
 HTTP_TIMEOUT = 20
 REDDIT_MIN_SCORE = 25
 CROSSREF_ROWS = 12
+CTGOV_ROWS = 20
+
+# ClinicalTrials.gov API v2. We pull trials whose status recently *changed* to a
+# readout-signalling state (default below) and link to the canonical study page.
+CTGOV_API = "https://clinicaltrials.gov/api/v2/studies"
+CTGOV_FIELDS = ("NCTId,BriefTitle,OverallStatus,LastUpdatePostDate,Phase,"
+                "Condition,InterventionName,LeadSponsorName")
+# Statuses worth surfacing as a "readout / change" rather than recruiting churn.
+# Pipe-separated per the v2 filter syntax; overridable per source via `status:`.
+CTGOV_DEFAULT_STATUS = "COMPLETED|TERMINATED|ACTIVE_NOT_RECRUITING"
+_CTGOV_PHASE = {
+    "EARLY_PHASE1": "Early Phase 1", "PHASE1": "Phase 1", "PHASE2": "Phase 2",
+    "PHASE3": "Phase 3", "PHASE4": "Phase 4", "NA": "",
+}
 
 # Reddit killed its free API, but the per-account RSS feed still serves from
 # datacenter IPs when you pass a personal feed token (Reddit prefs -> RSS feeds:
@@ -365,12 +381,78 @@ def harvest_rss(entry: dict, mode: str) -> Iterable[dict]:
             yield cand
 
 
+def _ctgov_date(struct: dict) -> str:
+    """'YYYY-MM-DD' from a ClinicalTrials date struct, padding partial dates."""
+    d = ((struct or {}).get("date") or "").strip()
+    if len(d) == 7:            # 'YYYY-MM' -> first of month, so it stays parseable
+        d += "-01"
+    return d[:10]
+
+
+def _ctgov_snippet(phases, status, conds, intervs, sponsor) -> str:
+    """One dense line of substance for the curator: phase, status, what & who."""
+    phase = "/".join(p for p in (_CTGOV_PHASE.get(x, x) for x in phases) if p)
+    bits = [
+        phase,
+        (status or "").replace("_", " ").title(),
+        ", ".join(conds[:2]),
+        ", ".join(x for x in intervs[:2] if x),
+        f"Sponsor: {sponsor}" if sponsor else "",
+    ]
+    return " · ".join(b for b in bits if b)
+
+
+def harvest_clinicaltrials(entry: dict, mode: str) -> Iterable[dict]:
+    """Trial readouts / status changes from ClinicalTrials.gov (API v2).
+
+    Surfaces trials whose status recently moved to a readout-signalling state
+    (completed, terminated, active-not-recruiting) — the "trial readouts,
+    approvals" the biotech-news lane asks for — newest-change-first, rather than
+    routine recruiting churn. Mark the source `news: true` so the recency cap in
+    main() drops anything past the window. Links to the canonical study page.
+    """
+    lane = entry.get("lane", "biotech news")
+    params = {
+        "query.term": entry["query"],
+        "filter.overallStatus": entry.get("status", CTGOV_DEFAULT_STATUS),
+        "sort": "LastUpdatePostDate:desc",
+        "pageSize": CTGOV_ROWS,
+        "fields": CTGOV_FIELDS,
+    }
+    r = requests.get(CTGOV_API, params=params,
+                     headers={"User-Agent": UA}, timeout=HTTP_TIMEOUT)
+    r.raise_for_status()
+    for study in r.json().get("studies", []):
+        ps = study.get("protocolSection", {})
+        ident = ps.get("identificationModule", {})
+        st = ps.get("statusModule", {})
+        nct = ident.get("nctId", "")
+        if not nct:
+            continue
+        phases = ps.get("designModule", {}).get("phases", []) or []
+        conds = ps.get("conditionsModule", {}).get("conditions", []) or []
+        intervs = [i.get("name", "") for i in
+                   (ps.get("armsInterventionsModule", {}).get("interventions") or [])]
+        sponsor = (ps.get("sponsorCollaboratorsModule", {})
+                   .get("leadSponsor", {}).get("name", ""))
+        snippet = _ctgov_snippet(phases, st.get("overallStatus", ""),
+                                 conds, intervs, sponsor)
+        cand = _candidate("clinicaltrials",
+                          f"https://clinicaltrials.gov/study/{nct}",
+                          ident.get("briefTitle", ""), snippet,
+                          _ctgov_date(st.get("lastUpdatePostDateStruct", {})),
+                          lane, venue="ClinicalTrials.gov")
+        if cand:
+            yield cand
+
+
 HANDLERS = {
     "crossref": harvest_crossref,
     "pubmed": harvest_pubmed,
     "arxiv": harvest_arxiv,
     "reddit": harvest_reddit,
     "rss": harvest_rss,
+    "clinicaltrials": harvest_clinicaltrials,
 }
 
 

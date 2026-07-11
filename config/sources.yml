@@ -65,6 +65,14 @@ crossref:
   - { issn: 2041-6539, lane: org chem,     name: "Chem. Sci." }
   - { issn: 1364-548X, lane: org chem,     name: "Chem. Commun." }
   - { issn: 1460-4744, lane: org chem,     name: "Chem. Soc. Rev." }
+  - { issn: 1477-0539, lane: org chem,     name: "Org. Biomol. Chem." }
+  - { issn: 2058-9883, lane: org chem,     name: "React. Chem. Eng." }           # flow / process / reaction engineering
+  # --- Broad synthesis & med chem (med-chem titles route to biochem, where the
+  #     rubric weights ADC linker/payload and protein-mod work) ---
+  - { issn: 1521-3765, lane: org chem,     name: "Chem. Eur. J." }
+  - { issn: 1948-5875, lane: biochem,      name: "ACS Med. Chem. Lett." }
+  - { issn: 0968-0896, lane: biochem,      name: "Bioorg. Med. Chem." }
+  - { issn: 0960-894X, lane: biochem,      name: "Bioorg. Med. Chem. Lett." }
   # --- Wiley: broad synthesis + antibody therapeutics / ADCs ---
   - { issn: 1521-3773, lane: org chem,     name: "Angew. Chem. Int. Ed." }
   - { issn: 1942-0870, lane: biotech news, name: "mAbs" }
@@ -73,6 +81,10 @@ crossref:
   - { issn: 1619-7089, lane: radiopharma,  name: "Eur. J. Nucl. Med. Mol. Imaging" }
   - { issn: 2365-421X, lane: radiopharma,  name: "EJNMMI Radiopharm. Chem." }
   - { issn: 1099-1344, lane: radiopharma,  name: "J. Labelled Compd. Radiopharm." }
+  - { issn: 1838-7640, lane: radiopharma,  name: "Theranostics" }               # OA; radioligand/imaging-heavy
+  - { issn: 1860-2002, lane: radiopharma,  name: "Mol. Imaging Biol." }
+  - { issn: 1557-8852, lane: radiopharma,  name: "Cancer Biother. Radiopharm." }
+  - { issn: 2193-3405, lane: radiopharma,  name: "Radiochim. Acta" }             # isotope/radiochemistry
   # --- Preprints (ChemRxiv, via Crossref DOI prefix) ---
   - { prefix: "10.26434", lane: org chem,  name: "ChemRxiv", preprint: true }
 
@@ -94,6 +106,17 @@ pubmed:
   - { query: '("surface immobilization" OR "protein immobilization" OR "hydrogel") AND (crosslink* OR conjugat* OR "click chemistry" OR bioorthogonal)', lane: biochem }
   - { query: '("radiochemical purity" OR "quality control" OR "release testing") AND (radiopharmaceutical OR radionuclide OR radiolabeled)', lane: methods }
   - { query: '"single molecule" AND (enzyme OR "protein folding" OR ribosome)', lane: biochem }
+
+# ---------------------------------------------------------------------------
+# ClinicalTrials.gov (API v2). Trial readouts and status changes in the reader's
+# areas — links to the canonical study page. Sorted newest-change-first; the
+# handler defaults to readout-signalling statuses (completed / terminated /
+# active-not-recruiting), overridable per entry with `status:` (pipe-separated).
+# `news: true` applies the ~1-month recency cap so only recent changes surface.
+# ---------------------------------------------------------------------------
+clinicaltrials:
+  - { query: 'radioligand OR "targeted radionuclide therapy" OR "targeted alpha therapy" OR lutetium-177 OR actinium-225 OR PSMA', lane: radiopharma, news: true }
+  - { query: '"antibody-drug conjugate" OR "antibody drug conjugate" OR immunoconjugate', lane: biotech news, news: true }
 
 # ---------------------------------------------------------------------------
 # arXiv categories (Atom feed). Physics-adjacent and quantitative bio preprints.
@@ -149,6 +172,10 @@ rss:
   # --- Biotech / industry news (recency-capped) ---
   - { url: "https://www.fiercebiotech.com/rss/xml", lane: biotech news, news: true }
   - { url: "https://www.statnews.com/feed/",        lane: biotech news, news: true }
+  # FDA press releases: this is the feed that carries the "FDA Approves..."
+  # items (the drug-specific feed is admin noise). Broad, but news-capped and the
+  # curator is the quality gate. EMA has no public RSS anymore, so it's omitted.
+  - { url: "https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/press-releases/rss.xml", lane: biotech news, news: true }
   # --- Google News queries: industry, supply, and the light business layer.
   #     news:true applies the ~1-month cap; each query's when:30d agrees. ---
   # radiopharma industry + isotope supply
