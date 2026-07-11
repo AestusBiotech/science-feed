@@ -9,6 +9,14 @@ const FEED_DIR = './data/feed';
 const VAULT_RATE = 0.05;               // ~5% of cards are resurfaced ("vault")
 const VAULT_AGE_MS = 14 * 864e5;        // resurface after ~14 days
 const PAGE = 8;                         // cards rendered per scroll step
+// Infinite scroll only appends, so on a long session the DOM (and every remote
+// card image) grows without bound and phones start to stutter. Cap the live
+// nodes: once the feed passes MAX_LIVE cards, trim the oldest ones off the top
+// back down to PRUNE_TO and compensate the scroll position so nothing jumps.
+// The window is deliberately generous so scrolling back up stays intact for a
+// long way; only runaway sessions get trimmed.
+const MAX_LIVE = 160;
+const PRUNE_TO = 110;
 
 const LANE_COLORS = {
   'org chem': '#3c6864',
@@ -50,6 +58,39 @@ const THUMBSDOWN_SVG =
   '<path d="M15 3H6c-.83 0-1.54.5-1.84 1.22l-3.02 7.05c-.09.23-.14.47-.14.73v2c0 ' +
   '1.1.9 2 2 2h6.31l-.95 4.57-.03.32c0 .41.17.79.44 1.06L9.83 23l6.59-6.59c.36-.36' +
   '.58-.86.58-1.41V5c0-1.1-.9-2-2-2zm4 0v12h4V3h-4z"/></svg>';
+// share — Material "share" node icon; copies the link when there's no share sheet
+const SHARE_SVG =
+  '<svg viewBox="0 0 24 24" aria-hidden="true">' +
+  '<path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-' +
+  '.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 1 0-3-3c0 .24.04.47.09.7L8.04 ' +
+  '9.81A3 3 0 1 0 6 15a2.99 2.99 0 0 0 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65a2.92 ' +
+  '2.92 0 1 0 2.92-2.92z"/></svg>';
+// check — shown briefly after a link is copied to the clipboard
+const CHECK_SVG =
+  '<svg viewBox="0 0 24 24" aria-hidden="true">' +
+  '<path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>';
+
+/* ---- learned ranking -------------------------------------------------- */
+// Your own history is the signal: a save is a vote for a card, "not interested"
+// is a vote against. We tally those votes by lane, by source, and by title/blurb
+// term, then nudge the fresh-shuffle weight toward what you keep and away from
+// what you kill. Everything here is bounded and tunable — set STRENGTH to 0 to
+// turn the learned layer off entirely and fall back to pure recency.
+const AFFINITY = {
+  STRENGTH: 1.0,     // global gain on the learned signal (0 = disabled)
+  LANE_W: 1.0,       // how much a lane vote counts
+  SOURCE_W: 0.7,     // how much a source vote counts
+  TERM_W: 0.5,       // how much each title/blurb term vote counts
+  MAX_TERMS: 8,      // only the strongest N term votes per card (noise control)
+  MIN_MULT: 0.35,    // floor on the final weight multiplier
+  MAX_MULT: 2.5,     // ceiling on the final weight multiplier
+};
+// tiny stoplist so common words don't become "preferences"
+const STOPWORDS = new Set(
+  ('the this that with from into your have been over more than what when will ' +
+   'here they them their about using used uses show shows into onto also could ' +
+   'would should study studies research paper news team says said first ')
+    .split(/\s+/).filter(Boolean));
 
 /* ---- Ricky ------------------------------------------------------------- */
 // "Ricky's choice" is a permanent section, like saved. Endorsed picks live
@@ -73,6 +114,7 @@ const els = {
   status: document.getElementById('status'),
   tail: document.getElementById('tail'),
   sentinel: document.getElementById('sentinel'),
+  search: document.getElementById('search'),
 };
 
 const state = {
@@ -81,13 +123,15 @@ const state = {
   nextChunk: -1,         // index into manifest.chunks, walked newest -> oldest
   shown: new Map(),      // id -> lastShown ms (mirror of IndexedDB)
   saved: new Map(),      // id -> card (mirror of IndexedDB 'saved' store)
-  hidden: new Map(),     // id -> hiddenAt ms — "not interested", never resurfaced
+  hidden: new Map(),     // id -> {at, lane, source, title} — "not interested" (legacy: number)
+  visited: new Set(),    // ids whose source link has been opened (mirror of 'visited')
   session: new Set(),    // ids rendered in this scroll session
   fresh: [],             // never-shown cards for the current lane, newest-first
   lane: 'all',
   pos: 0,                // interleave counter
   busy: false,
   done: false,
+  searching: false,      // true while the search box is filtering the feed
   ricky: [],             // endorsed picks (full cards, newest-first) from ricky.json
   rickyPopped: new Set(),// pick ids this device has already been shown a pop-up for
   rickyQueue: [],        // picks still owed a pop-up this session
@@ -101,7 +145,7 @@ function db() {
   if (dbp) return dbp;
   dbp = new Promise((resolve) => {
     let req;
-    try { req = indexedDB.open('feed', 4); }
+    try { req = indexedDB.open('feed', 5); }
     catch { return resolve(null); }
     req.onupgradeneeded = () => {
       const d = req.result;
@@ -109,6 +153,7 @@ function db() {
       if (!d.objectStoreNames.contains('saved')) d.createObjectStore('saved');
       if (!d.objectStoreNames.contains('ricky')) d.createObjectStore('ricky');
       if (!d.objectStoreNames.contains('hidden')) d.createObjectStore('hidden');
+      if (!d.objectStoreNames.contains('visited')) d.createObjectStore('visited');
     };
     req.onsuccess = () => resolve(req.result);
     req.onerror = () => resolve(null);
@@ -190,12 +235,47 @@ async function loadHidden() {
     tx.onerror = () => resolve();
   });
 }
-async function hideCard(id) {
-  const now = Date.now();
-  state.hidden.set(id, now);
+async function hideCard(card) {
+  // store lane/source/title alongside the timestamp so the learned ranking can
+  // count this as a negative vote later (old entries are bare numbers — the
+  // affinity builder tolerates both). Membership checks only use the key.
+  const rec = {
+    at: Date.now(),
+    lane: card.lane,
+    source: card.source,
+    title: card.title || '',
+  };
+  state.hidden.set(card.id, rec);
   const d = await db();
   if (!d) return;
-  try { d.transaction('hidden', 'readwrite').objectStore('hidden').put(now, id); }
+  try { d.transaction('hidden', 'readwrite').objectStore('hidden').put(rec, card.id); }
+  catch { /* private mode etc. — in-memory mirror still works */ }
+}
+
+/* ---- IndexedDB (visited set — opened source links) ------------------- */
+async function loadVisited() {
+  const d = await db();
+  if (!d) return;
+  await new Promise((resolve) => {
+    let tx;
+    try { tx = d.transaction('visited', 'readonly').objectStore('visited').openCursor(); }
+    catch { return resolve(); }
+    tx.onsuccess = () => {
+      const cur = tx.result;
+      if (!cur) return resolve();
+      state.visited.add(cur.key);
+      cur.continue();
+    };
+    tx.onerror = () => resolve();
+  });
+}
+async function markVisited(id, cardEl) {
+  if (cardEl) cardEl.classList.add('visited');
+  if (state.visited.has(id)) return;
+  state.visited.add(id);
+  const d = await db();
+  if (!d) return;
+  try { d.transaction('visited', 'readwrite').objectStore('visited').put(Date.now(), id); }
   catch { /* private mode etc. — in-memory mirror still works */ }
 }
 
@@ -256,11 +336,78 @@ function relAge(card) {
   return Math.floor(days / 365) + 'y';
 }
 
+// pull the distinctive terms out of a bit of text (title/blurb), lowercased,
+// de-duped, stop-worded, and length-filtered so only meaty words vote.
+function terms(text) {
+  const out = new Set();
+  const toks = String(text || '').toLowerCase().match(/[a-z][a-z0-9-]{3,}/g) || [];
+  for (const t of toks) {
+    if (STOPWORDS.has(t)) continue;
+    out.add(t);
+    if (out.size >= 40) break;               // cap work on very long text
+  }
+  return out;
+}
+
+// a raw vote count -> a bounded, diminishing signal. One save/hide moves the
+// needle; the tenth barely adds. Sign carries the direction.
+function signal(n) {
+  if (!n) return 0;
+  return Math.sign(n) * Math.log1p(Math.abs(n));
+}
+
+// Tally votes across the whole save/hide history once, cached until it changes.
+let affinity = null;
+function buildAffinity() {
+  const lane = new Map(), source = new Map(), term = new Map();
+  const vote = (map, key, delta) => {
+    if (!key) return;
+    map.set(key, (map.get(key) || 0) + delta);
+  };
+  const voteTerms = (text, delta) => {
+    for (const t of terms(text)) vote(term, t, delta);
+  };
+  for (const card of state.saved.values()) {           // saves: positive votes
+    vote(lane, card.lane, 1);
+    vote(source, card.source, 1);
+    voteTerms((card.title || '') + ' ' + (card.blurb || ''), 1);
+  }
+  for (const rec of state.hidden.values()) {           // hides: negative votes
+    if (!rec || typeof rec !== 'object') continue;      // legacy numeric entry
+    vote(lane, rec.lane, -1);
+    vote(source, rec.source, -1);
+    voteTerms(rec.title || '', -1);
+  }
+  affinity = { lane, source, term };
+}
+
+// Turn a card's votes into a bounded weight multiplier centered on 1.
+function affinityMult(card) {
+  if (!AFFINITY.STRENGTH || !affinity) return 1;
+  let s = AFFINITY.LANE_W * signal(affinity.lane.get(card.lane))
+        + AFFINITY.SOURCE_W * signal(affinity.source.get(card.source));
+  // term votes: take only the strongest few so one hot word can't dominate.
+  const tv = [];
+  for (const t of terms((card.title || '') + ' ' + (card.blurb || ''))) {
+    const v = affinity.term.get(t);
+    if (v) tv.push(v);
+  }
+  tv.sort((a, b) => Math.abs(b) - Math.abs(a));
+  let ts = 0;
+  for (let i = 0; i < Math.min(tv.length, AFFINITY.MAX_TERMS); i++) ts += signal(tv[i]);
+  s += AFFINITY.TERM_W * ts;
+  const mult = Math.exp(AFFINITY.STRENGTH * 0.5 * s);
+  return Math.max(AFFINITY.MIN_MULT, Math.min(AFFINITY.MAX_MULT, mult));
+}
+
 function rebuildFresh() {
   // Not strict newest-first: a weighted shuffle that still leans newer, so the
   // feed feels less deterministic without throwing recency out entirely. Each
   // card gets key = random^(1/weight); newer cards get more weight and trend
-  // toward the front, but any card can surface early.
+  // toward the front, but any card can surface early. On top of recency we fold
+  // in the learned affinity (see affinityMult) so what you save floats up and
+  // what you dismiss sinks.
+  buildAffinity();
   const pool = state.loaded.filter(
     (c) => laneMatch(c) && !state.shown.has(c.id) &&
            !state.session.has(c.id) && !state.hidden.has(c.id));
@@ -273,7 +420,8 @@ function rebuildFresh() {
   for (const card of pool) {
     const recency = (card._order - min) / span;    // 0..1, newest = 1
     const weight = (0.35 + 1.65 * recency)          // newer -> higher weight
-                 * (SOURCE_WEIGHT[card.source] || 1);
+                 * (SOURCE_WEIGHT[card.source] || 1)
+                 * affinityMult(card);              // learned like/dislike
     card._shuf = Math.pow(Math.random() || 1e-9, 1 / weight);
   }
   pool.sort((a, b) => b._shuf - a._shuf);
@@ -333,6 +481,7 @@ function renderCard(card, opts = {}) {
   a.style.setProperty('--lane', LANE_COLORS[card.lane] || 'var(--text-faint)');
   if (card.ricky) a.classList.add('ricky');
   if (card.source === 'reddit') a.classList.add('reddit');
+  if (state.visited.has(card.id)) a.classList.add('visited');
   a.dataset.id = card.id;
 
   // permanent "Ricky endorsed this" tag on any endorsed card, everywhere.
@@ -369,6 +518,22 @@ function renderCard(card, opts = {}) {
     pre.textContent = 'preprint';
     meta.appendChild(pre);
   }
+  // right-aligned button group: share, "not interested", save.
+  const actions = document.createElement('div');
+  actions.className = 'card-actions';
+
+  const share = document.createElement('button');
+  share.type = 'button';
+  share.className = 'share-btn';
+  share.innerHTML = SHARE_SVG;
+  share.setAttribute('aria-label', 'share');
+  share.title = 'Share';
+  share.addEventListener('click', (e) => {
+    e.stopPropagation();
+    shareCard(card, share);
+  });
+  actions.appendChild(share);
+
   // "Not interested": hides the card for good. Not offered in the saved or
   // Ricky lanes, where hiding makes no sense.
   const inFeed = state.lane !== 'saved' && state.lane !== RICKY_LANE;
@@ -383,7 +548,7 @@ function renderCard(card, opts = {}) {
       e.stopPropagation();
       dismissCard(card, a);
     });
-    meta.appendChild(hide);
+    actions.appendChild(hide);
   }
 
   const save = document.createElement('button');
@@ -398,7 +563,8 @@ function renderCard(card, opts = {}) {
     e.stopPropagation();
     toggleSave(card, save, a);
   });
-  meta.appendChild(save);
+  actions.appendChild(save);
+  meta.appendChild(actions);
 
   const h = document.createElement('h2');
   h.className = 'card-title';
@@ -408,6 +574,8 @@ function renderCard(card, opts = {}) {
   titleLink.target = '_blank';
   titleLink.rel = 'noopener noreferrer';
   titleLink.textContent = card.title;
+  // opening the source greys the card so you can see what you've already read.
+  titleLink.addEventListener('click', () => markVisited(card.id, a));
   h.appendChild(titleLink);
 
   const p = document.createElement('p');
@@ -467,7 +635,7 @@ function toggleSave(card, btn, cardEl) {
 
 function dismissCard(card, cardEl) {
   // "Not interested" — record it so it never resurfaces, then collapse it out.
-  hideCard(card.id);
+  hideCard(card);
   state.session.add(card.id);          // don't let this session re-place it
   let done = false;
   const finish = () => {
@@ -480,6 +648,40 @@ function dismissCard(card, cardEl) {
   cardEl.addEventListener('transitionend', finish, { once: true });
   setTimeout(finish, 320);             // fallback if the transition doesn't fire
   requestAnimationFrame(() => cardEl.classList.add('leaving'));
+}
+
+async function shareCard(card, btn) {
+  const url = card.url;
+  if (!url) return;
+  // Native share sheet where it exists (mobile, some desktops); otherwise copy
+  // the link and flash a check; last resort, just open it.
+  if (navigator.share) {
+    try {
+      await navigator.share({ title: card.title, text: card.title, url });
+      return;
+    } catch (e) {
+      if (e && e.name === 'AbortError') return;   // user closed the sheet — fine
+      // any other failure falls through to the copy path
+    }
+  }
+  try {
+    await navigator.clipboard.writeText(url);
+    flashShare(btn);
+  } catch {
+    window.open(url, '_blank', 'noopener');
+  }
+}
+
+function flashShare(btn) {
+  const orig = btn.innerHTML;
+  btn.innerHTML = CHECK_SVG;
+  btn.classList.add('copied');
+  btn.title = 'Link copied';
+  setTimeout(() => {
+    btn.innerHTML = orig;
+    btn.classList.remove('copied');
+    btn.title = 'Share';
+  }, 1200);
 }
 
 function renderSaved() {
@@ -585,6 +787,7 @@ async function renderNext(n) {
     if (!gained) break;
   }
 
+  pruneTop();
   updateStatus();
   if (placed === 0 && !state.loaded.some(laneMatch)) {
     state.done = true;
@@ -618,8 +821,11 @@ function buildLanes() {
 }
 
 function selectLane(lane) {
-  if (lane === state.lane) return;
+  if (lane === state.lane && !state.searching) return;
   state.lane = lane;
+  // switching lanes always drops out of search.
+  state.searching = false;
+  if (els.search) els.search.value = '';
   [...els.lanes.children].forEach((c) =>
     c.setAttribute('aria-pressed', c.textContent === lane ? 'true' : 'false'));
   // reset the visible feed but keep the persistent shown-set.
@@ -643,8 +849,86 @@ function openRickyChoice(highlightId) {
   state.session.clear();
   state.pos = 0;
   state.done = false;
+  state.searching = false;
+  if (els.search) els.search.value = '';
   window.scrollTo({ top: 0 });
   renderRicky(highlightId);
+}
+
+/* ---- search ----------------------------------------------------------- */
+// Search covers the whole feed, not just what's scrolled into view, so the
+// first query pages in every remaining chunk once.
+let allChunksLoaded = false;
+async function loadAllChunks() {
+  while (state.nextChunk >= 0) await loadNextChunk();
+  allChunksLoaded = true;
+}
+
+// Candidate set: everything loaded, plus saved and endorsed cards that may not
+// be in the loaded chunks, de-duped by id (the live loaded copy wins so sort
+// keys are current). "Not interested" cards stay out.
+function searchPool() {
+  const byId = new Map();
+  for (const c of state.saved.values()) if (!state.hidden.has(c.id)) byId.set(c.id, c);
+  for (const c of state.ricky) if (!state.hidden.has(c.id)) byId.set(c.id, c);
+  for (const c of state.loaded) if (!state.hidden.has(c.id)) byId.set(c.id, c);
+  return [...byId.values()];
+}
+
+function matchesQuery(card, tokens) {
+  // include the source and its display label so a query like "reddit" or
+  // "pubmed" works as a source filter, matching what the card shows.
+  const hay = ((card.title || '') + ' ' + (card.blurb || '') + ' ' +
+    (card.blurb_long || '') + ' ' + (card.venue || '') + ' ' +
+    (card.lane || '') + ' ' + (card.source || '') + ' ' +
+    (SOURCE_LABEL[card.source] || '')).toLowerCase();
+  return tokens.every((t) => hay.includes(t));   // all words must appear
+}
+
+function renderSearch(query) {
+  const tokens = query.toLowerCase().split(/\s+/).filter(Boolean);
+  els.feed.innerHTML = '';
+  els.tail.textContent = '';
+  const results = searchPool()
+    .filter((c) => matchesQuery(c, tokens))
+    .sort((a, b) => (b._order || 0) - (a._order || 0));   // newest first
+  if (!results.length) {
+    els.feed.innerHTML =
+      '<div class="empty">no matches for “' + query + '”.<br>' +
+      'try a different word.</div>';
+    return;
+  }
+  for (const card of results) renderCard(card);
+}
+
+let searchTimer = null;
+function onSearchInput() {
+  const q = els.search.value.trim();
+  clearTimeout(searchTimer);
+  if (!q) { exitSearch(); return; }
+  searchTimer = setTimeout(async () => {
+    state.searching = true;
+    if (!allChunksLoaded) await loadAllChunks();
+    const cur = els.search.value.trim();
+    if (!cur) { exitSearch(); return; }   // box cleared while chunks loaded
+    window.scrollTo({ top: 0 });
+    renderSearch(cur);
+  }, 160);
+}
+
+// leave search mode and restore the current lane's normal view.
+function exitSearch() {
+  if (!state.searching) return;
+  state.searching = false;
+  els.feed.innerHTML = '';
+  state.session.clear();
+  state.pos = 0;
+  state.done = false;
+  window.scrollTo({ top: 0 });
+  if (state.lane === RICKY_LANE) { renderRicky(); return; }
+  if (state.lane === 'saved') { renderSaved(); return; }
+  rebuildFresh();
+  fill();
 }
 
 /* ---- infinite scroll -------------------------------------------------- */
@@ -652,9 +936,38 @@ function nearBottom() {
   return window.innerHeight + window.scrollY >= document.body.scrollHeight - 900;
 }
 
+// Trim the oldest cards off the top once the feed grows past MAX_LIVE. Two
+// rules keep it jump-free: never trim below PRUNE_TO cards, and never trim a
+// card that isn't safely above the viewport — otherwise removing content the
+// reader can see (or that sits below them) would shift the page and can't be
+// fully compensated (you can't scroll above 0). We remove only far-above cards,
+// then scroll by the exact height removed so the first survivor stays put. (The
+// scroll container has overflow-anchor:none so the browser doesn't also shift.)
+const PRUNE_MARGIN = 1500;             // keep ~1.5 screens of scroll-back above
+function pruneTop() {
+  if (state.lane === 'saved' || state.lane === RICKY_LANE || state.searching) return;
+  const feed = els.feed;
+  const over = feed.childElementCount - PRUNE_TO;
+  if (feed.childElementCount <= MAX_LIVE || over <= 0) return;
+  // count how many leading cards are fully above the viewport (with margin),
+  // capped so at least PRUNE_TO cards remain.
+  let remove = 0;
+  for (let i = 0; i < over; i++) {
+    if (feed.children[i].getBoundingClientRect().bottom > -PRUNE_MARGIN) break;
+    remove++;
+  }
+  if (!remove) return;
+  const anchor = feed.children[remove];      // first card that will survive
+  const before = anchor.getBoundingClientRect().top;
+  for (let i = 0; i < remove; i++) feed.firstElementChild.remove();
+  const delta = anchor.getBoundingClientRect().top - before;   // height removed
+  if (delta) window.scrollBy(0, delta);
+}
+
 // render until the page is tall enough to scroll (or the lane is empty).
 async function fill() {
   if (state.lane === 'saved' || state.lane === RICKY_LANE) return;   // not infinite feeds
+  if (state.searching) return;                                       // search owns the feed
   let guard = 0;
   do {
     await renderNext(PAGE);
@@ -820,7 +1133,7 @@ async function boot() {
   els.tail.innerHTML = '<span class="spinner"></span>';
   try {
     await Promise.all([
-      loadShown(), loadSaved(), loadHidden(), loadManifest(),
+      loadShown(), loadSaved(), loadHidden(), loadVisited(), loadManifest(),
       loadRickyPopped(), loadRickyIndex(),
     ]);
   } catch (e) {
@@ -838,6 +1151,13 @@ async function boot() {
 
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', onScroll, { passive: true });
+
+  if (els.search) {
+    els.search.addEventListener('input', onSearchInput);
+    els.search.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') { els.search.value = ''; exitSearch(); els.search.blur(); }
+    });
+  }
 
   // arm the easter egg once the feed is up
   buildRickyQueue();

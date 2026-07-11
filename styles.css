@@ -26,7 +26,10 @@
 
 * { box-sizing: border-box; }
 
-html { -webkit-text-size-adjust: 100%; }
+/* overflow-anchor:none so the DOM-pruning code (app.js pruneTop) is the sole
+   thing adjusting scroll when old cards are trimmed off the top — otherwise the
+   browser's own scroll anchoring would double-compensate and cause a jump. */
+html { -webkit-text-size-adjust: 100%; overflow-anchor: none; }
 
 body {
   margin: 0;
@@ -65,10 +68,34 @@ body {
 }
 
 .status {
-  margin-left: auto;
   font-size: 12px;
   color: var(--text-faint);
 }
+
+.search {
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: 280px;
+  margin-left: auto;                 /* hug the right side of the row */
+  appearance: none;
+  -webkit-appearance: none;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  font-size: 14px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  transition: border-color .15s, background .15s;
+}
+.search::placeholder { color: var(--text-faint); }
+.search:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: var(--surface-hi);
+}
+/* hide the native clear "x" (we handle Escape/empty ourselves) */
+.search::-webkit-search-cancel-button { -webkit-appearance: none; appearance: none; }
 
 .lanes {
   display: flex;
@@ -176,8 +203,45 @@ body {
   flex: 0 0 auto;
 }
 
+/* right-aligned button group (share / not-interested / save). The container
+   owns the right-alignment; the buttons keep negative margins only for a bigger
+   tap target without shifting layout. */
+.card-actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.share-btn {
+  margin: -6px 0;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--text-faint);
+  cursor: pointer;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-tap-highlight-color: transparent;
+  transition: color .15s, background .15s;
+}
+.share-btn svg {
+  width: 16px;
+  height: 16px;
+  display: block;
+  fill: currentColor;
+}
+@media (hover: hover) {
+  .share-btn:hover { color: var(--text-dim); background: var(--surface-hi); }
+}
+.share-btn.copied { color: var(--accent); }
+
 .save-btn {
-  margin: -6px -6px -6px auto;   /* push right, bigger tap target, no layout shift */
+  margin: -6px -6px -6px 0;       /* -6px right keeps it flush to the card edge */
   width: 30px;
   height: 30px;
   padding: 0;
@@ -207,10 +271,9 @@ body {
 .save-btn.is-saved { color: var(--lane-radiopharma); }
 .save-btn.is-saved svg { fill: currentColor; }
 
-/* "Not interested" — thumbs-down; owns the auto-margin that pushes the button
-   group to the right, so the bookmark sits just left of it. */
+/* "Not interested" — thumbs-down. */
 .hide-btn {
-  margin: -6px 0 -6px auto;
+  margin: -6px 0;
   width: 30px;
   height: 30px;
   padding: 0;
@@ -235,8 +298,6 @@ body {
   .hide-btn:hover { color: var(--lane-startups); background: var(--surface-hi); }
 }
 .hide-btn:active { color: var(--lane-startups); }
-/* when both buttons show, the bookmark drops its own auto-margin */
-.hide-btn + .save-btn { margin-left: 0; }
 
 /* collapse-out when dismissed via "Not interested" */
 .card.leaving {
@@ -271,6 +332,10 @@ body {
   outline-offset: 2px;
   border-radius: 3px;
 }
+/* visited: once you've opened the source link, grey the title so already-read
+   cards are easy to skip past (the blurb and image stay full-strength). */
+.card.visited .card-title-link { color: var(--text-faint); }
+
 .card-blurb {
   margin: 0;
   color: var(--text-dim);
