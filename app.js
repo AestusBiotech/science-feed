@@ -111,14 +111,108 @@ const STOPWORDS = new Set(
 // seen, and only while the pick is still fresh — so old news never re-summons
 // him. Everything reads from ./data/feed/ricky.json.
 const RICKY_LANE = "Ricky's choice";
-const RICKY_IMG = './icons/ricky.png';
 const RICKY_INDEX = `${FEED_DIR}/ricky.json`;
 const RICKY_POP_MAX_AGE_MS = 7 * 864e5;   // a pick only pops within ~7 days of endorsement
-const RICKY_SAY =
-  'Ricky says "I bring important information. Read it. ' +
-  'Maybe one day you\'ll be as smart as me."';
 // small up-triangle, echoing his raised finger
 const RICKY_MARK = '<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 1l5 9H1z"/></svg>';
+
+// The cast. All four Rickys share one pop-up shell (same corner, same bubble);
+// which image, line and buttons show up is data here. `w`/`ratio` size the
+// image and put the bubble just above it (ratio = the PNG's height/width).
+// A "say" is [id, text, tag]: for hi/think the tag gates a line to a context
+// (late / morning / newday), for thumbs it names the reward that earns it.
+// Lines don't repeat until their pool cycles (history in localStorage).
+// A button is [label, comebacks]: every button just dismisses him, but any
+// tap has a RICKY_RETORT_P chance of a comeback tied to that button — the
+// bubble swaps to the retort and he sees himself out a beat later.
+const RICKY_FOFF = ['Fuck off Ricky', [
+  "Charming. And yet here you are, getting smarter. You're welcome.",
+  "I'll fade. The ignorance won't.",
+  "Rude. I'm the best thing that happens to your brain all day.",
+  "Temper. That's the ignorance talking. It gets defensive near knowledge.",
+  "Fine. But we both know you'll be back tomorrow, marginally smarter.",
+  "Harsh. I'll allow it - you did read something today.",
+]];
+const RICKY_CAST = {
+  choice: {
+    img: './icons/ricky.png', w: 'min(48vw, 190px)', ratio: 0.815,
+    pairs: [[['Read it', null], RICKY_FOFF]],
+    says: [
+      ['C1', "I bring important information. Read it. Maybe one day you'll be as smart as me."],
+      ['C2', "I found something genuinely worth your time. That's rare. Read it."],
+      ['C3', 'This one cleared my bar. My bar is very high. Read it.'],
+    ],
+  },
+  hi: {
+    img: './icons/ricky-hi.png', w: 'min(48vw, 190px)', ratio: 0.77,
+    pairs: [
+      [['Hi Ricky', ["Hi. That's the bare minimum of manners, but I'll accept it."]],
+       RICKY_FOFF],
+      [['Yeah, yeah', ['Dismissive. Bold, for someone who came here to fix their brain.']],
+       ['Not now', ["'Not now' is the motto of every brain that stayed average."]]],
+    ],
+    says: [
+      ['H1', "Oh good, you're back. The neurons were getting lonely."],
+      ['H2', 'Look who returned for more knowledge. Restraint was never your strength.'],
+      ['H3', "You again. Doomscrolling elsewhere would've been a waste of a perfectly good brain."],
+      ['H4', 'Welcome back. Try to retain something this time.'],
+      ['H5', "You returned voluntarily. That's already smarter than most of your decisions."],
+      ['H6', "It's late and you chose learning over sleep. Reckless. Respect.", 'late'],
+      ['H7', 'Back for more. The one addiction I actually endorse.'],
+      ['H8', 'Returned again. At this rate you might accidentally become smart.'],
+      ['H9', 'You keep choosing this over instagram garbage. I notice. I approve.'],
+      ['H10', "New day, same under-utilized brain. Let's do something about that.", 'newday'],
+      ['H11', "Up early and here. Either you're serious about getting smarter, or you couldn't sleep. I'll take it.", 'morning'],
+    ],
+  },
+  think: {
+    img: './icons/ricky-think.png', w: 'min(40vw, 150px)', ratio: 1.234,
+    pairs: [
+      [["I'm reading, I swear", ['Sure you are.', 'Reading. At that speed. Right. And I moonlight as a fighter pilot.']],
+       ["You're not my advisor", ["No. Your advisor gave up. I didn't."]]],
+      [["Fine, I'll slow down", ['See? Growth. Painful, but growth.']],
+       RICKY_FOFF],
+    ],
+    says: [
+      ['T1', "Scroll, scroll, scroll. This isn't that app. Read one. I dare you."],
+      ['T2', 'Quantity of scroll ≠ quantity of thought. Ask me how I know.'],
+      ['T3', "I've been watching. You're skimming. Skimming is just rotting with extra steps."],
+      ['T4', "Every card you blur past is a fact you chose not to have. Just so we're clear."],
+      ['T5', 'Slow down. The point was never the scroll. The point was the getting-smarter part.'],
+      ['T6', "It's 2am and you're speed-running headlines. Even I have concerns.", 'late'],
+      ['T7', 'Your thumb is very busy. Your brain is not. Interesting division of labor.'],
+      ['T8', "You're scrolling fast. Knowledge doesn't stick at that speed. Physics, basically."],
+      ['T9', "That's a lot of ground covered and nothing picked up. Impressive, in the worst way."],
+      ['T10', "I can tell you're not reading. The good news is nobody's grading you. The bad news is you."],
+      ['T11', 'The whole idea was to leave here smarter. So far you\'re just leaving here faster.'],
+    ],
+  },
+  thumbs: {
+    img: './icons/ricky-thumbs.png', w: 'min(46vw, 175px)', ratio: 0.948,
+    pairs: [
+      [['Thanks, Ricky', ["Don't thank me. Thank the attention span you didn't know you had."]],
+       ["Don't get used to it", ["Wasn't planning to. My expectations remain unreasonably high."]]],
+      [['Damn right', ["That's the spirit. Insufferable, but earned."]],
+       RICKY_FOFF],
+    ],
+    says: [
+      ['U1', "You actually opened it and read it. I'm almost proud. Don't let it go to your head.", 'return'],
+      ['U2', 'Saved for later? Look at you, planning to be smarter. Approved.', 'save'],
+      ['U3', "Three in a row, actually read. Someone's brain is doing push-ups.", 'reads3'],
+      ['U4', 'You reached the end of the feed. Nobody does that. Well done, you magnificent nerd.', 'feedEnd'],
+      ['U5', "Look at that. A functioning attention span. I'd almost given up on you.", 'dwell'],
+      ['U6', "You opened it, actually read it - took your time - and came back. That's the whole loop. Well done.", 'return'],
+      ['U7', 'You came back for the one you saved. So you did mean it. Noted, and approved.', 'savedReturn'],
+      ['U8', "That's a streak. Real reading, back to back. Your brain's getting a workout it didn't consent to.", 'reads3'],
+      ['U9', 'Out to read the full text, back with a fuller brain. Ricky approves.', 'return'],
+      ['U10', 'You searched for something specific. Curiosity with aim. Respect.', 'search'],
+      ['U11', "Day after day you show up and read. That's not a habit, that's a personality upgrade.", 'streak'],
+      ['U12', "You're stockpiling good reads like a squirrel with a library card. Approved.", 'saves3'],
+      ['U13', "You've been at this a while, actually reading. Your attention span called - it's alive.", 'dwell'],
+      ['U14', 'You took my recommendation and read it. Correct. Obviously. But still - good.', 'choiceRead'],
+    ],
+  },
+};
 
 const els = {
   feed: document.getElementById('feed'),
@@ -654,7 +748,7 @@ function renderCard(card, opts = {}) {
   titleLink.rel = 'noopener noreferrer';
   titleLink.textContent = card.title;
   // opening the source greys the card so you can see what you've already read.
-  titleLink.addEventListener('click', () => markVisited(card, a));
+  titleLink.addEventListener('click', () => { markVisited(card, a); eggOutbound(card); });
   h.appendChild(titleLink);
 
   const p = document.createElement('p');
@@ -726,6 +820,8 @@ function toggleSave(card, btn, cardEl) {
     btn.classList.add('is-saved');
     btn.setAttribute('aria-pressed', 'true');
     btn.setAttribute('aria-label', 'saved');
+    egg.saves += 1;
+    tryEgg('thumbs', egg.saves >= 3 ? 'saves3' : 'save');
   }
 }
 
@@ -825,6 +921,8 @@ function resetCycle() {
   // whole pile shown this session — clear the session set so the pile loops,
   // silently (no divider text). With the session cleared the new-first cycle
   // restarts: the latest batch leads again, then older cards.
+  // In an endless feed, seeing the whole pile out *is* reaching the end.
+  if (state.lane === 'all' && window.scrollY > 2000) tryEgg('thumbs', 'feedEnd');
   state.session.clear();
   rebuildFresh();
 }
@@ -1011,6 +1109,7 @@ function onSearchInput() {
     if (!cur) { exitSearch(); return; }   // box cleared while chunks loaded
     window.scrollTo({ top: 0 });
     renderSearch(cur);
+    if (cur.length >= 3) tryEgg('thumbs', 'search');
   }, 160);
 }
 
@@ -1080,6 +1179,7 @@ function onScroll() {
   lastCheck = now;
   if (nearBottom() && !state.busy) fill();
   maybeFireRickyOnScroll();
+  eggScroll(now, window.scrollY);
 }
 
 /* ---- Ricky pop-up ----------------------------------------------------- */
@@ -1105,42 +1205,67 @@ function buildRickyPop() {
   pop.className = 'ricky-pop';
   pop.innerHTML =
     '<div class="ricky-scrim"></div>' +
-    '<img class="ricky-img" alt="Ricky" src="' + RICKY_IMG + '" draggable="false">' +
+    '<img class="ricky-img" alt="Ricky" draggable="false">' +
     '<div class="ricky-bubble" role="alertdialog" aria-label="Ricky">' +
       '<p class="ricky-say"></p>' +
       '<div class="ricky-btns">' +
-        '<button type="button" class="ricky-read">Read it</button>' +
-        '<button type="button" class="ricky-dismiss">Fuck off Ricky</button>' +
+        '<button type="button" class="ricky-read"></button>' +
+        '<button type="button" class="ricky-dismiss"></button>' +
       '</div>' +
     '</div>';
-  pop.querySelector('.ricky-say').textContent = RICKY_SAY;
   document.body.appendChild(pop);
   rickyEl = pop;
   return pop;
 }
 
-function showRickyPop(card) {
-  if (!card) return;
+// One shell, four Rickys. opts: {kind, say, top, bottom, onAct, onGo, onDone}.
+// top/bottom are [label, comebacks] button tuples. `onAct` runs once on the
+// first interaction (any button or the scrim); `onGo` makes the top button
+// navigate (the choice pop's "Read it") instead of playing the comeback game.
+// Everything else dismisses — with a RICKY_RETORT_P chance the bubble swaps
+// to a comeback tied to the tapped button and he lingers RICKY_RETORT_MS.
+let retortTimer = null;
+function showRickyPop(opts) {
+  const cast = RICKY_CAST[opts.kind];
   state.rickyBusy = true;
   const pop = buildRickyPop();
-  pop.classList.remove('leaving');
-  const read = pop.querySelector('.ricky-read');
-  const dismiss = pop.querySelector('.ricky-dismiss');
+  pop.classList.remove('leaving', 'retort');
+  pop.style.setProperty('--rk-w', cast.w);
+  pop.style.setProperty('--rk-ratio', cast.ratio);
+  const img = pop.querySelector('.ricky-img');
+  if (img.getAttribute('src') !== cast.img) img.src = cast.img;
+  const say = pop.querySelector('.ricky-say');
+  say.textContent = opts.say;
+  const topBtn = pop.querySelector('.ricky-read');
+  const botBtn = pop.querySelector('.ricky-dismiss');
   const scrim = pop.querySelector('.ricky-scrim');
+  topBtn.textContent = opts.top[0];
+  botBtn.textContent = opts.bottom[0];
 
-  const done = (fn) => {                 // one-shot; a pick can't double-fire
-    read.onclick = dismiss.onclick = scrim.onclick = null;
-    markRickyPopped(card.id);
-    fn();
+  let acted = false;                     // one-shot; a pop can't double-fire
+  const finish = (fade) => {
+    hideRickyPop(fade);
+    if (opts.onDone) opts.onDone();
   };
-  read.onclick = () => done(() => {
-    hideRickyPop(false);
-    openRickyChoice(card.id);
-    scheduleNextRicky();
-  });
-  const leave = () => done(() => { hideRickyPop(true); scheduleNextRicky(); });
-  dismiss.onclick = leave;
-  scrim.onclick = leave;
+  const tap = (btn, go) => {
+    if (acted) return;
+    acted = true;
+    if (opts.onAct) opts.onAct();
+    if (go) { finish(false); opts.onGo(); return; }
+    if (btn[1] && Math.random() < RICKY_RETORT_P) {
+      pop.classList.add('retort');
+      say.textContent = btn[1][(Math.random() * btn[1].length) | 0];
+      retortTimer = setTimeout(() => finish(true), RICKY_RETORT_MS);
+      return;
+    }
+    finish(true);
+  };
+  topBtn.onclick = () => tap(opts.top, !!opts.onGo);
+  botBtn.onclick = () => tap(opts.bottom, false);
+  scrim.onclick = () => {                // tap-away: quiet exit, even mid-retort
+    if (!acted) { acted = true; if (opts.onAct) opts.onAct(); }
+    finish(true);
+  };
 
   requestAnimationFrame(() => pop.classList.add('show'));
 }
@@ -1148,6 +1273,7 @@ function showRickyPop(card) {
 function hideRickyPop(fade) {
   const pop = rickyEl;
   if (!pop) return;
+  clearTimeout(retortTimer);
   state.rickyBusy = false;
   if (fade) {
     pop.classList.add('leaving');
@@ -1155,6 +1281,22 @@ function hideRickyPop(fade) {
   } else {
     pop.classList.remove('show', 'leaving');
   }
+}
+
+// the endorsement pop — "a new pick landed". Read it → jump to the section.
+function showChoicePop(card) {
+  if (!card) return;
+  const pair = RICKY_CAST.choice.pairs[0];
+  egg.lastChoiceAt = Date.now();         // the trio yields to the real news
+  showRickyPop({
+    kind: 'choice',
+    say: rickyPickSay('choice'),
+    top: pair[0],
+    bottom: pair[1],
+    onAct: () => markRickyPopped(card.id),
+    onGo: () => openRickyChoice(card.id),
+    onDone: () => { egg.lastChoiceAt = Date.now(); scheduleNextRicky(); },
+  });
 }
 
 function scheduleNextRicky() {
@@ -1177,7 +1319,206 @@ function fireRicky() {
   if (state.rickyBusy || !state.rickyQueue.length) return;
   clearTimeout(rickyTimer);
   state.rickyArmed = false;
-  showRickyPop(state.rickyQueue.shift());
+  showChoicePop(state.rickyQueue.shift());
+}
+
+/* ---- Ricky easter-egg trio (Hi / Think / ThumbsUp) --------------------- */
+// The other three Rickys react to how the app is used: Hi greets a genuine
+// return, Think calls out engagement-free doomscrolling, ThumbsUp hands out
+// backhanded praise for real reading. Rarity is the whole point — governors,
+// in order: never on top of another Ricky, never within EGG_CHOICE_QUIET_MS
+// of the choice pop (real news outranks the gag), at most one trio pop per
+// session and EGG_DAY_MAX per day, and each character gets exactly one EGG_P
+// roll per session, spent at its first qualifying moment. Miss the roll and
+// that character stays home until next visit. All knobs live here.
+const EGG_P = 0.15;               // per-character chance once its trigger hits
+const EGG_DAY_MAX = 2;            // trio pops per calendar day, all sessions
+const EGG_WARMUP_MS = 8000;       // trio silence at session start (hi exempt)
+const EGG_HI_DELAY_MS = 4500;     // the greeting beat after open
+const EGG_HI_GAP_MS = 4 * 36e5;   // away this long = a return worth greeting
+const EGG_CHOICE_QUIET_MS = 30000;
+const EGG_FLING_PX = 2600;        // think: this much scroll…
+const EGG_FLING_MS = 15000;       //   …inside this window…
+const EGG_FLING_MIN_CARDS = 8;    //   …past at least this many cards
+const EGG_VOLUME_CARDS = 14;      // think: cards seen with zero engagement
+const EGG_DWELL_MS = 45000;       // thumbs: still mid-feed this long = reading
+const EGG_AWAY_MS = 60000;        // thumbs: gone to the source at least this long
+const EGG_STREAK_DAYS = 3;        // thumbs: visit-days in a row worth noting
+const RICKY_RETORT_P = 0.15;      // chance a button tap earns a comeback
+const RICKY_RETORT_MS = 5000;     // how long he lingers on it
+const EGG_HIST = { choice: 2, hi: 8, think: 8, thumbs: 8 };  // no-repeat depth
+
+function eggLoad() {
+  try { return JSON.parse(localStorage.getItem('rickyEgg') || '{}') || {}; }
+  catch { return {}; }
+}
+function eggSave() {
+  try { localStorage.setItem('rickyEgg', JSON.stringify(egg.data)); } catch { /* private mode */ }
+}
+
+const egg = {
+  data: eggLoad(),   // {lastVisit, day, dayPops, streakDay, streakLen, used:{kind:[ids]}}
+  bootAt: Date.now(),
+  fired: false,      // one trio pop per session, period
+  rolled: { hi: false, think: false, thumbs: false },
+  opens: 0,          // outbound reads this session
+  saves: 0,          // saves this session
+  trail: [],         // recent [t, scrollY] samples for the fling detector
+  away: null,        // {at, ricky, saved} — an outbound read we may reward on return
+  hiddenAt: 0,
+  dwellTimer: null,
+  lastChoiceAt: 0,
+  newDay: false,
+  streak: 1,
+};
+
+// candidate lines for a pop: thumbs lines must match the reward that fired;
+// hi/think lines are open unless tagged to a context (late/morning/newday).
+function rickySayPool(kind, ev) {
+  const says = RICKY_CAST[kind].says;
+  if (kind === 'thumbs') return says.filter((s) => s[2] === ev);
+  const h = new Date().getHours();
+  const ok = { late: h >= 23 || h < 5, morning: h >= 5 && h < 9, newday: egg.newDay };
+  return says.filter((s) => !s[2] || ok[s[2]]);
+}
+
+// pick a line, dodging the last EGG_HIST[kind] used (persisted); when a pool
+// is smaller than the window (thumbs event subsets), repeats are allowed.
+function rickyPickSay(kind, ev) {
+  const pool = rickySayPool(kind, ev);
+  if (!pool.length) return null;
+  const used = (egg.data.used = egg.data.used || {});
+  const seen = used[kind] || [];
+  let fresh = pool.filter((s) => !seen.includes(s[0]));
+  if (!fresh.length) fresh = pool;
+  const s = fresh[(Math.random() * fresh.length) | 0];
+  used[kind] = seen.concat(s[0]).slice(-EGG_HIST[kind]);
+  eggSave();
+  return s[1];
+}
+
+function eggDayRoll(now) {
+  const d = egg.data;
+  const today = new Date(now).toDateString();
+  const yday = new Date(now - 864e5).toDateString();
+  egg.newDay = d.day !== today;
+  if (egg.newDay) { d.day = today; d.dayPops = 0; }
+  if (d.streakDay !== today) {
+    d.streakLen = d.streakDay === yday ? (d.streakLen || 0) + 1 : 1;
+    d.streakDay = today;
+  }
+  egg.streak = d.streakLen || 1;
+}
+
+function eggCan(kind) {
+  if (egg.fired || state.rickyBusy) return false;
+  if (state.rickyQueue.length) return false;   // the choice pop owns the moment
+  if (Date.now() - egg.lastChoiceAt < EGG_CHOICE_QUIET_MS) return false;
+  if ((egg.data.dayPops || 0) >= EGG_DAY_MAX) return false;
+  if (kind !== 'hi' && Date.now() - egg.bootAt < EGG_WARMUP_MS) return false;
+  if (document.visibilityState !== 'visible') return false;
+  if (lbEl && lbEl.classList.contains('show')) return false;
+  return true;
+}
+
+function tryEgg(kind, ev) {
+  if (!eggCan(kind) || egg.rolled[kind]) return;
+  egg.rolled[kind] = true;                 // one roll per character per session
+  if (Math.random() >= EGG_P) return;      // he stays home
+  const say = rickyPickSay(kind, ev);
+  if (!say) return;
+  egg.fired = true;
+  egg.data.dayPops = (egg.data.dayPops || 0) + 1;
+  eggSave();
+  const pairs = RICKY_CAST[kind].pairs;
+  const pair = pairs[(Math.random() * pairs.length) | 0];
+  showRickyPop({ kind, say, top: pair[0], bottom: pair[1] });
+}
+
+// scroll feed for the trio: the fling/volume detectors (think) and the
+// stillness-means-reading dwell timer (thumbs). Called from onScroll.
+function eggScroll(now, y) {
+  egg.trail.push([now, y]);
+  while (egg.trail.length > 1 && now - egg.trail[0][0] > EGG_FLING_MS) egg.trail.shift();
+  if (!egg.opens && !egg.saves && !state.searching && state.lane === 'all') {
+    if (y - egg.trail[0][1] >= EGG_FLING_PX && state.session.size >= EGG_FLING_MIN_CARDS) {
+      tryEgg('think');
+    } else if (state.session.size >= EGG_VOLUME_CARDS && y > 1500) {
+      tryEgg('think');
+    }
+  }
+  clearTimeout(egg.dwellTimer);
+  if (y > 600) {
+    egg.dwellTimer = setTimeout(() => {
+      if (document.visibilityState === 'visible') tryEgg('thumbs', 'dwell');
+    }, EGG_DWELL_MS);
+  }
+}
+
+// outbound click: they're leaving to read — remember it so the *return* can
+// be rewarded (popping now would play to an empty room).
+function eggOutbound(card) {
+  egg.opens += 1;
+  egg.away = {
+    at: Date.now(),
+    ricky: !!card.ricky,
+    saved: state.saved.has(card.id),
+  };
+}
+
+function eggVisibility() {
+  if (document.visibilityState !== 'visible') {
+    egg.hiddenAt = Date.now();
+    return;
+  }
+  const now = Date.now();
+  const gone = egg.hiddenAt ? now - egg.hiddenAt : 0;
+  if (gone >= EGG_HI_GAP_MS) {
+    // long enough away that this re-open is a fresh visit: new session budget,
+    // new greeting beat. (An installed PWA resumes instead of re-booting, so
+    // boot alone would only ever greet once per eviction.)
+    egg.fired = false;
+    egg.rolled = { hi: false, think: false, thumbs: false };
+    egg.bootAt = now;
+    egg.opens = 0;
+    egg.saves = 0;
+    egg.trail = [];
+    egg.away = null;
+    egg.data.lastVisit = now;
+    eggDayRoll(now);
+    eggSave();
+    setTimeout(() => tryEgg('hi'), EGG_HI_DELAY_MS);
+    return;
+  }
+  // back from an outbound link they sat with for a while — that's a real read.
+  if (egg.away && now - egg.away.at >= EGG_AWAY_MS) {
+    const a = egg.away;
+    const ev = a.ricky ? 'choiceRead'
+      : a.saved ? 'savedReturn'
+      : egg.streak >= EGG_STREAK_DAYS ? 'streak'
+      : egg.opens >= 3 ? 'reads3' : 'return';
+    setTimeout(() => tryEgg('thumbs', ev), 1200);
+  }
+  egg.away = null;
+}
+
+function eggInit() {
+  const now = Date.now();
+  const prev = egg.data.lastVisit || 0;
+  egg.data.lastVisit = now;
+  eggDayRoll(now);
+  eggSave();
+  if (prev && now - prev >= EGG_HI_GAP_MS) {
+    setTimeout(() => tryEgg('hi'), EGG_HI_DELAY_MS);
+  }
+  document.addEventListener('visibilitychange', eggVisibility);
+  // warm the trio images off the critical path so a pop never waits on a fetch
+  setTimeout(() => {
+    for (const k of ['hi', 'think', 'thumbs']) {
+      const i = new Image();
+      i.src = RICKY_CAST[k].img;
+    }
+  }, 1500);
 }
 
 /* ---- image lightbox --------------------------------------------------- */
@@ -1262,9 +1603,11 @@ async function boot() {
     });
   }
 
-  // arm the easter egg once the feed is up
+  // arm the easter eggs once the feed is up — the choice pop first (it owns
+  // the moment when a pick is pending), then the trio's behavior engine.
   buildRickyQueue();
   armRicky();
+  eggInit();
 }
 
 if ('serviceWorker' in navigator) {

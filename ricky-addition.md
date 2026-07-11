@@ -39,6 +39,23 @@ original text, this section wins.
   pick to `ricky.json`.
 - Unrelated: app background changed to `#0c0f0a`.
 
+### 0.1 Trio update (2026-07-11)
+
+Three more Rickys joined as a pure client-side easter egg (no pipeline change):
+`icons/ricky-hi.png` greets a genuine return (≥4h away), `icons/ricky-think.png`
+calls out engagement-free doomscrolling, `icons/ricky-thumbs.png` hands out
+backhanded praise for real reading (outbound reads, saves, streaks, search,
+end-of-feed, long dwell). All four share the pop-up shell; every line, button
+and comeback lives in `RICKY_CAST` in `app.js`. Rarity governors: one trio pop
+per session, `EGG_DAY_MAX` (2) per day, one `EGG_P` (15%) roll per character
+per session at its first qualifying moment; the choice pop always outranks the
+trio. Any button tap has a `RICKY_RETORT_P` (15%) chance of a comeback tied to
+that button (he lingers 5s, then fades). The choice pop's line is now drawn
+from a 3-line pool — C1 keeps the original wording but the `Ricky says "…"`
+wrapper is dropped everywhere (direct speech in his own bubble). All knobs are
+`EGG_*` consts in `app.js`; per-character line history persists in
+`localStorage` under `rickyEgg`.
+
 ---
 
 ## 1. What it is

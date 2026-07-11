@@ -4,7 +4,7 @@
    - feed chunks: cache-first (append-only, never change once written).
    the shell is still precached on install for the very first offline load. */
 
-const VERSION = 'feed-v7';
+const VERSION = 'feed-v8';
 const SHELL = `shell-${VERSION}`;
 const DATA = `data-${VERSION}`;
 
@@ -18,6 +18,9 @@ const SHELL_FILES = [
   './icons/icon-192.png',
   './icons/icon-512.png',
   './icons/ricky.png',
+  './icons/ricky-hi.png',
+  './icons/ricky-think.png',
+  './icons/ricky-thumbs.png',
 ];
 
 self.addEventListener('install', (e) => {

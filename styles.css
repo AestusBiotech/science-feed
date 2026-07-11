@@ -502,7 +502,10 @@ body {
   inset: 0;
   z-index: 50;
   display: none;
+  /* the shell is shared by all four Rickys; JS sets the width and the PNG's
+     height/width ratio per character so the bubble always sits just above him */
   --rk-w: min(48vw, 190px);
+  --rk-ratio: 0.815;
 }
 .ricky-pop.show { display: block; }
 
@@ -532,7 +535,7 @@ body {
 .ricky-bubble {
   position: absolute;
   left: 50%;
-  bottom: calc(var(--rk-w) * 0.815 + 26px);
+  bottom: calc(var(--rk-w) * var(--rk-ratio) + 26px);
   width: min(84vw, 300px);
   background: var(--surface-hi);
   border: 1.5px solid var(--lane-radiopharma);
@@ -598,6 +601,11 @@ body {
   -webkit-tap-highlight-color: transparent;
 }
 .ricky-dismiss:hover { color: var(--text); border-color: var(--text-faint); }
+
+/* comeback state: the bubble swaps to the retort and the buttons drop away —
+   he's had the last word and will see himself out */
+.ricky-pop.retort .ricky-btns { display: none; }
+.ricky-pop.retort .ricky-say { margin-bottom: 2px; }
 
 @media (prefers-reduced-motion: reduce) {
   .ricky-img { transform: none; transition: opacity .3s; }
