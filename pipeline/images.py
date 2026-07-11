@@ -8,8 +8,11 @@ usable share card we fall back to the article's first figure.
 The publishers that matter here (SNMMI's JNM, ACS, RSC) sit behind Cloudflare /
 Radware bot protection that blocks on the TLS fingerprint, not the headers - so
 a plain `requests` GET is a guaranteed 403 no matter how browser-like the
-headers look. We fetch with curl_cffi impersonating Chrome, which reproduces a
-real browser's TLS handshake and sails through. The images those pages point at
+headers look. We fetch with curl_cffi impersonating a real browser (see
+IMPERSONATE_TARGETS), which reproduces a real browser's TLS handshake and sails
+through. Elsevier is the exception - its article pages captcha-wall every
+non-browser client - so for those we skip the page and pull the graphical
+abstract straight off the open CDN (see _elsevier_cdn_image). The images those pages point at
 (og:image share cards, HighWire F1 figures) are then loadable by any real
 browser, so they render fine in the app even though `requests` can't fetch them.
 
@@ -40,7 +43,14 @@ HEADERS = {
                "image/avif,image/webp,*/*;q=0.8"),
     "Accept-Language": "en-US,en;q=0.9",
 }
-IMPERSONATE = "chrome"
+# curl_cffi's own default "chrome" alias tracks the newest Chrome build, and
+# publisher bot-walls (Cloudflare / Radware / Incapsula at Wiley, SAGE, ...) now
+# flag exactly that newest fingerprint — so an unpinned curl_cffi silently
+# started 403-ing pages that used to scrape fine. Pin explicit, known-good
+# targets and try them in order: a 403 from one is retried with the next.
+# safari18_0 clears the most walls (it's the only one SAGE and Wiley let
+# through); chrome131 is a fallback for the rare host that prefers Chrome.
+IMPERSONATE_TARGETS = ("safari18_0", "chrome131")
 TIMEOUT = 20
 MAX_HTML_BYTES = 600_000   # the <head> is always near the top; don't read novels
 
@@ -78,6 +88,31 @@ _FIGURE_RE = re.compile(r'\bsrc\s*=\s*["\']([^"\']*/F\d+\.[^"\']+)["\']', re.I)
 def is_junk_image(url: str) -> bool:
     """True for boilerplate images (logos, covers, banners) worth rejecting."""
     return bool(url) and bool(_JUNK_RE.search(url))
+
+
+# Elsevier hard-blocks its article pages (sciencedirect.com serves a captcha to
+# any non-browser TLS client, and doi.org resolves to a scriptless linkinghub
+# stub), so og:image scraping there always comes up empty. But the graphical
+# abstract (…-ga1.jpg) and first figure (…-gr1.jpg) sit on the open
+# ars.els-cdn.com CDN at a path derived only from the article PII — which the
+# DOI redirect hands us in the resolved URL. Reach for those directly, the same
+# "predictable, article-owned path" trick used for HighWire F-figures.
+_ELSEVIER_PII_RE = re.compile(r"/pii/([A-Z0-9]+)", re.I)
+
+
+def _elsevier_cdn_image(session, final_url: str) -> str:
+    """Graphical abstract / first figure for an Elsevier article, off the CDN."""
+    m = _ELSEVIER_PII_RE.search(final_url or "")
+    if not m:
+        return ""
+    pii = m.group(1).upper()
+    for suffix in ("ga1.jpg", "gr1.jpg"):
+        cdn = f"https://ars.els-cdn.com/content/image/1-s2.0-{pii}-{suffix}"
+        r = _fetch(session, cdn)
+        if (r is not None and r.status_code == 200
+                and r.headers.get("content-type", "").lower().startswith("image")):
+            return cdn
+    return ""
 
 
 # <meta name="citation_doi" content="10.xxxx/..."> in either attribute order.
@@ -118,17 +153,32 @@ def _pubmed_doi(pmid: str) -> str:
 
 
 def _new_session():
-    """A curl_cffi Chrome-impersonating session, or a plain requests one."""
+    """A curl_cffi session (impersonation is chosen per request), or a plain one."""
     if curl_requests is not None:
-        return curl_requests.Session(impersonate=IMPERSONATE)
+        return curl_requests.Session()
     return requests.Session()
 
 
 def _fetch(session, url: str):
-    """GET `url`, returning the response or None on any failure."""
+    """GET `url`, returning the response or None on any failure.
+
+    With curl_cffi we retry across IMPERSONATE_TARGETS: publishers block
+    different TLS fingerprints, so a 403 from one target is retried with the
+    next, and we keep the first response that isn't a bot-block.
+    """
+    if curl_requests is not None and isinstance(session, curl_requests.Session):
+        last = None
+        for target in IMPERSONATE_TARGETS:
+            try:
+                r = session.get(url, timeout=TIMEOUT, allow_redirects=True,
+                                impersonate=target)
+            except Exception:
+                continue
+            last = r
+            if r.status_code != 403:
+                return r
+        return last
     try:
-        if curl_requests is not None and isinstance(session, curl_requests.Session):
-            return session.get(url, timeout=TIMEOUT, allow_redirects=True)
         return session.get(url, headers=HEADERS, timeout=TIMEOUT,
                            allow_redirects=True)
     except Exception:
@@ -150,10 +200,21 @@ def og_image(url: str, session=None, _depth: int = 0) -> str:
             return og_image("https://doi.org/" + doi, session, _depth=1) if doi else ""
 
     r = _fetch(session, url)
-    if r is None or r.status_code >= 400:
+    if r is None:
+        return ""
+    base = str(r.url)
+
+    # Elsevier article pages are captcha-walled (a 403, or a scriptless
+    # linkinghub redirect stub), so scraping them never yields an image; pull
+    # the graphical abstract off the open CDN using the PII in the resolved URL.
+    if "sciencedirect.com" in base or "elsevier.com" in base:
+        img = _elsevier_cdn_image(session, base)
+        if img:
+            return img
+
+    if r.status_code >= 400:
         return ""
     html = r.text[:MAX_HTML_BYTES]
-    base = str(r.url)
 
     found: dict[str, str] = {}
     for tag in _META_RE.findall(html):

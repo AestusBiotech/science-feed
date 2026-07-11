@@ -1,4 +1,7 @@
 requests>=2.31
 pyyaml>=6.0
 feedparser>=6.0
-curl_cffi>=0.7
+# >=0.8 guarantees the safari18_0 / chrome131 impersonation targets that
+# images.py pins. (Don't rely on curl_cffi's default "chrome" alias: it tracks
+# the newest Chrome build, which publisher bot-walls now fingerprint and block.)
+curl_cffi>=0.8
