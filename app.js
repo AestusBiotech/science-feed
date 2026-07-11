@@ -1,13 +1,21 @@
 /* personal curated feed — endless scroll, no backend.
-   fresh (never-shown, newest-first) is the feed; resurfaced "vault" cards are
-   rare (~5%) and only sprinkle in until fresh runs out, then fill the tail.
-   what's been shown is tracked in IndexedDB so vault items come back after ~14d. */
+   The latest-harvest batch (the "new"-badged cards) leads: ~70% of the feed is
+   new while any of the batch is unseen this session, front-loaded even higher at
+   the start of a scroll. Older cards fill the rest and take over once the batch
+   is exhausted; long-idle items resurface from the "vault" after ~14d.
+   what's been shown is tracked in IndexedDB. */
 
 'use strict';
 
 const FEED_DIR = './data/feed';
-const VAULT_RATE = 0.05;               // ~5% of cards are resurfaced ("vault")
 const VAULT_AGE_MS = 14 * 864e5;        // resurface after ~14 days
+// The feed leads with the latest harvest (the "new"-badged batch). While any of
+// that batch is still unshown this session, ~NEW_TARGET of cards come from it,
+// and the first NEW_RAMP cards of a scroll lean even harder to new so opening
+// the app feels fresh. Older cards fill the remainder to break up long runs of
+// new, then take over once the batch is exhausted for the session.
+const NEW_TARGET = 0.70;               // steady-state share of "new" cards while the batch lasts
+const NEW_RAMP = 10;                    // first ~N cards ease from ~all-new down to NEW_TARGET
 const PAGE = 8;                         // cards rendered per scroll step
 // Infinite scroll only appends, so on a long session the DOM (and every remote
 // card image) grows without bound and phones start to stutter. Cap the live
@@ -127,7 +135,8 @@ const state = {
   hidden: new Map(),     // id -> {at, lane, source, title} — "not interested" (legacy: number)
   visited: new Set(),    // ids whose source link has been opened (mirror of 'visited')
   session: new Set(),    // ids rendered in this scroll session
-  fresh: [],             // never-shown cards for the current lane, newest-first
+  freshNew: [],          // never-shown latest-harvest ("new") cards for the lane, weighted-shuffled
+  freshOld: [],          // never-shown older cards for the lane, weighted-shuffled
   lane: 'all',
   pos: 0,                // interleave counter
   busy: false,
@@ -435,7 +444,11 @@ function rebuildFresh() {
     card._shuf = Math.pow(Math.random() || 1e-9, 1 / weight);
   }
   pool.sort((a, b) => b._shuf - a._shuf);
-  state.fresh = pool;
+  // Split the never-shown pool into the latest-harvest batch and everything
+  // older, preserving the weighted-shuffle order within each. place() draws
+  // mostly from the "new" side while it lasts; see NEW_TARGET / newShare().
+  state.freshNew = pool.filter(isFreshCard);
+  state.freshOld = pool.filter((c) => !isFreshCard(c));
 }
 
 /* ---- loading ---------------------------------------------------------- */
@@ -470,21 +483,50 @@ async function loadNextChunk() {
 }
 
 /* ---- picking ---------------------------------------------------------- */
-function pickFresh() {
-  return state.fresh.length ? state.fresh.shift() : null;
+// Both "sides" of the feed are keyed off the latest-harvest badge, not the
+// shown-set: a new-batch card you saw yesterday is still new today, so it keeps
+// leading until you've cleared the batch *this session*. freshLeft() tracks the
+// never-shown pools so renderNext knows when to page in older chunks.
+const freshLeft = () => state.freshNew.length + state.freshOld.length;
+
+// A never-shown "new" card if we have one; otherwise resurface a batch card not
+// yet seen this session (so the batch keeps leading even on a return visit).
+function pickNew() {
+  if (state.freshNew.length) return state.freshNew.shift();
+  const pool = state.loaded.filter(
+    (c) => laneMatch(c) && isFreshCard(c) &&
+           !state.session.has(c.id) && !state.hidden.has(c.id));
+  if (!pool.length) return null;
+  return pool[(Math.random() * pool.length) | 0];
 }
 
-function pickVault() {
-  // vault = genuinely resurfaced items: shown before, not yet this session.
-  // never-shown cards are fresh, not vault, so they're excluded here.
+// A never-shown older card if we have one; otherwise a resurfaced "vault" item
+// (shown before, not yet this session), preferring ones aged past VAULT_AGE_MS.
+function pickOld() {
+  if (state.freshOld.length) return state.freshOld.shift();
   const pool = state.loaded.filter(
-    (c) => laneMatch(c) && state.shown.has(c.id) &&
+    (c) => laneMatch(c) && !isFreshCard(c) && state.shown.has(c.id) &&
            !state.session.has(c.id) && !state.hidden.has(c.id));
   if (!pool.length) return null;
   const now = Date.now();
   let eligible = pool.filter((c) => now - state.shown.get(c.id) > VAULT_AGE_MS);
   if (!eligible.length) eligible = pool;   // nothing "old enough" yet — still fine to resurface
   return eligible[(Math.random() * eligible.length) | 0];
+}
+
+// Is there a "new"/older card left to serve this session (unshown or resurfaced)?
+const hasNew = () => state.freshNew.length > 0 || state.loaded.some(
+  (c) => laneMatch(c) && isFreshCard(c) &&
+         !state.session.has(c.id) && !state.hidden.has(c.id));
+const hasOld = () => state.freshOld.length > 0 || state.loaded.some(
+  (c) => laneMatch(c) && !isFreshCard(c) &&
+         !state.session.has(c.id) && !state.hidden.has(c.id));
+
+// Target share of "new" cards at the current scroll position: ~all-new for the
+// first NEW_RAMP cards, easing down to the steady NEW_TARGET.
+function newShare() {
+  const ramp = Math.max(0, 1 - state.pos / NEW_RAMP);   // 1 -> 0 across NEW_RAMP cards
+  return NEW_TARGET + (1 - NEW_TARGET) * ramp;
 }
 
 /* ---- rendering -------------------------------------------------------- */
@@ -755,34 +797,36 @@ function cssEscape(s) {
 }
 
 function resetCycle() {
-  // whole pile shown this session — loop back through it (vault-only from here),
-  // silently: no divider text.
+  // whole pile shown this session — clear the session set so the pile loops,
+  // silently (no divider text). With the session cleared the new-first cycle
+  // restarts: the latest batch leads again, then older cards.
   state.session.clear();
-  rebuildFresh();   // now empty (everything's been shown), so the loop serves vault
+  rebuildFresh();
 }
 
 async function place() {
   let card = null;
 
-  // New content leads. While there are fresh (never-shown) cards for this lane
-  // the feed is essentially all-new; only a rare ~5% roll sprinkles in a
-  // resurfaced item. Once fresh runs out, vault fills the tail so scroll stays
-  // endless. (Returning users with nothing new therefore see resurfaced cards,
-  // which is unavoidable — but never the 1-in-4 firehose it used to be.)
-  if (state.fresh.length) {
-    if (Math.random() < VAULT_RATE) card = pickVault();   // occasional resurface
-    if (!card) card = pickFresh();
-  } else {
-    card = pickVault();                                    // fresh exhausted
-    if (!card) card = pickFresh();
+  // The latest-harvest batch leads. While any of it is still unseen this session
+  // we serve ~newShare() new cards (near all-new at the very start, easing to
+  // NEW_TARGET), with older/resurfaced cards filling the rest to break up long
+  // runs. Once the batch is used up for the session, the feed is all older —
+  // which keeps scroll endless. If only one side has anything, serve that side.
+  const newAvail = hasNew();
+  const oldAvail = hasOld();
+  if (newAvail && (!oldAvail || Math.random() < newShare())) {
+    card = pickNew();
+    if (!card) card = pickOld();
+  } else if (oldAvail) {
+    card = pickOld();
+    if (!card) card = pickNew();
   }
 
   if (!card) {
-    // fresh and vault both empty for this lane. loop the pile to stay endless.
+    // nothing left unseen this session for this lane. loop the pile to stay endless.
     if (!state.loaded.some(laneMatch)) return false;
     resetCycle();
-    card = pickVault();
-    if (!card) card = pickFresh();
+    card = pickNew() || pickOld();
     if (!card) return false;
   }
 
@@ -805,7 +849,7 @@ async function renderNext(n) {
     // next one so all real content is shown before the vault loop begins.
     // (Without this, a multi-chunk feed only ever loads the newest chunk and
     // loops it — the older chunks, and their images, never appear.)
-    if (!state.fresh.length && state.nextChunk >= 0) {
+    if (!freshLeft() && state.nextChunk >= 0) {
       await loadNextChunk();
       continue;
     }
@@ -1175,7 +1219,12 @@ async function boot() {
   }
   buildLanes();
   updateStatus();
-  await loadNextChunk();
+  // Page in every chunk before the first fill so the whole latest-harvest batch
+  // is in the pool from card #1 — the "new" cards are split across chunks, so a
+  // single-chunk load would hide most of them behind lazy paging and starve the
+  // new-first mix. The feed is small (a few hundred cards); search already does
+  // this on its first query.
+  await loadAllChunks();
   await fill();
 
   window.addEventListener('scroll', onScroll, { passive: true });
