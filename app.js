@@ -92,6 +92,10 @@ const AFFINITY = {
   MAX_TERMS: 8,      // only the strongest N term votes per card (noise control)
   MIN_MULT: 0.35,    // floor on the final weight multiplier
   MAX_MULT: 2.5,     // ceiling on the final weight multiplier
+  SAVE_VOTE: 1.0,    // a save is a deliberate keep — full positive vote
+  CLICK_VOTE: 0.5,   // opening a card's link is a lighter, more frequent "read
+                     // more of this" vote — counts, but less than an explicit save
+  HIDE_VOTE: -1.0,   // "not interested" — full negative vote
 };
 // tiny stoplist so common words don't become "preferences"
 const STOPWORDS = new Set(
@@ -134,6 +138,8 @@ const state = {
   saved: new Map(),      // id -> card (mirror of IndexedDB 'saved' store)
   hidden: new Map(),     // id -> {at, lane, source, title} — "not interested" (legacy: number)
   visited: new Set(),    // ids whose source link has been opened (mirror of 'visited')
+  visitedRecs: new Map(),// id -> {at, lane, source, title, blurb} for opened links — a
+                         // positive "read more of this" vote (legacy entries are bare numbers)
   session: new Set(),    // ids rendered in this scroll session
   freshNew: [],          // never-shown latest-harvest ("new") cards for the lane, weighted-shuffled
   freshOld: [],          // never-shown older cards for the lane, weighted-shuffled
@@ -274,18 +280,31 @@ async function loadVisited() {
       const cur = tx.result;
       if (!cur) return resolve();
       state.visited.add(cur.key);
+      // records carry lane/source/title/blurb for the learned vote; older
+      // entries are bare timestamps and just count as membership.
+      if (cur.value && typeof cur.value === 'object') state.visitedRecs.set(cur.key, cur.value);
       cur.continue();
     };
     tx.onerror = () => resolve();
   });
 }
-async function markVisited(id, cardEl) {
+async function markVisited(card, cardEl) {
   if (cardEl) cardEl.classList.add('visited');
-  if (state.visited.has(id)) return;
-  state.visited.add(id);
+  if (state.visited.has(card.id)) return;
+  // store lane/source/title/blurb alongside the timestamp so opening the link
+  // registers as a positive vote in the learned ranking (see buildAffinity).
+  const rec = {
+    at: Date.now(),
+    lane: card.lane,
+    source: card.source,
+    title: card.title || '',
+    blurb: card.blurb || '',
+  };
+  state.visited.add(card.id);
+  state.visitedRecs.set(card.id, rec);
   const d = await db();
   if (!d) return;
-  try { d.transaction('visited', 'readwrite').objectStore('visited').put(Date.now(), id); }
+  try { d.transaction('visited', 'readwrite').objectStore('visited').put(rec, card.id); }
   catch { /* private mode etc. — in-memory mirror still works */ }
 }
 
@@ -386,16 +405,22 @@ function buildAffinity() {
   const voteTerms = (text, delta) => {
     for (const t of terms(text)) vote(term, t, delta);
   };
-  for (const card of state.saved.values()) {           // saves: positive votes
-    vote(lane, card.lane, 1);
-    vote(source, card.source, 1);
-    voteTerms((card.title || '') + ' ' + (card.blurb || ''), 1);
+  for (const card of state.saved.values()) {           // saves: strong positive votes
+    vote(lane, card.lane, AFFINITY.SAVE_VOTE);
+    vote(source, card.source, AFFINITY.SAVE_VOTE);
+    voteTerms((card.title || '') + ' ' + (card.blurb || ''), AFFINITY.SAVE_VOTE);
+  }
+  for (const rec of state.visitedRecs.values()) {      // opened links: lighter positive votes
+    if (!rec || typeof rec !== 'object') continue;      // legacy bare-timestamp entry
+    vote(lane, rec.lane, AFFINITY.CLICK_VOTE);
+    vote(source, rec.source, AFFINITY.CLICK_VOTE);
+    voteTerms((rec.title || '') + ' ' + (rec.blurb || ''), AFFINITY.CLICK_VOTE);
   }
   for (const rec of state.hidden.values()) {           // hides: negative votes
     if (!rec || typeof rec !== 'object') continue;      // legacy numeric entry
-    vote(lane, rec.lane, -1);
-    vote(source, rec.source, -1);
-    voteTerms(rec.title || '', -1);
+    vote(lane, rec.lane, AFFINITY.HIDE_VOTE);
+    vote(source, rec.source, AFFINITY.HIDE_VOTE);
+    voteTerms(rec.title || '', AFFINITY.HIDE_VOTE);
   }
   affinity = { lane, source, term };
 }
@@ -629,7 +654,7 @@ function renderCard(card, opts = {}) {
   titleLink.rel = 'noopener noreferrer';
   titleLink.textContent = card.title;
   // opening the source greys the card so you can see what you've already read.
-  titleLink.addEventListener('click', () => markVisited(card.id, a));
+  titleLink.addEventListener('click', () => markVisited(card, a));
   h.appendChild(titleLink);
 
   const p = document.createElement('p');
