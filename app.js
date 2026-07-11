@@ -30,7 +30,7 @@ const SOURCE_LABEL = {
   reddit: 'reddit', hn: 'hn', arxiv: 'arXiv',
   pubmed: 'pubmed', rss: 'rss', web: 'web',
   crossref: 'journal', chemrxiv: 'ChemRxiv',
-  clinicaltrials: 'trial',
+  clinicaltrials: 'trial', openalex: 'journal',
 };
 // Per-source lean in the fresh shuffle. Reddit threads from the reader's
 // subreddits get nudged forward so they surface a bit more (they're already
@@ -120,6 +120,7 @@ const els = {
 const state = {
   manifest: null,
   loaded: [],            // all cards fetched so far, each tagged with _order
+  latestHarvest: '',     // newest `harvested` date across loaded cards — the "new" batch
   nextChunk: -1,         // index into manifest.chunks, walked newest -> oldest
   shown: new Map(),      // id -> lastShown ms (mirror of IndexedDB)
   saved: new Map(),      // id -> card (mirror of IndexedDB 'saved' store)
@@ -336,6 +337,15 @@ function relAge(card) {
   return Math.floor(days / 365) + 'y';
 }
 
+// A card is "new" if it came from the most recent harvest — i.e. its `harvested`
+// date matches the newest harvest date anywhere in the loaded feed. The whole
+// latest batch stays badged until the next harvest lands newer cards, which
+// shifts state.latestHarvest forward and retires the previous batch's badges.
+function isFreshCard(card) {
+  const h = (card.harvested || '').slice(0, 10);
+  return !!h && h === state.latestHarvest;
+}
+
 // pull the distinctive terms out of a bit of text (title/blurb), lowercased,
 // de-duped, stop-worded, and length-filtered so only meaty words vote.
 function terms(text) {
@@ -419,7 +429,7 @@ function rebuildFresh() {
   const span = (max - min) || 1;
   for (const card of pool) {
     const recency = (card._order - min) / span;    // 0..1, newest = 1
-    const weight = (0.35 + 1.65 * recency)          // newer -> higher weight
+    const weight = (0.22 + 2.6 * recency)           // newer -> higher weight
                  * (SOURCE_WEIGHT[card.source] || 1)
                  * affinityMult(card);              // learned like/dislike
     card._shuf = Math.pow(Math.random() || 1e-9, 1 / weight);
@@ -445,7 +455,12 @@ async function loadNextChunk() {
     const res = await fetch(`${FEED_DIR}/${name}`);
     if (!res.ok) throw new Error(name + ' ' + res.status);
     const cards = await res.json();
-    cards.forEach((card, i) => { card._order = idx * 1e5 + i; state.loaded.push(card); });
+    cards.forEach((card, i) => {
+      card._order = idx * 1e5 + i;
+      state.loaded.push(card);
+      const h = (card.harvested || '').slice(0, 10);   // track the newest harvest batch
+      if (h > state.latestHarvest) state.latestHarvest = h;
+    });
     rebuildFresh();
     return true;
   } catch (e) {
@@ -500,6 +515,14 @@ function renderCard(card, opts = {}) {
 
   const meta = document.createElement('div');
   meta.className = 'card-meta';
+  // "new" pill leads the meta row so a fresh harvest is obvious at a glance.
+  // Skipped in the expanded Ricky view, which has its own "· new" marker.
+  if (!opts.expanded && isFreshCard(card)) {
+    const nb = document.createElement('span');
+    nb.className = 'new-badge';
+    nb.textContent = 'new';
+    meta.appendChild(nb);
+  }
   const lane = document.createElement('span');
   lane.className = 'lane-tag';
   lane.textContent = card.lane;

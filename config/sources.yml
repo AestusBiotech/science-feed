@@ -76,6 +76,11 @@ crossref:
   # --- Wiley: broad synthesis + antibody therapeutics / ADCs ---
   - { issn: 1521-3773, lane: org chem,     name: "Angew. Chem. Int. Ed." }
   - { issn: 1942-0870, lane: biotech news, name: "mAbs" }
+  # --- Broad synthesis, catalysis & flagship reviews (org chem breadth) ---
+  - { issn: 1463-9270, lane: org chem,     name: "Green Chem." }
+  - { issn: 2451-9294, lane: org chem,     name: "Chem" }
+  - { issn: 2399-3669, lane: org chem,     name: "Commun. Chem." }
+  - { issn: 1520-6890, lane: org chem,     name: "Chem. Rev." }
   # --- Nuclear medicine & radiochemistry ---
   - { issn: 0161-5505, lane: radiopharma,  name: "J. Nucl. Med." }
   - { issn: 1619-7089, lane: radiopharma,  name: "Eur. J. Nucl. Med. Mol. Imaging" }
@@ -87,6 +92,32 @@ crossref:
   - { issn: 2193-3405, lane: radiopharma,  name: "Radiochim. Acta" }             # isotope/radiochemistry
   # --- Preprints (ChemRxiv, via Crossref DOI prefix) ---
   - { prefix: "10.26434", lane: org chem,  name: "ChemRxiv", preprint: true }
+
+# ---------------------------------------------------------------------------
+# OpenAlex keyword search — the CI-safe stand-in for Google Scholar (Scholar has
+# no API and blocks datacenter IPs). Broadens a lane by TOPIC across every
+# publisher + preprints, newest-first, instead of a fixed ISSN list. This is
+# where "more synthesis" comes from. Each query is a small set of terms
+# (AND-matched and stemmed by OpenAlex), so keep them tight enough that the
+# newest matches stay on-topic; the curator is still the quality gate.
+# ---------------------------------------------------------------------------
+openalex:
+  # --- org chem: synthesis, catalysis, methodology (the requested breadth) ---
+  - { query: "C-H functionalization catalysis",              lane: org chem }
+  - { query: "cross-coupling reaction methodology",          lane: org chem }
+  - { query: "photoredox catalysis synthesis",               lane: org chem }
+  - { query: "asymmetric enantioselective catalysis",        lane: org chem }
+  - { query: "flow chemistry continuous synthesis",          lane: org chem }
+  - { query: "electrochemical organic synthesis",            lane: org chem }
+  - { query: "total synthesis natural product",              lane: org chem }
+  # --- bioconjugation throughline (routes to biochem; the Aestus core) ---
+  - { query: "bioorthogonal conjugation chemistry",          lane: biochem }
+  - { query: "protein crosslinker bioconjugation reagent",   lane: biochem }
+  - { query: "antibody-drug conjugate linker payload",       lane: biochem }
+  - { query: "site-specific protein labeling",               lane: biochem }
+  - { query: "crosslinking mass spectrometry proteomics",    lane: biochem }
+  # --- methods: analytical / QC bench ---
+  - { query: "analytical method validation chromatography",  lane: methods }
 
 # ---------------------------------------------------------------------------
 # PubMed E-utilities. Most reliable route of all; links never paywall-wall the
@@ -134,6 +165,7 @@ arxiv:
 reddit:
   - { sub: chemistry,        lane: org chem }
   - { sub: OrganicChemistry, lane: org chem }
+  - { sub: Chempros,         lane: org chem }   # practicing chemists: higher signal than r/chemistry
   - { sub: biochemistry,     lane: biochem }
   - { sub: nuclearmedicine,  lane: radiopharma }
   - { sub: biotech,          lane: biotech news }

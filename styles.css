@@ -175,6 +175,17 @@ body {
   font-weight: 600;
   letter-spacing: .01em;
 }
+.new-badge {
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 50%, transparent);
+  border-radius: 999px;
+  padding: 1px 7px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
 .preprint-tag {
   color: var(--lane-startups);
   border: 1px solid color-mix(in srgb, var(--lane-startups) 45%, transparent);

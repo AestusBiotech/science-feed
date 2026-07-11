@@ -1,5 +1,10 @@
 """Curator: score candidates against config/interests.md with one Haiku call
-per batch, keep the top N, assign a lane. First AI stage.
+per batch, keep everything at or above a score bar, assign a lane. First AI stage.
+
+The keep-cut is score-based, not a fixed count: every paper/news item scoring at
+or above --keep-score makes the feed, however many that is, so a good source is
+never dropped just because others outranked it that night. MAX_ITEMS_PER_RUN is
+only a runaway-cost backstop, not the cap.
 
 Runs through Claude Code in subscription mode (the `claude` CLI), not the
 metered API. Each response is a JSON array of {index, score, lane}; interests.md
@@ -75,13 +80,16 @@ def _prompt(batch: list[dict]) -> str:
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--keep", type=int, default=100,
-                    help="how many top-scoring papers/news items to keep "
-                         "(reddit is kept separately and does not count here)")
+    ap.add_argument("--keep-score", type=int, default=58,
+                    help="minimum curator score (0-100) for a paper/news item to "
+                         "make the feed. This is the gate, not a fixed count: "
+                         "every item at or above the bar is kept, so a good "
+                         "source is never cut just because others outranked it. "
+                         "(reddit is gated separately by --reddit-min.)")
     ap.add_argument("--reddit-min", type=int, default=55,
                     help="minimum curator score for a reddit thread to count as "
                          "relevant; relevant reddit threads are kept uncapped and "
-                         "in addition to --keep")
+                         "in addition to the score-gated papers/news")
     args = ap.parse_args()
 
     candidates = c.read_json(c.CANDIDATES, default=[]) or []
@@ -117,18 +125,25 @@ def main() -> None:
             scored.append(cand)
         c.log(f"  scored {start + len(batch)}/{len(candidates)}")
 
-    # Reddit is kept separately from the ranked papers/news pool: every thread
-    # the curator finds relevant that night is added on top, uncapped, and does
-    # NOT count against --keep. The papers/news pool stays a ranked top-N,
-    # bounded by the cost cap.
+    # Reddit is kept separately from the papers/news pool: every thread the
+    # curator finds relevant that night is added on top, uncapped, gated only by
+    # --reddit-min. The papers/news pool is gated by --keep-score below.
     reddit = [x for x in scored
               if x.get("source") == "reddit" and x["score"] >= args.reddit_min]
     rest = [x for x in scored if x.get("source") != "reddit"]
 
-    keep = min(args.keep, c.MAX_ITEMS_PER_RUN)
     rest.sort(key=lambda x: x["score"], reverse=True)
     reddit.sort(key=lambda x: x["score"], reverse=True)
-    survivors = rest[:keep] + reddit
+    # Score-based keep: everything at or above the bar, however many that is.
+    kept = [x for x in rest if x["score"] >= args.keep_score]
+    # MAX_ITEMS_PER_RUN is only a runaway-cost backstop — if a night is
+    # pathologically large it trims the lowest-scoring overflow (the least good),
+    # never the bar itself. Raise it (env) if it ever bites a normal run.
+    if len(kept) > c.MAX_ITEMS_PER_RUN:
+        c.log(f"note: {len(kept)} cleared the score bar (>= {args.keep_score}); "
+              f"backstop-capping to {c.MAX_ITEMS_PER_RUN}")
+        kept = kept[:c.MAX_ITEMS_PER_RUN]
+    survivors = kept + reddit
 
     # Abstract-only sources (Crossref/PubMed/arXiv) arrive without a picture;
     # scrape the article's share image so those cards aren't all text. Only the

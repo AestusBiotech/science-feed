@@ -39,10 +39,10 @@ jobs:
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           REDDIT_FEED_TOKEN: ${{ secrets.REDDIT_FEED_TOKEN }}
           REDDIT_USER: ${{ secrets.REDDIT_USER }}
-          MAX_ITEMS_PER_RUN: "150"
+          MAX_ITEMS_PER_RUN: "250"
         run: |
           python pipeline/harvest.py --mode nightly
-          python pipeline/curate.py --keep 100
+          python pipeline/curate.py --keep-score 58
           python pipeline/rewrite.py
           python pipeline/ricky.py
           python pipeline/assemble.py

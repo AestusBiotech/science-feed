@@ -44,8 +44,12 @@ BROWSER_UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
 MAILTO = "info@aestusbiotech.com"
 HTTP_TIMEOUT = 20
 REDDIT_MIN_SCORE = 25
-CROSSREF_ROWS = 12
+CROSSREF_ROWS = 24
 CTGOV_ROWS = 20
+OPENALEX_ROWS = 25
+# OpenAlex: the CI-safe, programmable stand-in for Google Scholar (which has no
+# API and blocks datacenter IPs). Keyword search across every publisher + preprints.
+OPENALEX_API = "https://api.openalex.org/works"
 
 # ClinicalTrials.gov API v2. We pull trials whose status recently *changed* to a
 # readout-signalling state (default below) and link to the canonical study page.
@@ -272,6 +276,59 @@ def _crossref_date(item: dict) -> str:
     return ""
 
 
+def _openalex_abstract(inv: dict | None) -> str:
+    """Reconstruct plain text from OpenAlex's inverted-index abstract."""
+    if not inv:
+        return ""
+    pos: dict[int, str] = {}
+    for word, idxs in inv.items():
+        for i in idxs:
+            pos[i] = word
+    return _strip_html(" ".join(pos[i] for i in sorted(pos)))
+
+
+def harvest_openalex(entry: dict, mode: str) -> Iterable[dict]:
+    """Keyword search across all of OpenAlex — the CI-safe stand-in for Google
+    Scholar (every publisher + preprints, full-text relevance search).
+
+    Sorted newest-first within a recency window; the seen-set dedup means each
+    night only surfaces papers that appeared since the last run. This is what
+    broadens a lane by topic rather than by a fixed journal list — e.g. "more
+    synthesis" comes from the org-chem queries in sources.yml, not a bigger ISSN
+    list. Links out to the version-of-record DOI where present, else the OA
+    landing page.
+    """
+    query = entry["query"]
+    lane = entry.get("lane", "wildcard")
+    preprint = bool(entry.get("preprint"))
+    window_months = 24 if mode == "nightly" else 72
+    from_date = _iso_days_ago(window_months * 30)
+    params = {
+        "search": query,
+        "filter": f"from_publication_date:{from_date},type:article",
+        "sort": "publication_date:desc",
+        "per_page": OPENALEX_ROWS,
+        "select": "id,doi,title,abstract_inverted_index,publication_date,primary_location",
+        "mailto": MAILTO,
+    }
+    r = requests.get(OPENALEX_API, params=params,
+                     headers={"User-Agent": UA}, timeout=HTTP_TIMEOUT)
+    r.raise_for_status()
+    for w in r.json().get("results", []):
+        doi = w.get("doi") or ""            # already a full https://doi.org/... URL
+        loc = w.get("primary_location") or {}
+        url = doi or (loc.get("landing_page_url") or "")
+        if not url:
+            continue
+        venue = ((loc.get("source") or {}).get("display_name")) or ""
+        snippet = _openalex_abstract(w.get("abstract_inverted_index")) or venue
+        cand = _candidate("openalex", url, _strip_html(w.get("title") or ""),
+                          snippet, w.get("publication_date") or "", lane,
+                          preprint=preprint, venue=venue)
+        if cand:
+            yield cand
+
+
 def harvest_reddit(entry: dict, mode: str) -> Iterable[dict]:
     """Reddit top posts, THREAD-linked, within the last 48h.
 
@@ -319,7 +376,7 @@ def harvest_arxiv(entry: dict, mode: str) -> Iterable[dict]:
     preprint = bool(entry.get("preprint"))
     url = ("http://export.arxiv.org/api/query?"
            f"search_query=cat:{cat}&sortBy=submittedDate&sortOrder=descending"
-           "&start=0&max_results=30")
+           "&start=0&max_results=50")
     feed = feedparser.parse(url)
     for e in feed.entries:
         pub = getattr(e, "published", "")[:10]
@@ -336,7 +393,7 @@ def harvest_pubmed(entry: dict, mode: str) -> Iterable[dict]:
     eutils = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils"
     esearch = requests.get(
         f"{eutils}/esearch.fcgi",
-        params={"db": "pubmed", "term": query, "retmax": 25,
+        params={"db": "pubmed", "term": query, "retmax": 40,
                 "retmode": "json", "sort": "date"},
         headers={"User-Agent": UA}, timeout=HTTP_TIMEOUT)
     esearch.raise_for_status()
@@ -366,7 +423,7 @@ def harvest_rss(entry: dict, mode: str) -> Iterable[dict]:
     lane = entry.get("lane", "wildcard")
     preprint = bool(entry.get("preprint"))
     feed = feedparser.parse(url, agent=UA)
-    for e in feed.entries[:30]:
+    for e in feed.entries[:50]:
         pub = ""
         if getattr(e, "published_parsed", None):
             pub = time.strftime("%Y-%m-%d", e.published_parsed)
@@ -448,6 +505,7 @@ def harvest_clinicaltrials(entry: dict, mode: str) -> Iterable[dict]:
 
 HANDLERS = {
     "crossref": harvest_crossref,
+    "openalex": harvest_openalex,
     "pubmed": harvest_pubmed,
     "arxiv": harvest_arxiv,
     "reddit": harvest_reddit,

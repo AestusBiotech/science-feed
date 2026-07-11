@@ -23,7 +23,7 @@ Aestus is a bioconjugation-reagent company: it makes and sells crosslinkers and 
 
 Assign exactly one lane per item. Use the closest fit; if nothing fits well, use `wildcard`. Bioconjugation/crosslinking/ADC items are not a lane of their own — route them to whichever of org chem, biochem, or radiopharma fits, and lean on the score to push them up.
 
-- **org chem** — synthetic methods, catalysis, reaction development, mechanism, total synthesis, flow chemistry, electrochemistry, linker and reagent synthesis. A new way to make a molecule.
+- **org chem** — synthetic methods, catalysis, reaction development, mechanism, total synthesis, flow chemistry, electrochemistry, linker and reagent synthesis. A new way to make a molecule. This is a **core interest lane in its own right**, not just a home for bioconjugation spillover: the reader is a trained synthetic chemist and genuinely wants to see good synthesis, whether or not it ties back to Aestus.
 - **biochem** — enzymes, structural biology, protein design, single-molecule methods, and especially protein modification and bioconjugation: crosslinkers, ADC linker/payload chemistry, site-specific and bioorthogonal conjugation, protein labeling. Prefer mechanism and method over disease association.
 - **radiopharma** — radionuclide therapy and imaging, isotope production and supply (Ac-225, Pb-212, Lu-177, generators, cyclotrons/reactors), radioligands, bifunctional chelators and radiolabeling chemistry, dosimetry, alpha/beta emitters. One of their fields — weight strong items up.
 - **biotech news** — drug pipelines, trial readouts, approvals, platform companies, M&A, and the *light business layer*: ADC/linker deals, reagent and tools suppliers, funding tied to their areas, radiopharma company and supply moves. Prefer real data over announcements. (The old `startups` lane folds in here.)
@@ -34,6 +34,7 @@ Assign exactly one lane per item. Use the closest fit; if nothing fits well, use
 
 - A concrete new method, result, or number — something that changes what's possible or what's known.
 - **Bioconjugation chemistry** in any form: crosslinker and linker design, site-specific/bioorthogonal conjugation, ADC linker and payload work, protein labeling, bifunctional chelators. This is the reader's core, across lanes.
+- **Synthetic chemistry on its own merits.** A genuinely new reaction, catalyst, methodology, mechanism, or total synthesis is core interest for this trained chemist — not filler, and not off-topic just because it has no bioconjugation angle. Score solid synthesis, catalysis, and reaction-development papers in the **mid-to-upper range (roughly 60–80)** so they comfortably clear the keep-cut; reserve the very top for work that is either exceptional synthesis or also hits the Aestus/bioconjugation core. Bioconjugation still ranks highest — this raises the floor for generic synthesis, it doesn't outrank the throughline.
 - Radiopharma and its supply/production bottlenecks (Ac-225, Pb-212, generator and reactor/cyclotron capacity).
 - The assay and QC side: radiochemical purity, release testing, HPLC/analytical methods, process chemistry that actually scales.
 - Clever chemistry or biochemistry with a real mechanism or measurement behind it.

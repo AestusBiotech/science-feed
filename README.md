@@ -14,7 +14,7 @@ Three cost centers, decoupled so each is free or nearly free:
 ```
 GitHub Actions (nightly cron ~03:00 UTC)
  ├─ harvest.py   pull candidates from Reddit / HN / arXiv / PubMed / RSS   (no AI, $0)
- ├─ curate.py    Haiku scores them against config/interests.md, keeps top N
+ ├─ curate.py    Haiku scores them against config/interests.md, keeps everything above a score bar
  ├─ rewrite.py   Haiku rewrites survivors into config/voice.md style
  ├─ assemble.py  append to chunked feed JSON, update manifest + seen-IDs
  └─ git push     GitHub Pages redeploys
@@ -80,7 +80,7 @@ Then run the pipeline against the real feed with a tiny cap to see it end-to-end
 ```
 pip install -r pipeline/requirements.txt
 MAX_ITEMS_PER_RUN=5 python pipeline/harvest.py --mode nightly
-MAX_ITEMS_PER_RUN=5 python pipeline/curate.py --keep 5
+MAX_ITEMS_PER_RUN=5 python pipeline/curate.py --keep-score 58
 python pipeline/rewrite.py
 python pipeline/assemble.py
 ```
@@ -94,9 +94,12 @@ nothing breaks — you just get no new cards.
 - **Billing:** subscription mode — calls draw on your Claude Pro/Max plan usage
   rather than pay-as-you-go API dollars. There's no per-run dollar meter; the
   ceiling is your plan's rate limits.
-- **Hard cap:** `MAX_ITEMS_PER_RUN` (default 60) is enforced in `curate.py`, so no
-  single run does more than ~40 rewrites + scoring even if a source misbehaves —
-  which keeps each run well inside plan limits.
+- **Keep-cut:** score-based, not a count — `curate.py --keep-score` keeps every
+  paper/news item at or above the bar (default 58), so a good source is never
+  dropped just because others outranked it.
+- **Backstop:** `MAX_ITEMS_PER_RUN` (default 250) in `curate.py` only trims the
+  lowest-scoring overflow if a night is pathologically large — it's a runaway
+  guard, not the cap, so normal runs are never touched by it.
 
 ## Backfill (build the vault, week one)
 
