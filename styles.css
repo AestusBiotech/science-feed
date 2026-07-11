@@ -359,6 +359,17 @@ body {
   margin-top: 10px;
   font-size: 12px;
   color: var(--text-faint);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.card-source-text {
+  min-width: 0;
+}
+/* Share lives at the far right of the source row and hangs flush to the card
+   edge (matching the save button's -6px), for a bigger tap target. */
+.card-source .share-btn {
+  margin: -6px -6px -6px auto;
 }
 
 /* ---- cycle divider ---------------------------------------------------- */

@@ -518,21 +518,10 @@ function renderCard(card, opts = {}) {
     pre.textContent = 'preprint';
     meta.appendChild(pre);
   }
-  // right-aligned button group: share, "not interested", save.
+  // right-aligned button group: "not interested", save. Share lives down in the
+  // bottom source row instead, so it can't be fat-fingered next to thumbs-down.
   const actions = document.createElement('div');
   actions.className = 'card-actions';
-
-  const share = document.createElement('button');
-  share.type = 'button';
-  share.className = 'share-btn';
-  share.innerHTML = SHARE_SVG;
-  share.setAttribute('aria-label', 'share');
-  share.title = 'Share';
-  share.addEventListener('click', (e) => {
-    e.stopPropagation();
-    shareCard(card, share);
-  });
-  actions.appendChild(share);
 
   // "Not interested": hides the card for good. Not offered in the saved or
   // Ricky lanes, where hiding makes no sense.
@@ -587,7 +576,24 @@ function renderCard(card, opts = {}) {
   src.className = 'card-source';
   const age = relAge(card);
   const origin = card.venue || SOURCE_LABEL[card.source] || card.source;
-  src.textContent = origin + (age ? ' · ' + age : '');
+  const srcText = document.createElement('span');
+  srcText.className = 'card-source-text';
+  srcText.textContent = origin + (age ? ' · ' + age : '');
+  src.appendChild(srcText);
+
+  // Share sits in the lower-right corner, well clear of the top save/hide
+  // buttons so a share tap can't land on "not interested".
+  const share = document.createElement('button');
+  share.type = 'button';
+  share.className = 'share-btn';
+  share.innerHTML = SHARE_SVG;
+  share.setAttribute('aria-label', 'share');
+  share.title = 'Share';
+  share.addEventListener('click', (e) => {
+    e.stopPropagation();
+    shareCard(card, share);
+  });
+  src.appendChild(share);
 
   a.append(meta, h, p);
   if (card.image) {
