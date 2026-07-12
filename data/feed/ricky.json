@@ -1,5 +1,24 @@
 [
  {
+  "id": "cd3d9aff220294f08bcc463c8307824aa7c4a365",
+  "source": "crossref",
+  "url": "https://doi.org/10.1021/acs.bioconjchem.6c00182",
+  "original_title": "Development of a High-Throughput Size-Exclusion Chromatography–Mass Spectrometry Workflow for Real-Time Monitoring of Bioconjugation of Cysteine-Based Antibody–Drug Conjugates",
+  "title": "Real-time ADC bioconjugation monitoring with SEC-MS",
+  "blurb": "A size-exclusion chromatography-mass spectrometry workflow that watches cysteine-based ADC conjugation as it happens, giving you drug-to-antibody ratios without waiting for end-point analytics. High-throughput means you can screen linker and payload combinations faster. Whether that's actually where your bottleneck is—conjugation rather than formulation, manufacturing, or animal testing—is another question.",
+  "lane": "methods",
+  "published": "2026-06-18",
+  "harvested": "2026-07-12",
+  "score": 90,
+  "preprint": false,
+  "venue": "Bioconjugate Chemistry",
+  "image": "",
+  "ricky": {
+   "endorsed_at": "2026-07-12T10:33:53+00:00"
+  },
+  "blurb_long": "A size-exclusion chromatography-mass spectrometry workflow that watches cysteine-based ADC conjugation as it happens, giving you drug-to-antibody ratios without waiting for end-point analytics. High-throughput monitoring means you can screen linker and payload combinations faster than endpoint assays and catch conjugation failures before they're baked in. For shops already iterating on DAR and linker chemistry, that feedback loop is useful, since you get direct readouts instead of waiting for QC analytics. But conjugation kinetics are one small piece of ADC development, and most timelines are constrained elsewhere: protein production, formulation stability, or animal testing. Still, if that's where you're stuck, the convenience is real."
+ },
+ {
   "id": "635b952243e2b38c14586b88e4101558b42f318d",
   "source": "crossref",
   "url": "https://doi.org/10.1186/s41181-026-00473-9",
