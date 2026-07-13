@@ -1341,7 +1341,9 @@ const EGG_FLING_PX = 2600;        // think: this much scroll…
 const EGG_FLING_MS = 15000;       //   …inside this window…
 const EGG_FLING_MIN_CARDS = 8;    //   …past at least this many cards
 const EGG_VOLUME_CARDS = 14;      // think: cards seen with zero engagement
-const EGG_DWELL_MS = 45000;       // thumbs: still mid-feed this long = reading
+const EGG_DWELL_MS = 30000;       // thumbs: lingered mid-feed this long = reading
+const EGG_DWELL_NUDGE_PX = 200;   //   a single scroll step past this restarts the clock (a fling)
+const EGG_DWELL_DIST_PX = 2000;   //   total scroll drift past this = skimming, restart the clock
 const EGG_AWAY_MS = 60000;        // thumbs: gone to the source at least this long
 const EGG_STREAK_DAYS = 3;        // thumbs: visit-days in a row worth noting
 const RICKY_RETORT_P = 0.15;      // chance a button tap earns a comeback
@@ -1367,6 +1369,9 @@ const egg = {
   away: null,        // {at, ricky, saved} — an outbound read we may reward on return
   hiddenAt: 0,
   dwellTimer: null,
+  dwellArmedAt: 0,   // when the current reading clock started (0 = not counting)
+  dwellDist: 0,      // total scroll accumulated since that clock started
+  lastY: 0,          // last sampled scrollY, for per-step deltas
   lastChoiceAt: 0,
   newDay: false,
   streak: 1,
@@ -1447,11 +1452,31 @@ function eggScroll(now, y) {
       tryEgg('think');
     }
   }
-  clearTimeout(egg.dwellTimer);
-  if (y > 600) {
+  // Dwell = stillness-means-reading. Being in the feed starts a reading clock;
+  // small centering nudges keep it running; a single fling (> EGG_DWELL_NUDGE_PX
+  // in one step) or drifting more than EGG_DWELL_DIST_PX in total since it
+  // started (skimming, not reading) restarts it. Fires once you've lingered
+  // EGG_DWELL_MS — reading a couple of cards, not scrolling zero.
+  const dy = Math.abs(y - egg.lastY);
+  egg.lastY = y;
+  const armDwell = () => {
+    clearTimeout(egg.dwellTimer);
+    egg.dwellArmedAt = now;
+    egg.dwellDist = 0;
     egg.dwellTimer = setTimeout(() => {
+      egg.dwellArmedAt = 0;
       if (document.visibilityState === 'visible') tryEgg('thumbs', 'dwell');
     }, EGG_DWELL_MS);
+  };
+  if (y <= 600) {                                   // left the feed — stand down
+    clearTimeout(egg.dwellTimer);
+    egg.dwellArmedAt = 0;
+    egg.dwellDist = 0;
+  } else if (!egg.dwellArmedAt || dy > EGG_DWELL_NUDGE_PX) {
+    armDwell();                                     // first scroll in-feed, or a fling
+  } else {                                          // a centering nudge: bank the distance
+    egg.dwellDist += dy;
+    if (egg.dwellDist > EGG_DWELL_DIST_PX) armDwell();
   }
 }
 
@@ -1469,6 +1494,9 @@ function eggOutbound(card) {
 function eggVisibility() {
   if (document.visibilityState !== 'visible') {
     egg.hiddenAt = Date.now();
+    clearTimeout(egg.dwellTimer);   // leaving stops the in-feed reading clock;
+    egg.dwellArmedAt = 0;           // the return path owns "came back from reading"
+    egg.dwellDist = 0;
     return;
   }
   const now = Date.now();
