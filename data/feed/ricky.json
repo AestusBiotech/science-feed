@@ -1,5 +1,24 @@
 [
  {
+  "id": "457b0f17de8551c9440c139d0592bc17db6490c7",
+  "source": "pubmed",
+  "url": "https://pubmed.ncbi.nlm.nih.gov/42325638/",
+  "original_title": "Side-by-Side Comparison of Different Thiol Bioconjugation Strategies for the Chemoselective Radiolabeling of Human Serum Albumin with Zirconium-89.",
+  "title": "Thiol bioconjugation methods for Zr-89 labeling of albumin",
+  "blurb": "Comparing different thiol strategies for chemoselective attachment of Zr-89 to human serum albumin. Useful if you need to pick which approach to use in a radiopharmaceutical, though the snippet doesn't say which one the authors preferred.",
+  "lane": "biochem",
+  "published": "2026-04-20",
+  "harvested": "2026-07-13",
+  "score": 90,
+  "preprint": false,
+  "venue": "ACS Bio Med Chem Au",
+  "image": "",
+  "ricky": {
+   "endorsed_at": "2026-07-13T13:41:24+00:00"
+  },
+  "blurb_long": "Comparing different thiol strategies for chemoselective attachment of Zr-89 to human serum albumin. Useful if you need to pick which approach to use in a radiopharmaceutical, though the snippet doesn't say which one the authors preferred. Zr-89 labeling of proteins is worthwhile because the half-life suits delayed-distribution imaging, and albumin is a robust platform for this work. The real variables across different thiol strategies are yield, specific activity, labeling time, and downstream purity — different methods will prioritize these differently. It's a useful methods comparison for anyone already committed to this platform, though you'll probably want to run your own optimization based on your specific constraints."
+ },
+ {
   "id": "cd3d9aff220294f08bcc463c8307824aa7c4a365",
   "source": "crossref",
   "url": "https://doi.org/10.1021/acs.bioconjchem.6c00182",
