@@ -4,8 +4,8 @@
   "source": "pubmed",
   "url": "https://pubmed.ncbi.nlm.nih.gov/42325638/",
   "original_title": "Side-by-Side Comparison of Different Thiol Bioconjugation Strategies for the Chemoselective Radiolabeling of Human Serum Albumin with Zirconium-89.",
-  "title": "Thiol bioconjugation methods for Zr-89 labeling of albumin",
-  "blurb": "Comparing different thiol strategies for chemoselective attachment of Zr-89 to human serum albumin. Useful if you need to pick which approach to use in a radiopharmaceutical, though the snippet doesn't say which one the authors preferred.",
+  "title": "Maleimide finally gets a real head-to-head",
+  "blurb": "Runs maleimide, PODS, and vinylketone side by side for Cys-specific labeling of human serum albumin with Zr-89, instead of the usual one-off comparison against maleimide as benchmark. Mal's thiosuccinimide linkage is known to leak in vivo, so this is basically an audition for what replaces it.",
   "lane": "biochem",
   "published": "2026-04-20",
   "harvested": "2026-07-13",
@@ -16,7 +16,7 @@
   "ricky": {
    "endorsed_at": "2026-07-13T13:41:24+00:00"
   },
-  "blurb_long": "Comparing different thiol strategies for chemoselective attachment of Zr-89 to human serum albumin. Useful if you need to pick which approach to use in a radiopharmaceutical, though the snippet doesn't say which one the authors preferred. Zr-89 labeling of proteins is worthwhile because the half-life suits delayed-distribution imaging, and albumin is a robust platform for this work. The real variables across different thiol strategies are yield, specific activity, labeling time, and downstream purity — different methods will prioritize these differently. It's a useful methods comparison for anyone already committed to this platform, though you'll probably want to run your own optimization based on your specific constraints."
+  "blurb_long": "Runs maleimide, PODS, and vinylketone side by side for Cys-specific labeling of human serum albumin with Zr-89, instead of the usual one-off comparison against maleimide as benchmark. Mal's thiosuccinimide linkage is known to leak in vivo, so this is basically an audition for what replaces it. Zr-89 sees real clinical PET use, so a leaky linker there means a failed tracer, full stop. Running all three methods in parallel instead of one-against-maleimide benchmarking finally shows which ranks where. In vitro stability and labeling efficiency matter, but whether any of it translates to better in vivo retention is what actually counts."
  },
  {
   "id": "cd3d9aff220294f08bcc463c8307824aa7c4a365",
