@@ -1,5 +1,5 @@
 """Rewriter: turn each survivor's title + snippet into a hook `title` and a
-2-3 sentence `blurb` in the user's voice (config/voice.md). Second AI stage.
+short `blurb` in the user's voice (config/voice.md). Second AI stage.
 
 Batches ~10 items per request through Claude Code in subscription mode (the
 `claude` CLI, not the metered API), with the voice guide as the system prompt.
@@ -39,14 +39,15 @@ SCHEMA = {
 def _prompt(batch: list[dict]) -> str:
     lines = []
     for i, s in enumerate(batch):
-        snippet = s["snippet"][:400]
+        snippet = s["snippet"][:800]
         lines.append(
             f"[{i}] lane: {s['lane']}\noriginal title: {s['original_title']}"
             + (f"\nsnippet: {snippet}" if snippet else "")
         )
     return (
-        "Rewrite each item into a hook title and a 2-3 sentence blurb in the "
-        "voice from the style guide. Return one result per item, using the "
+        "Rewrite each item into a hook title and a short blurb in the "
+        "voice from the style guide, its length following the substance rather "
+        "than a fixed sentence count. Return one result per item, using the "
         "bracket number as `index`.\n\n" + "\n\n".join(lines)
     )
 
@@ -70,7 +71,7 @@ def main() -> None:
     for start in range(0, len(survivors), BATCH):
         batch = survivors[start:start + BATCH]
         try:
-            results = c.claude_json(_prompt(batch), system, SCHEMA)["results"]
+            results = c.claude_json(_prompt(batch), system, SCHEMA, model=c.REWRITE_MODEL)["results"]
         except (RuntimeError, json.JSONDecodeError, KeyError, TypeError) as exc:
             c.die(f"could not get/parse rewriter response: {exc}")
 

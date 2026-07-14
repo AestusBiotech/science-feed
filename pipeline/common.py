@@ -44,7 +44,8 @@ CARDS = SCRATCH / "cards.json"             # rewrite.py -> assemble.py
 MAX_ITEMS_PER_RUN = int(os.environ.get("MAX_ITEMS_PER_RUN", "250"))
 CANDIDATE_POOL_CAP = int(os.environ.get("CANDIDATE_POOL_CAP", "400"))
 CARDS_PER_CHUNK = 100
-MODEL = "claude-haiku-4-5"  # locked by the plan. do not change.
+MODEL = "claude-haiku-4-5"  # default for the cheap stages (curate, ricky).
+REWRITE_MODEL = "claude-sonnet-5"  # rewrite runs on Sonnet: far better voice + structure.
 
 
 def log(msg: str) -> None:
@@ -157,7 +158,7 @@ def _extract_json(text: str) -> Any:
         raise
 
 
-def claude_json(prompt: str, system: str, schema: dict) -> Any:
+def claude_json(prompt: str, system: str, schema: dict, model: str = MODEL) -> Any:
     """One Haiku call via Claude Code (subscription auth); returns parsed JSON.
 
     `system` fully replaces Claude Code's default agent system prompt. Since the
@@ -187,7 +188,7 @@ def claude_json(prompt: str, system: str, schema: dict) -> Any:
             fh.write(system)
         cmd = [
             exe, "-p",
-            "--model", MODEL,
+            "--model", model,
             "--system-prompt-file", sys_path,
             "--output-format", "json",
             "--allowed-tools", "",       # pure text task; forbid tool use
