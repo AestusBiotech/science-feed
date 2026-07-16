@@ -365,7 +365,7 @@ def harvest_reddit(entry: dict, mode: str) -> Iterable[dict]:
         summary = _strip_html(summary_html)
         summary = re.split(r"submitted by", summary)[0].strip()
         cand = _candidate("reddit", thread, getattr(e, "title", ""),
-                          summary, pub, lane, image=image)
+                          summary, pub, lane, venue=f"r/{sub}", image=image)
         if cand:
             yield cand
 

@@ -1,6 +1,10 @@
 """Rewriter: turn each survivor's title + snippet into a hook `title` and a
 short `blurb` in the user's voice (config/voice.md). Second AI stage.
 
+Reddit is exempt: threads keep their own title and lead text verbatim, since a
+thread is someone talking and the voice belongs to them, not to us. Only
+papers/news go to the model.
+
 Batches ~10 items per request through Claude Code in subscription mode (the
 `claude` CLI, not the metered API), with the voice guide as the system prompt.
 Each reply is a JSON {index, title, blurb} array. On failure we exit nonzero
@@ -52,6 +56,24 @@ def _prompt(batch: list[dict]) -> str:
     )
 
 
+def _card(s: dict, title: str, blurb: str, harvested: str) -> dict:
+    return {
+        "id": s["id"],
+        "source": s["source"],
+        "url": s["url"],
+        "original_title": s["original_title"],
+        "title": title,
+        "blurb": blurb,
+        "lane": s["lane"],
+        "published": s.get("published", ""),
+        "harvested": harvested,
+        "score": s.get("score", 0),
+        "preprint": bool(s.get("preprint", False)),
+        "venue": s.get("venue", ""),
+        "image": s.get("image", ""),
+    }
+
+
 def main() -> None:
     survivors = c.read_json(c.SURVIVORS, default=[]) or []
     if not survivors:
@@ -59,17 +81,25 @@ def main() -> None:
         c.write_json(c.CARDS, [])
         return
 
-    if not c.claude_bin():
+    harvested = c.today()
+
+    # Reddit threads never reach the model; they carry their own words through.
+    raw = {s["id"]: _card(s, s["original_title"].strip(), s["snippet"].strip(), harvested)
+           for s in survivors if s.get("source") == "reddit"}
+    to_rewrite = [s for s in survivors if s.get("source") != "reddit"]
+    if raw:
+        c.log(f"{len(raw)} reddit threads kept verbatim")
+
+    if to_rewrite and not c.claude_bin():
         c.log("claude CLI not found - skipping rewrite (exit 0)")
         c.write_json(c.CARDS, [])
         return
 
     system = c.load_text("voice.md")
 
-    harvested = c.today()
-    cards: list[dict] = []
-    for start in range(0, len(survivors), BATCH):
-        batch = survivors[start:start + BATCH]
+    rewritten: dict[str, dict] = {}
+    for start in range(0, len(to_rewrite), BATCH):
+        batch = to_rewrite[start:start + BATCH]
         try:
             results = c.claude_json(_prompt(batch), system, SCHEMA, model=c.REWRITE_MODEL)["results"]
         except (RuntimeError, json.JSONDecodeError, KeyError, TypeError) as exc:
@@ -81,22 +111,12 @@ def main() -> None:
             if not r or not r.get("title") or not r.get("blurb"):
                 c.log(f"  no rewrite for item {start + i} ({s['id'][:8]}); dropping")
                 continue
-            cards.append({
-                "id": s["id"],
-                "source": s["source"],
-                "url": s["url"],
-                "original_title": s["original_title"],
-                "title": r["title"].strip(),
-                "blurb": r["blurb"].strip(),
-                "lane": s["lane"],
-                "published": s.get("published", ""),
-                "harvested": harvested,
-                "score": s.get("score", 0),
-                "preprint": bool(s.get("preprint", False)),
-                "venue": s.get("venue", ""),
-                "image": s.get("image", ""),
-            })
-        c.log(f"  rewrote {min(start + BATCH, len(survivors))}/{len(survivors)}")
+            rewritten[s["id"]] = _card(s, r["title"].strip(), r["blurb"].strip(), harvested)
+        c.log(f"  rewrote {min(start + BATCH, len(to_rewrite))}/{len(to_rewrite)}")
+
+    # survivor order, so the reddit passthroughs land where curate put them
+    cards = [c_ for s in survivors
+             if (c_ := raw.get(s["id"]) or rewritten.get(s["id"]))]
 
     c.write_json(c.CARDS, cards)
     c.log(f"produced {len(cards)} cards")
