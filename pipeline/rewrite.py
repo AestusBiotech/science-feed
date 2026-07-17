@@ -7,8 +7,11 @@ papers/news go to the model.
 
 Batches ~10 items per request through Claude Code in subscription mode (the
 `claude` CLI, not the metered API), with the voice guide as the system prompt.
-Each reply is a JSON {index, title, blurb} array. On failure we exit nonzero
-without writing cards so the feed stays at its last good state.
+Each reply is a JSON {index, title, blurb} array. A batch that still fails
+after claude_json's own retries is dropped and the run continues — one flaky
+call must not cost the whole night. But if more than one batch is lost, that
+is breakage rather than a blip: exit nonzero without writing cards so the
+feed stays at its last good state.
 """
 from __future__ import annotations
 
@@ -98,12 +101,17 @@ def main() -> None:
     system = c.load_text("voice.md")
 
     rewritten: dict[str, dict] = {}
+    lost_batches = 0
     for start in range(0, len(to_rewrite), BATCH):
         batch = to_rewrite[start:start + BATCH]
         try:
             results = c.claude_json(_prompt(batch), system, SCHEMA, model=c.REWRITE_MODEL)["results"]
         except (RuntimeError, json.JSONDecodeError, KeyError, TypeError) as exc:
-            c.die(f"could not get/parse rewriter response: {exc}")
+            lost_batches += 1
+            if lost_batches > 1:
+                c.die(f"rewriter failing repeatedly ({lost_batches} batches lost): {exc}")
+            c.log(f"  dropping batch at {start} ({len(batch)} items) after retries: {exc}")
+            continue
 
         by_index = {r.get("index"): r for r in results if isinstance(r.get("index"), int)}
         for i, s in enumerate(batch):

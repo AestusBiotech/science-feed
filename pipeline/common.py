@@ -12,6 +12,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import time
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -166,6 +167,11 @@ def claude_json(prompt: str, system: str, schema: dict, model: str = MODEL) -> A
     parse the reply ourselves. Raises on CLI failure or unparseable output —
     callers decide whether that's fatal (curate/rewrite) or skippable (ricky).
 
+    Transient failures (rate-limit/overload blips show up as exit 1 with empty
+    stderr, or a garbled reply) get retried with backoff before we raise — two
+    nightly runs died mid-rewrite on a single such blip, so one bad call must
+    not be terminal here.
+
     Mechanics that matter: the system prompt goes in via --system-prompt-file and
     the user prompt via stdin, never as argv strings. A multi-kilobyte guide or
     batch passed as an argv element quietly breaks the CLI's flag parsing so
@@ -193,14 +199,27 @@ def claude_json(prompt: str, system: str, schema: dict, model: str = MODEL) -> A
             "--output-format", "json",
             "--allowed-tools", "",       # pure text task; forbid tool use
         ]
-        proc = subprocess.run(
-            cmd, input=full_prompt, capture_output=True, text=True,
-            encoding="utf-8", env=env, cwd=str(SCRATCH),
-        )
+        last_exc: Exception | None = None
+        for attempt, delay in enumerate((0, 20, 60), start=1):
+            if delay:
+                log(f"  claude call failed ({last_exc}); retry {attempt}/3 in {delay}s")
+                time.sleep(delay)
+            try:
+                proc = subprocess.run(
+                    cmd, input=full_prompt, capture_output=True, text=True,
+                    encoding="utf-8", env=env, cwd=str(SCRATCH),
+                )
+                return _parse_cli_reply(proc)
+            except (RuntimeError, json.JSONDecodeError) as exc:
+                last_exc = exc
+        raise RuntimeError(f"claude CLI failed after 3 attempts: {last_exc}")
     finally:
         if os.path.exists(sys_path):
             os.remove(sys_path)
 
+
+def _parse_cli_reply(proc: subprocess.CompletedProcess) -> Any:
+    """Turn one CLI invocation into parsed JSON, raising on any failure shape."""
     if proc.returncode != 0:
         raise RuntimeError(
             f"claude CLI exited {proc.returncode}: {(proc.stderr or '')[:400]}"
