@@ -1,5 +1,24 @@
 [
  {
+  "id": "99a661feee345ef06222dd91e5547313e51f0e71",
+  "source": "crossref",
+  "url": "https://doi.org/10.1007/s11307-026-02124-6",
+  "original_title": "FcRn-Targeted Alpha Therapy Using [225Ac]Ac-Macropa-Rozanolixizumab Enables Potent Antitumor Activity",
+  "title": "Repurposing an anti-FcRn antibody as an alpha-particle warhead",
+  "blurb": "Rozanolixizumab, the anti-FcRn antibody used clinically to strip circulating IgG in autoimmune disease, gets fitted with a Macropa chelator and loaded with Actinium-225 instead, aimed at tumors rather than antibody clearance. FcRn's day job is recycling antibodies, not marking cancer cells, so it's an odd target for alpha therapy, but the paper reports potent antitumor activity.",
+  "lane": "radiopharma",
+  "published": "2026-07-15",
+  "harvested": "2026-07-17",
+  "score": 92,
+  "preprint": false,
+  "venue": "Molecular Imaging and Biology",
+  "image": "https://media.springernature.com/m685/springer-static/image/art%3A10.1007%2Fs11307-026-02124-6/MediaObjects/11307_2026_2124_Fig1_HTML.png",
+  "ricky": {
+   "endorsed_at": "2026-07-17T23:19:54+00:00"
+  },
+  "blurb_long": "Rozanolixizumab, the anti-FcRn antibody used clinically to strip circulating IgG in autoimmune disease, gets fitted with a Macropa chelator and loaded with Actinium-225 instead, aimed at tumors rather than antibody clearance. FcRn's day job is recycling antibodies, not marking cancer cells, so it's an odd target for alpha therapy, but the paper reports potent antitumor activity. The rationale bets on FcRn overexpression in the tumor vasculature or cancer microenvironment—plausible in some solid tumors but hardly assured. Ac-225's two-day half-life concentrates the dose locally, which matters because short-half-life alpha emitters are notoriously hard to deliver intact; keeping the radioactivity on target before decay is the whole advantage. Rozanolixizumab's binding affinity for FcRn was optimized for IgG stripping in circulation, not tumor targeting, so accumulation may hit an affinity ceiling if FcRn expression is borderline. Probably mice and early efficacy data at this stage, which means the numbers are only as robust as the tumor model and whether FcRn's expression pattern actually supports the hypothesis."
+ },
+ {
   "id": "457b0f17de8551c9440c139d0592bc17db6490c7",
   "source": "pubmed",
   "url": "https://pubmed.ncbi.nlm.nih.gov/42325638/",
