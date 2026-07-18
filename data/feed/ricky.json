@@ -1,5 +1,24 @@
 [
  {
+  "id": "e42b59f17fd101e8a2defadaa7cbf9d8efa68224",
+  "source": "rss",
+  "url": "https://www.nature.com/articles/s41586-026-10789-w",
+  "original_title": "Modular in vivo antibody–ADC click to reverse drug resistance in tumours",
+  "title": "An antibody-drug conjugate you assemble after the antibody's already in the tumor",
+  "blurb": "Click chemistry lets you attach a drug payload onto an already-administered therapeutic antibody in vivo, converting a plain antibody into an ADC in situ. Boosted antitumor activity against heterogeneous and treatment-resistant tumors, and the modular part means one payload chemistry could pair with antibodies already in the clinic instead of building a bespoke conjugate for each one.",
+  "lane": "biochem",
+  "published": "2026-07-15",
+  "harvested": "2026-07-18",
+  "score": 92,
+  "preprint": false,
+  "venue": "",
+  "image": "https://media.springernature.com/m685/springer-static/image/art%3A10.1038%2Fs41586-026-10789-w/MediaObjects/41586_2026_10789_Fig1_HTML.png",
+  "ricky": {
+   "endorsed_at": "2026-07-18T09:49:34+00:00"
+  },
+  "blurb_long": "Click chemistry lets you attach a drug payload onto an already-administered therapeutic antibody in vivo, converting a plain antibody into an ADC in situ. Boosted antitumor activity against heterogeneous and treatment-resistant tumors, though only in mice so far. The modularity is the real win: one payload chemistry could pair with antibodies already in the clinic instead of building a bespoke conjugate for each one. The real gamble is timing: the payload has to reach the tumor and ligate before the antibody has already cleared the tissue, and whether that window is real or just works in a mouse model is the open question. Off-target attachment in vivo also matters. If it works, it's a way to salvage antibodies that were borderline as naked agents and to iterate payloads without making a new ADC each time."
+ },
+ {
   "id": "99a661feee345ef06222dd91e5547313e51f0e71",
   "source": "crossref",
   "url": "https://doi.org/10.1007/s11307-026-02124-6",
