@@ -1,5 +1,24 @@
 [
  {
+  "id": "0cc542828debf44445c54f7887749805b80ad404",
+  "source": "pubmed",
+  "url": "https://pubmed.ncbi.nlm.nih.gov/42481872/",
+  "original_title": "Inline gamma spectroscopy and liquid scintillation HPLC reveal daughters in (225)Ac-radiopharmaceutical.",
+  "title": "Watching Ac-225's decay daughters show up in real time",
+  "blurb": "Pairing inline gamma spectroscopy with liquid scintillation HPLC to actually catch the daughter nuclides riding along in an Ac-225 radiopharmaceutical. Those daughters are the whole reason alpha therapy dosimetry is a headache, so an analytical method that tracks them as they form is worth having even if it's not a fix.",
+  "lane": "radiopharma",
+  "published": "2026-07-21",
+  "harvested": "2026-07-23",
+  "score": 92,
+  "preprint": false,
+  "venue": "EJNMMI Radiopharm Chem",
+  "image": "https://media.springernature.com/m685/springer-static/image/art%3A10.1186%2Fs41181-026-00476-6/MediaObjects/41181_2026_476_Fig1_HTML.png",
+  "ricky": {
+   "endorsed_at": "2026-07-23T11:35:26+00:00"
+  },
+  "blurb_long": "Pairing inline gamma spectroscopy with liquid scintillation HPLC to actually catch the daughter nuclides riding along in an Ac-225 radiopharmaceutical. Those daughters are the whole reason alpha therapy dosimetry is a headache, so an analytical method that tracks them as they form is worth having even if it's not a fix. You get real-time resolution on Fr-221 and other decay products, which matters if you're trying to QC a manufactured batch or predict dose accurately. The tricky part is that you're still measuring a problem, not solving it—the daughters are going to be there either way, and their contribution to normal tissue dose doesn't go away because you can now see them clearly. But knowing what you have beats guessing, and if this holds up as a manufacturing tool it saves you from shipping material you can't properly dose."
+ },
+ {
   "id": "e42b59f17fd101e8a2defadaa7cbf9d8efa68224",
   "source": "rss",
   "url": "https://www.nature.com/articles/s41586-026-10789-w",
