@@ -1,5 +1,24 @@
 [
  {
+  "id": "98d5ec2830cd05e40a15343465c5fef5f24b14fc",
+  "source": "crossref",
+  "url": "https://doi.org/10.1021/acs.bioconjchem.6c00234",
+  "original_title": "Discovery of a Novel Tripeptide Linker that Broadens the Therapeutic Window of Auristatin-Based Antibody–Drug Conjugates by Reducing Bone Marrow Toxicity",
+  "title": "A tripeptide linker that keeps auristatin ADCs out of the bone marrow",
+  "blurb": "A new tripeptide linker for auristatin-based ADCs that widens the therapeutic window specifically by cutting bone marrow toxicity, the usual dose-limiting problem for this drug class.",
+  "lane": "biochem",
+  "published": "2026-07-23",
+  "harvested": "2026-07-24",
+  "score": 90,
+  "preprint": false,
+  "venue": "Bioconjugate Chemistry",
+  "image": "",
+  "ricky": {
+   "endorsed_at": "2026-07-24T11:17:22+00:00"
+  },
+  "blurb_long": "A new tripeptide linker for auristatin-based ADCs that widens the therapeutic window specifically by cutting bone marrow toxicity, the usual dose-limiting problem for this drug class. The practical angle is that higher doses become possible without hitting the marrow ceiling, which means actual efficacy gains for this class, not just side-effect reduction. Preclinical work only. Whether the linker transfers to other auristatins or is locked to the single payload they tested will show whether this is broadly useful or narrow in scope."
+ },
+ {
   "id": "0cc542828debf44445c54f7887749805b80ad404",
   "source": "pubmed",
   "url": "https://pubmed.ncbi.nlm.nih.gov/42481872/",
