@@ -1,5 +1,24 @@
 [
  {
+  "id": "34a28a3e26577b9ed3be19deeb8339af83b6891b",
+  "source": "openalex",
+  "url": "https://doi.org/10.1016/j.canlet.2026.218753",
+  "original_title": "Antibody-drug conjugates against multidrug-resistant cancers: Biomarker-guided patient selection, payload engineering, linker chemistry, and bystander effects",
+  "title": "A field guide to fixing ADCs when resistance sets in",
+  "blurb": "A review rounding up the levers for antibody-drug conjugates against multidrug-resistant cancers: picking patients by biomarker, engineering the payload, tuning the linker chemistry, and leaning on bystander killing. No new data here, just the state of the field laid out in one place.",
+  "lane": "biochem",
+  "published": "2026-07-21",
+  "harvested": "2026-07-26",
+  "score": 95,
+  "preprint": false,
+  "venue": "Cancer Letters",
+  "image": "https://ars.els-cdn.com/content/image/1-s2.0-S0304383526005173-gr1.jpg",
+  "ricky": {
+   "endorsed_at": "2026-07-26T10:34:21+00:00"
+  },
+  "blurb_long": "A review rounding up the levers for antibody-drug conjugates against multidrug-resistant cancers: picking patients by biomarker, engineering the payload, tuning the linker chemistry, and leaning on bystander killing. No new data here, just the state of the field laid out in one place. Biomarker selection is non-negotiable because target density is everything for an ADC, and MDR tumors are often heterogeneous, which is why high-expression cohorts are the standard play. The payload and linker are locked together: more potency means better bystander killing but higher risk if the drug escapes the endosome, so linker chemistry is as critical as payload design. Bystander effects are the real mechanism against cold, heterogeneous tumors, but only if you're willing to accept off-target killing."
+ },
+ {
   "id": "98d5ec2830cd05e40a15343465c5fef5f24b14fc",
   "source": "crossref",
   "url": "https://doi.org/10.1021/acs.bioconjchem.6c00234",
