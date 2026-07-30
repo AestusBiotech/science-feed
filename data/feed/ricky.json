@@ -1,5 +1,24 @@
 [
  {
+  "id": "ca3a42a1511771c956ab50a1a61484a6708ccf1a",
+  "source": "openalex",
+  "url": "https://doi.org/10.1002/cbic.70484",
+  "original_title": "Generation of DAR1 Glycosite‐Specific Antibody‐Drug Conjugates Using DisacLink Technology",
+  "title": "Dialing ADC drug-to-antibody ratio down to exactly one, via the sugars",
+  "blurb": "DisacLink is their glycosite-specific conjugation platform, now tuned to lock DAR at 1 instead of the usual 2-8 spread other site-specific methods give you. Lower DAR is supposed to help ultrapotent payloads penetrate tumor tissue and stay safer, and does something similar for antibody-oligonucleotide conjugates' pharmacokinetics. Reads like a platform paper, not a clinical one.",
+  "lane": "biochem",
+  "published": "2026-07-28",
+  "harvested": "2026-07-30",
+  "score": 92,
+  "preprint": false,
+  "venue": "ChemBioChem",
+  "image": "",
+  "ricky": {
+   "endorsed_at": "2026-07-30T11:30:53+00:00"
+  },
+  "blurb_long": "DisacLink is their glycosite-specific conjugation platform, now tuned to lock DAR at 1 instead of the usual 2-8 spread other site-specific methods give you. Lower DAR is supposed to help ultrapotent payloads penetrate tumor tissue and stay safer, and does something similar for antibody-oligonucleotide conjugates' pharmacokinetics. Reads like a platform paper, not a clinical one. The real tradeoff is half the payload per antibody compared to DAR2, which only works if your drug is potent enough to compensate at lower load. Whether DAR1 is actually optimal or just their chosen setpoint depends on the payload. Glycosite conjugation is more uniform than lysine approaches, which is real, but whether this generalizes across different antibodies and cytotoxins or stays narrow to their test set is the scope question that determines if this matters."
+ },
+ {
   "id": "34a28a3e26577b9ed3be19deeb8339af83b6891b",
   "source": "openalex",
   "url": "https://doi.org/10.1016/j.canlet.2026.218753",
