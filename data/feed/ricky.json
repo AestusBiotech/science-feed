@@ -1,5 +1,24 @@
 [
  {
+  "id": "9d2607af014bb14a5ca91e1224dbc7c5605b9f66",
+  "source": "pubmed",
+  "url": "https://pubmed.ncbi.nlm.nih.gov/42541818/",
+  "original_title": "Development and validation of a gamma spectrometry method for actinium-225 quantification and routine radionuclidic purity monitoring.",
+  "title": "A gamma spectrometry method for checking Ac-225 is actually pure",
+  "blurb": "Not a new therapy, just the validated method for quantifying actinium-225 and catching radionuclidic contaminants by gamma spectrometry. The unglamorous QC work that has to exist before anyone can trust a production batch.",
+  "lane": "radiopharma",
+  "published": "2026-07-31",
+  "harvested": "2026-08-02",
+  "score": 95,
+  "preprint": false,
+  "venue": "Appl Radiat Isot",
+  "image": "https://ars.els-cdn.com/content/image/1-s2.0-S0969804326004264-gr1.jpg",
+  "ricky": {
+   "endorsed_at": "2026-08-02T06:12:17+00:00"
+  },
+  "blurb_long": "Not a new therapy, just the validated method for quantifying actinium-225 and catching radionuclidic contaminants by gamma spectrometry. The unglamorous QC work that has to exist before anyone can trust a production batch. Ac-225 is tight enough on supply that every milligram matters, and you can't run the trials everyone has designed around it if you can't verify what's actually in the batch. This is the sort of thing that should exist but often doesn't until someone publishes it. No one gets excited about validated assays, but material you can trust costs a lot more than material you can't."
+ },
+ {
   "id": "ca3a42a1511771c956ab50a1a61484a6708ccf1a",
   "source": "openalex",
   "url": "https://doi.org/10.1002/cbic.70484",
