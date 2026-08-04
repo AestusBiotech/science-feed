@@ -1,5 +1,24 @@
 [
  {
+  "id": "9dd5b9f3a3b62c85b2a869d646ab7e799329d354",
+  "source": "rss",
+  "url": "https://www.biorxiv.org/content/10.64898/2026.07.31.742023v1?rss=1",
+  "original_title": "N-Terminal Alkylation of Proteins with Triazole-4-carbaldehyde for Targeted Liposome Engineering",
+  "title": "Sticking proteins to liposomes without engineering them first",
+  "blurb": "TA4C reacts with the free N-terminal amine of a native protein in water, one step, no genetic tags or protecting groups needed. Swap in a hexyl or nonyl tail and you dial how hard the protein sticks to the membrane; GFP goes on in 93% yield as proof of concept.",
+  "lane": "biochem",
+  "published": "2026-08-03",
+  "harvested": "2026-08-04",
+  "score": 78,
+  "preprint": true,
+  "venue": "",
+  "image": "",
+  "ricky": {
+   "endorsed_at": "2026-08-04T06:11:44+00:00"
+  },
+  "blurb_long": "TA4C reacts with the free N-terminal amine of a native protein in water, one step, no genetic tags or protecting groups needed. Swap in a hexyl or nonyl tail and you dial how hard the protein sticks to the membrane; GFP goes on in 93% yield as proof of concept. Site-specific labeling without protein engineering is a genuine advantage over scrambled lysine conjugation. One protein tested, which is where every conjugation method starts. Whether scope holds and whether the tunable binding actually improves outcomes are the questions that matter."
+ },
+ {
   "id": "9d2607af014bb14a5ca91e1224dbc7c5605b9f66",
   "source": "pubmed",
   "url": "https://pubmed.ncbi.nlm.nih.gov/42541818/",
