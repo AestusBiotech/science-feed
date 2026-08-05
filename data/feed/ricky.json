@@ -1,5 +1,24 @@
 [
  {
+  "id": "de8f4ea030054ab3cbcf6776e0d397e277a08019",
+  "source": "crossref",
+  "url": "https://doi.org/10.1021/jacs.6c09548",
+  "original_title": "A Bioorthogonal Desilylation System Potentiates mRNA Therapeutics in Tumors",
+  "title": "Teaching mRNA nanoparticles to wait until they hit the tumor",
+  "blurb": "LNPs are the standard mRNA delivery vehicle, but they pile up in the liver, so oncology doses have to run hot enough to cause lipid toxicity and off-target liver expression. This platform, SiLNP, uses a cleavable silyl-ether trigger to keep the ionizable lipid inert until it reaches the tumor, then releases the mRNA into the cytosol there. The pitch is a lower effective dose without giving up potency, though that's still a tumor-model claim, not a clinical one.",
+  "lane": "biochem",
+  "published": "2026-08-05",
+  "harvested": "2026-08-05",
+  "score": 90,
+  "preprint": false,
+  "venue": "Journal of the American Chemical Society",
+  "image": "",
+  "ricky": {
+   "endorsed_at": "2026-08-05T06:24:32+00:00"
+  },
+  "blurb_long": "LNPs are the standard mRNA delivery vehicle, but they pile up in the liver, so oncology doses have to run hot enough to cause lipid toxicity and off-target liver expression. This platform, SiLNP, uses a cleavable silyl-ether trigger to keep the ionizable lipid inert until it reaches the tumor, then releases the mRNA into the cytosol there. The pitch is a lower effective dose without giving up potency, though that's still a tumor-model claim, not a clinical one. The catch is that LNPs still have their normal hepatic tropism and aren't suddenly selective for tumors, so you're banking on the minority that reach the tumor being more effective. The silyl-ether trigger needs the right chemical environment to activate, adding another variable between mouse tumor models and human tissue. If activation is inefficient or condition-dependent, the dose-limiting toxicity just moves to the liver."
+ },
+ {
   "id": "9dd5b9f3a3b62c85b2a869d646ab7e799329d354",
   "source": "rss",
   "url": "https://www.biorxiv.org/content/10.64898/2026.07.31.742023v1?rss=1",
