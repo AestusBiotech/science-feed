@@ -1,5 +1,24 @@
 [
  {
+  "id": "ddc68d3b0d0054232616543ec74fd238fa9c5ecf",
+  "source": "rss",
+  "url": "https://www.biorxiv.org/content/10.64898/2026.08.05.743073v1?rss=1",
+  "original_title": "Supramolecular Site-Specific Antibody Drug Conjugates Outperform Cysteine-Conjugated Analogs in Pancreatic Peritoneal Carcinomatosis",
+  "title": "Coiled-coil peptides beat cysteines at loading the payload",
+  "blurb": "A supramolecular ADC conjugation method that uses self-assembling heterotetrameric coiled-coil peptide pairs instead of cysteine chemistry, giving uniform, site-specific drug loading. In a pancreatic peritoneal carcinomatosis model it beat cysteine-conjugated ADCs on both pharmacokinetics and efficacy. Mouse data, but a clean alternative to the usual maleimide-cysteine mess.",
+  "lane": "biochem",
+  "published": "2026-08-06",
+  "harvested": "2026-08-07",
+  "score": 92,
+  "preprint": true,
+  "venue": "",
+  "image": "",
+  "ricky": {
+   "endorsed_at": "2026-08-07T05:38:08+00:00"
+  },
+  "blurb_long": "A supramolecular ADC conjugation method that uses self-assembling heterotetrameric coiled-coil peptide pairs instead of cysteine chemistry, giving uniform, site-specific drug loading. In a pancreatic peritoneal carcinomatosis model it beat cysteine-conjugated ADCs on both pharmacokinetics and efficacy. Mouse data, but a clean alternative to the usual maleimide-cysteine mess. Uniform stoichiometry tightens the therapeutic window by eliminating over- and underdosed molecules, which is the mechanism behind the PK gain. The trade-off is bespoke peptide scaffolds for each new antibody instead of a universal chemical handle. Human PK data and efficacy in other tumor models are missing."
+ },
+ {
   "id": "de8f4ea030054ab3cbcf6776e0d397e277a08019",
   "source": "crossref",
   "url": "https://doi.org/10.1021/jacs.6c09548",
