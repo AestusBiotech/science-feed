@@ -1,5 +1,24 @@
 [
  {
+  "id": "22b56fc21ce1551e3a71f5a5e9fb31e7fa7244ef",
+  "source": "pubmed",
+  "url": "https://pubmed.ncbi.nlm.nih.gov/42570304/",
+  "original_title": "Incorporation of azide groups into an engineered Fn3 scaffold protein for site-specific, bioorthogonal conjugation.",
+  "title": "Azide handles on an Fn3 scaffold, so conjugation lands where you want it",
+  "blurb": "An engineered Fn3 domain gets azide groups built in for site-specific, bioorthogonal conjugation, the same site-specific pitch antibody engineers keep making, just on a smaller scaffold this time.",
+  "lane": "biochem",
+  "published": "2026-08-08",
+  "harvested": "2026-08-09",
+  "score": 88,
+  "preprint": false,
+  "venue": "Protein Eng Des Sel",
+  "image": "",
+  "ricky": {
+   "endorsed_at": "2026-08-09T04:43:47+00:00"
+  },
+  "blurb_long": "An engineered Fn3 domain gets azide groups built in for site-specific, bioorthogonal conjugation, the same site-specific pitch antibody engineers keep making, just on a smaller scaffold this time. Smaller scaffolds have been promising easier manufacturing and better tissue penetration for years, and they still haven't displaced antibodies yet, which is itself informative. The usual reason is binding—you have less surface to work with, so hitting the affinity targets that matter for efficacy gets harder. Site-specific conjugation is a cleaner chemistry story, but cleaner chemistry doesn't rescue a weak binder. Whether this one clears both bars is the open question."
+ },
+ {
   "id": "ddc68d3b0d0054232616543ec74fd238fa9c5ecf",
   "source": "rss",
   "url": "https://www.biorxiv.org/content/10.64898/2026.08.05.743073v1?rss=1",
