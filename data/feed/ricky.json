@@ -1,5 +1,24 @@
 [
  {
+  "id": "1a1f3eca739f6d9e10331e43a3ac732a526bfce1",
+  "source": "crossref",
+  "url": "https://doi.org/10.1021/acs.bioconjchem.6c00295",
+  "original_title": "Differential Chemoselectivity of Homobifunctional and Monofunctional Maleimide Reagents for Bioconjugation",
+  "title": "Multivalent maleimides don't play by monovalent rules",
+  "blurb": "Thiol-maleimide chemistry is well understood for the standard single-maleimide reagent, but stack two maleimides on one linker for a multivalent bioconjugate and the chemoselectivity apparently shifts in ways that haven't been mapped out. Worth knowing before you assume a homobifunctional linker behaves like two monovalent ones taped together.",
+  "lane": "biochem",
+  "published": "2026-08-10",
+  "harvested": "2026-08-11",
+  "score": 95,
+  "preprint": false,
+  "venue": "Bioconjugate Chemistry",
+  "image": "",
+  "ricky": {
+   "endorsed_at": "2026-08-11T04:50:42+00:00"
+  },
+  "blurb_long": "Thiol-maleimide chemistry is well understood for the standard single-maleimide reagent, but stack two maleimides on one linker for a multivalent bioconjugate and the chemoselectivity apparently shifts in ways that haven't been mapped out. Tethered together, the two maleimides don't react like independent reagents; proximity and electronic coupling change their reactivity and selectivity for different thiols. For ADCs in particular, this is a real problem: a homobifunctional linker that conjugates less efficiently or less selectively than you'd predict can tank your batch homogeneity. The paper apparently works out the kinetic and selectivity differences across various linker scaffolds and cysteine contexts, filling a gap that was overdue. Worth knowing before you assume a homobifunctional linker behaves like two monovalent ones taped together."
+ },
+ {
   "id": "22b56fc21ce1551e3a71f5a5e9fb31e7fa7244ef",
   "source": "pubmed",
   "url": "https://pubmed.ncbi.nlm.nih.gov/42570304/",
