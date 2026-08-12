@@ -1,5 +1,24 @@
 [
  {
+  "id": "d58929e69ea35fb155dad856322f2782d7e0a451",
+  "source": "crossref",
+  "url": "https://doi.org/10.1007/s11307-026-02131-7",
+  "original_title": "Site-Specific Native Antibody-Conjugated Microbubbles for Molecular Ultrasound Imaging of Hepatocellular Carcinoma",
+  "title": "Ultrasound microbubbles get a click-chemistry antibody handle",
+  "blurb": "LASIC conjugation puts anti-GPC3 antibodies on microbubbles through a DBCO click adapter at the antibody's heavy chain, instead of the usual random lysine coupling that can quietly wreck antigen binding. Blocking experiments confirm the specificity holds, aimed at picking out GPC3-positive liver cancer by ultrasound rather than MRI or PET.",
+  "lane": "biochem",
+  "published": "2026-08-11",
+  "harvested": "2026-08-12",
+  "score": 90,
+  "preprint": false,
+  "venue": "Molecular Imaging and Biology",
+  "image": "",
+  "ricky": {
+   "endorsed_at": "2026-08-12T05:23:18+00:00"
+  },
+  "blurb_long": "LASIC conjugation puts anti-GPC3 antibodies on microbubbles through a DBCO click adapter at the antibody's heavy chain, instead of the usual random lysine coupling that can quietly wreck antigen binding. Blocking experiments confirm the specificity holds, aimed at picking out GPC3-positive liver cancer by ultrasound rather than MRI or PET. The conjugation is technically sound and GPC3 is a legitimate HCC marker, but blocking experiments are all we see—no in-vivo imaging, no pharmacokinetics, no evidence that microbubbles accumulate or clear properly. Ultrasound for cancer imaging usually underperforms MRI and CT, and it's not clear why it's better here. If the conjugate homes to GPC3-positive tumors and generates enough signal for real-time imaging, intraoperative guidance is worth exploring, but animal models come first."
+ },
+ {
   "id": "1a1f3eca739f6d9e10331e43a3ac732a526bfce1",
   "source": "crossref",
   "url": "https://doi.org/10.1021/acs.bioconjchem.6c00295",
