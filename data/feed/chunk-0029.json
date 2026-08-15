@@ -1453,5 +1453,50 @@
   "preprint": false,
   "venue": "r/biochemistry",
   "image": ""
+ },
+ {
+  "id": "a9ebd14116aefd3c57134fd4e0736a0194a7d26c",
+  "source": "rss",
+  "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE1TbHpJRHE5NENTNEpaOEpZSTVsMm5NWlJ1c2RZd09acW5PbEdfMGhZWF9EUWhTZkluTHJ0NmMzVmNOd0d4VnJVWDdzeUlGS204UHlUdW1kbVM0R2p4?oc=5",
+  "original_title": "Walid Kamoun: The Next Phase of Antibody-Drug Conjugate Innovation - Oncodaily",
+  "title": "An ADC researcher's take on what's next",
+  "blurb": "Kamoun's read on where antibody-drug conjugates go from here, framed as an interview rather than a paper with data to check.",
+  "lane": "biotech news",
+  "published": "2026-08-14",
+  "harvested": "2026-08-15",
+  "score": 92,
+  "preprint": false,
+  "venue": "",
+  "image": ""
+ },
+ {
+  "id": "94df410251a279175d4d72f46ab018ecf0475790",
+  "source": "pubmed",
+  "url": "https://pubmed.ncbi.nlm.nih.gov/42587267/",
+  "original_title": "Sugar Amino Acid Linkers for the Design of [(18)F]SiFA-PSMA Radioligands.",
+  "title": "A sugar-based linker for PSMA PET tracers",
+  "blurb": "Sugar amino acids slotted in as the linker for [18F]SiFA-PSMA radioligands, the kind of tweak that's usually chasing better hydrophilicity and clearance rather than tighter binding.",
+  "lane": "radiopharma",
+  "published": "2026-08-14",
+  "harvested": "2026-08-15",
+  "score": 85,
+  "preprint": false,
+  "venue": "ChemMedChem",
+  "image": ""
+ },
+ {
+  "id": "761cdaa2da315f38fddc6df1f5e71d6a9b996615",
+  "source": "openalex",
+  "url": "https://doi.org/10.1016/j.jpba.2026.117696",
+  "original_title": "Identification and quantitation strategies of circulating cysteine-conjugated linker-payload catabolites and free payload from a cleavable-linker ADC",
+  "title": "Tracking where ADC payload actually ends up in blood",
+  "blurb": "A bioanalytical method for finding and quantifying the cysteine-conjugated linker-payload catabolites and free payload that a cleavable-linker ADC sheds into circulation. Unglamorous, but you need it to know what's actually floating around after the antibody does its job.",
+  "lane": "biochem",
+  "published": "2026-08-09",
+  "harvested": "2026-08-15",
+  "score": 85,
+  "preprint": false,
+  "venue": "Journal of Pharmaceutical and Biomedical Analysis",
+  "image": "https://ars.els-cdn.com/content/image/1-s2.0-S073170852600364X-gr1.jpg"
  }
 ]
