@@ -1453,5 +1453,50 @@
   "preprint": false,
   "venue": "r/OrganicChemistry",
   "image": ""
+ },
+ {
+  "id": "df5c46f4c9dd114dfb090bce7277cf24cce855b3",
+  "source": "crossref",
+  "url": "https://doi.org/10.1021/acs.orglett.6c03048",
+  "original_title": "Convergent Synthesis of a Bifunctional GPI as a Universal Platform to Access Diverse GPI and GPI-Anchored Protein Probes",
+  "title": "One GPI anchor, azide and biotin both wired in, to build whatever probe you need",
+  "blurb": "A convergent synthesis of a bifunctional GPI anchor carrying both an azide for click chemistry and a biotin for avidin conjugation, meant as a general platform for churning out GPI and GPI-anchored protein probes without redesigning the synthesis each time. Spin-labeled versions made from it were used elsewhere to show GPI actually sets the membrane orientation of the attached protein, which is the more interesting payoff.",
+  "lane": "biochem",
+  "published": "2026-08-14",
+  "harvested": "2026-08-16",
+  "score": 88,
+  "preprint": false,
+  "venue": "Organic Letters",
+  "image": ""
+ },
+ {
+  "id": "cbf3a18a994c2af07e25392d7265e5394fd7e7dd",
+  "source": "pubmed",
+  "url": "https://pubmed.ncbi.nlm.nih.gov/42603345/",
+  "original_title": "Synthesis and evaluation of [(68)Ga]Ga-DOTA-Pip-PEP-4 derivatives for imaging gastrin-releasing peptide receptor expression with positron emission tomography.",
+  "title": "A new 68Ga tracer for gastrin-releasing peptide receptor PET",
+  "blurb": "Synthesis and evaluation of DOTA-Pip-PEP-4 peptide derivatives labeled with gallium-68, built to image GRPR expression by PET. That's about all there is on offer here.",
+  "lane": "radiopharma",
+  "published": "2026-08-14",
+  "harvested": "2026-08-16",
+  "score": 85,
+  "preprint": false,
+  "venue": "Nucl Med Biol",
+  "image": "https://ars.els-cdn.com/content/image/1-s2.0-S0969805126000739-ga1.jpg"
+ },
+ {
+  "id": "1990baabd2419332a6cc6691822ba7a0ee991bac",
+  "source": "openalex",
+  "url": "https://doi.org/10.48321/d16ad6485a",
+  "original_title": "Carbonyl reactivity and post-translational modification of C2 domain lysine clusters",
+  "title": "Lysine clusters in C2 domains look like easy carbonylation targets",
+  "blurb": "Lysine sidechains react nonenzymatically with cellular carbonyl compounds constantly, more so under oxidative stress, and proteomics still hasn't mapped what that actually does to protein function. This one zeroes in on lysine clusters in C2 domains, the same clusters that normally coordinate phosphoinositide binding, so carbonylation there is a plausible way to quietly wreck membrane signaling.",
+  "lane": "biochem",
+  "published": "2026-08-14",
+  "harvested": "2026-08-16",
+  "score": 82,
+  "preprint": false,
+  "venue": "California Digital Library",
+  "image": ""
  }
 ]
