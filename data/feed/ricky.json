@@ -1,5 +1,24 @@
 [
  {
+  "id": "d51c5427ee7bb8da0ade98722e1ad1aa19f91ddd",
+  "source": "openalex",
+  "url": "https://doi.org/10.1080/17576180.2026.2716471",
+  "original_title": "A DAR sensitive hybrid LBA-LC-MS/MS assay for quantitation of conjugated payload from a non-cleavable ADC in human serum",
+  "title": "A pulldown-plus-mass-spec fix for ADCs that regular immunoassays get wrong",
+  "blurb": "Standard ligand-binding assays can't distinguish DAR species and end up over- or under-calling drug load. This hybrid assay pulls down BMS-X, a site-specific non-cleavable ADC with a unique payload, using a target-ECD/mouse-Fc fusion, then hands off to LC-MS/MS to actually quantify conjugated payload in human serum. A methods paper, but a real fix for a known blind spot in ADC bioanalysis.",
+  "lane": "methods",
+  "published": "2026-08-17",
+  "harvested": "2026-08-19",
+  "score": 90,
+  "preprint": false,
+  "venue": "Bioanalysis",
+  "image": "",
+  "ricky": {
+   "endorsed_at": "2026-08-19T04:18:42+00:00"
+  },
+  "blurb_long": "Standard ligand-binding assays can't distinguish DAR species and end up over- or under-calling drug load. This hybrid assay pulls down BMS-X, a site-specific non-cleavable ADC with a unique payload, using a target-ECD/mouse-Fc fusion, then hands off to LC-MS/MS to actually quantify conjugated payload in human serum. The target fusion protein is the key—it pulls out the ADC specifically while sidestepping the usual payload-detection problem on non-cleavable constructs. A methods paper, but a real fix for a known blind spot in ADC bioanalysis. The catch is predictable: you need a custom target fusion for each new ADC, and LC-MS/MS work doesn't scale like running a plate reader. Still, for programs where the payload fraction actually drives the PK, this is a straight upgrade over the old LBA blind spots."
+ },
+ {
   "id": "d58929e69ea35fb155dad856322f2782d7e0a451",
   "source": "crossref",
   "url": "https://doi.org/10.1007/s11307-026-02131-7",
