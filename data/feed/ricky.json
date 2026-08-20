@@ -1,5 +1,24 @@
 [
  {
+  "id": "8cc7afc943564004f2ee8707cfbfb27ba2213926",
+  "source": "pubmed",
+  "url": "https://pubmed.ncbi.nlm.nih.gov/42615516/",
+  "original_title": "Differential Chemoselectivity of Homobifunctional and Monofunctional Maleimide Reagents for Bioconjugation.",
+  "title": "Not all maleimides are interchangeable",
+  "blurb": "A side-by-side look at homobifunctional versus monofunctional maleimide reagents shows they don't behave the same way in bioconjugation. Worth knowing if you've been swapping one for the other without checking the chemoselectivity first.",
+  "lane": "biochem",
+  "published": "2026-08-19",
+  "harvested": "2026-08-20",
+  "score": 91,
+  "preprint": false,
+  "venue": "Bioconjug Chem",
+  "image": "",
+  "ricky": {
+   "endorsed_at": "2026-08-20T04:24:55+00:00"
+  },
+  "blurb_long": "A side-by-side look at homobifunctional versus monofunctional maleimide reagents shows they don't behave the same way in bioconjugation. Worth knowing if you've been swapping one for the other without checking the chemoselectivity first. Their chemoselectivity differs, which means they react preferentially with different targets or sites, and so your conjugate composition shifts depending on which you pick. That's not just efficiency; it affects purity and the specificity of your bioconjugate. Treating them as interchangeable is a quick way to find out they're not, especially if you're scaling a process or moving reagent sources. It's the kind of detail that lives in supplementary tables until something breaks."
+ },
+ {
   "id": "d51c5427ee7bb8da0ade98722e1ad1aa19f91ddd",
   "source": "openalex",
   "url": "https://doi.org/10.1080/17576180.2026.2716471",
