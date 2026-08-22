@@ -1,5 +1,24 @@
 [
  {
+  "id": "c59a0cfdb9fccf2db4a8e94bd63b95835c3e3552",
+  "source": "openalex",
+  "url": "https://doi.org/10.1038/s44160-026-01143-z",
+  "original_title": "Traceless sortase ligation for chemical protein synthesis",
+  "title": "Sortase ligation, minus the scar",
+  "blurb": "A traceless version of sortase-mediated protein ligation, for chemical protein synthesis without leaving the usual reaction scar behind.",
+  "lane": "org chem",
+  "published": "2026-08-20",
+  "harvested": "2026-08-22",
+  "score": 87,
+  "preprint": false,
+  "venue": "Nature Synthesis",
+  "image": "",
+  "ricky": {
+   "endorsed_at": "2026-08-22T04:05:39+00:00"
+  },
+  "blurb_long": "A traceless version of sortase-mediated protein ligation, for chemical protein synthesis without leaving the usual reaction scar behind. Normal sortase recognizes a short peptide motif and leaves it in your product; if you need native sequence or that leftover tag interferes with folding or your assay, it's a real problem. This version deletes it entirely, so you get a native product. Whether it matters depends on substrate scope—if this works on the proteins and sequences that come up in real synthesis, it's a useful tool; if it's limited to the examples in the paper, it stays specialist."
+ },
+ {
   "id": "8cc7afc943564004f2ee8707cfbfb27ba2213926",
   "source": "pubmed",
   "url": "https://pubmed.ncbi.nlm.nih.gov/42615516/",

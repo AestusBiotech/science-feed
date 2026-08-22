@@ -1,0 +1,62 @@
+[
+ {
+  "id": "6366cb6ae218e431f2abdec3443c7002139c07a8",
+  "source": "rss",
+  "url": "https://www.sciencedirect.com/science/article/pii/S0969804326004483?dgcid=rss_sd_all",
+  "original_title": "Suppression of <sup>40</sup>K-Induced background in gamma-ray spectrometry for food radioactivity analysis: A Monte Carlo study",
+  "title": "Simulating away potassium-40's noise in food radioactivity checks",
+  "blurb": "A Monte Carlo study aimed at the specific headache of gamma spectrometry for food safety: potassium-40 is naturally everywhere in food and its background swamps the peaks you actually care about. They model ways to suppress it rather than just live with the noise floor. No word here on how much it actually buys you in detection limits, so it reads more like a methods setup than a result yet.",
+  "lane": "methods",
+  "published": "",
+  "harvested": "2026-08-22",
+  "score": 58,
+  "preprint": false,
+  "venue": "",
+  "image": "https://ars.els-cdn.com/content/image/1-s2.0-S0969804326004483-gr1.jpg"
+ },
+ {
+  "id": "0f56af684766da318136b663a7dc104700216628",
+  "source": "reddit",
+  "url": "https://www.reddit.com/r/chemistry/comments/1vuk9j4/update_on_my_700mcompound_5ht2a_virtual_screen/",
+  "original_title": "Update on my 700M-compound 5-HT2A virtual screen: down to ~20,000 candidates",
+  "title": "Update on my 700M-compound 5-HT2A virtual screen: down to ~20,000 candidates",
+  "blurb": "A few months ago I posted here about the largest virtual screening campaign I had attempted: roughly 700 million ZINC22 compounds screened against the serotonin 5-HT2A receptor. A lot has happened since then, so I figured I would post an update. After the initial high-throughput screen and progressively more stringent docking and filtering, I’m now down to roughly 20,000 molecules. The next stage is something I’m particularly interested in. Rather than continuing to rank everything against a single receptor structure, I’m going to screen this reduced set across multiple experimentally determin",
+  "lane": "org chem",
+  "published": "2026-08-21",
+  "harvested": "2026-08-22",
+  "score": 64,
+  "preprint": false,
+  "venue": "r/chemistry",
+  "image": "https://preview.redd.it/m0ereab12rkh1.jpeg?width=640&crop=smart&auto=webp&s=a64da1d001213d2f39c1016e76a5550c21f5b06a"
+ },
+ {
+  "id": "8a04ac9a854403e967f4c0694683f1faaa0be715",
+  "source": "reddit",
+  "url": "https://www.reddit.com/r/biotech/comments/1vur61p/3rd_death_in_iit_trial/",
+  "original_title": "3rd death in IIT trial",
+  "title": "3rd death in IIT trial",
+  "blurb": "This is the third death reported after the two other deaths related to gene therapies tested in IITs in China were reported in the news. &#32;",
+  "lane": "biotech news",
+  "published": "2026-08-21",
+  "harvested": "2026-08-22",
+  "score": 60,
+  "preprint": false,
+  "venue": "r/biotech",
+  "image": ""
+ },
+ {
+  "id": "10b7604ec6b319b917c21023fdc39ea62cab3849",
+  "source": "reddit",
+  "url": "https://www.reddit.com/r/Chempros/comments/1vudeq8/phoenix_eln_version_51_released/",
+  "original_title": "Phoenix ELN Version 5.1 Released",
+  "title": "Phoenix ELN Version 5.1 Released",
+  "blurb": "The open-source organic chemistry electronic lab notebook Phoenix ELN now features a full-text search across all experiment protocols on the local database, or across all users on the optional server database. https://preview.redd.it/jkz86nrgopkh1.png?width=838&format=png&auto=webp&s=a97b43e82440193606c9eb8e61741f43c9d0a2b3 There are also new options for adjustments in experiment navigation tree display: https://preview.redd.it/aseoobtjopkh1.png?width=459&format=png&auto=webp&s=f78fa5ba8d8121b7baa8927d581f7ac917f8c731 Version 5.1.0 can be downloaded from GitHub. &#32;",
+  "lane": "org chem",
+  "published": "2026-08-21",
+  "harvested": "2026-08-22",
+  "score": 57,
+  "preprint": false,
+  "venue": "r/Chempros",
+  "image": "https://external-preview.redd.it/vknrm55l1mc31X0g5lzqtdH544F-55np8LLNb9gLbXo.png?width=140&height=70&auto=webp&s=b1bac0aa0cd6baab282777a233d3d76c31046845"
+ }
+]
