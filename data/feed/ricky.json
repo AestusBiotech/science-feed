@@ -1,5 +1,24 @@
 [
  {
+  "id": "bdbe6992d1569086b2bec27785702db83c421015",
+  "source": "crossref",
+  "url": "https://doi.org/10.1021/acs.bioconjchem.6c00322",
+  "original_title": "Beyond Cytotoxic Payloads for Antibody Drug Conjugates─A Medicinal Chemistry Perspective",
+  "title": "ADCs need better payloads, not just better antibodies",
+  "blurb": "A perspective arguing ADC toxicity mostly traces back to the same handful of broadly cytotoxic payloads everyone still reaches for, and that mechanistically targeted small molecules paired with better antibodies could do the precision work instead. Getting there means junking some of the LogD/pKa/permeability rules med chem built around killing cells indiscriminately.",
+  "lane": "biochem",
+  "published": "2026-08-21",
+  "harvested": "2026-08-23",
+  "score": 92,
+  "preprint": false,
+  "venue": "Bioconjugate Chemistry",
+  "image": "",
+  "ricky": {
+   "endorsed_at": "2026-08-23T04:09:40+00:00"
+  },
+  "blurb_long": "A perspective arguing ADC toxicity mostly traces back to the same handful of broadly cytotoxic payloads everyone still reaches for, and that mechanistically targeted small molecules paired with better antibodies could do the precision work instead. Getting there means junking some of the LogD/pKa/permeability rules med chem built around killing cells indiscriminately. The old rules optimized for maximum distribution and cell penetration, fine for broadly cytotoxic payloads, wrong for on-target selectivity. A targeted inhibitor needs different properties, but the perspective stops short of saying what they should be—lower LogD to keep it localized, reworked pKa, different efflux handling, or something else are all still candidates. The call for rethinking is stronger than the rethinking itself."
+ },
+ {
   "id": "c59a0cfdb9fccf2db4a8e94bd63b95835c3e3552",
   "source": "openalex",
   "url": "https://doi.org/10.1038/s44160-026-01143-z",
