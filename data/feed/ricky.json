@@ -1,5 +1,24 @@
 [
  {
+  "id": "b64e6640b7bd6f579e5f4a06fd5d964c9689c5b4",
+  "source": "crossref",
+  "url": "https://doi.org/10.1021/acs.bioconjchem.6c00171",
+  "original_title": "Development of a Homogeneous Trastuzumab-Triptolide Conjugate for Targeted Therapy of HER2-Overexpressing Ovarian Cancer",
+  "title": "A homogeneous trastuzumab ADC, no DAR mishmash",
+  "blurb": "A dibromomaleimide linker rebridges the antibody's native disulfides to hang on a triptolide payload, giving one defined conjugate instead of the usual spread of drug-to-antibody ratios lysine conjugation gives you. Built for HER2-overexpressing ovarian cancer, where chemo dosing is otherwise capped by toxicity.",
+  "lane": "biochem",
+  "published": "2026-08-22",
+  "harvested": "2026-08-24",
+  "score": 88,
+  "preprint": false,
+  "venue": "Bioconjugate Chemistry",
+  "image": "",
+  "ricky": {
+   "endorsed_at": "2026-08-24T04:11:02+00:00"
+  },
+  "blurb_long": "A dibromomaleimide linker rebridges the antibody's native disulfides to hang on a triptolide payload, giving one defined conjugate instead of the usual spread of drug-to-antibody ratios lysine conjugation gives you. Built for HER2-overexpressing ovarian cancer, where chemo dosing is otherwise capped by toxicity. Homogeneous loading means cleaner PK and less off-target release. Triptolide's a known toxin with a narrow therapeutic index, so this works only if targeting actually cuts systemic exposure—not guaranteed with a non-standard payload. The chemistry is sound."
+ },
+ {
   "id": "bdbe6992d1569086b2bec27785702db83c421015",
   "source": "crossref",
   "url": "https://doi.org/10.1021/acs.bioconjchem.6c00322",
