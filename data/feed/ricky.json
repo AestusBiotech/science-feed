@@ -1,5 +1,24 @@
 [
  {
+  "id": "7b367912e2395a860a2a9665eccda94c017ac79d",
+  "source": "crossref",
+  "url": "https://doi.org/10.1039/d6ob00609d",
+  "original_title": "The sulfo-click reaction: expanding the toolbox for bioconjugation and medicinal chemistry",
+  "title": "Sulfo-click muscles into the bioconjugation toolbox",
+  "blurb": "A review of sulfo-click chemistry built around N-acylsulfonamide formation, pitched as a modular route into bioconjugation and drug design. Mostly a survey of what the reaction can already do rather than a new result.",
+  "lane": "biochem",
+  "published": "2026-01-01",
+  "harvested": "2026-08-26",
+  "score": 88,
+  "preprint": false,
+  "venue": "Organic & Biomolecular Chemistry",
+  "image": "",
+  "ricky": {
+   "endorsed_at": "2026-08-26T04:20:19+00:00"
+  },
+  "blurb_long": "A review of sulfo-click chemistry built around N-acylsulfonamide formation, pitched as a modular route into bioconjugation and drug design. Mostly a survey of what the reaction can already do rather than a new result. The appeal is that it works under mild aqueous conditions and tolerates most common protecting groups, making it useful for protein tagging and linker chemistry where harsher methods cause collateral damage. It's also orthogonal to azide ligations and thio-click, which matters if you're building multi-component systems. Bioconjugation adoption runs on network effects more than technical novelty, though, so whether labs outside the authors' groups actually switch to this is unclear."
+ },
+ {
   "id": "b64e6640b7bd6f579e5f4a06fd5d964c9689c5b4",
   "source": "crossref",
   "url": "https://doi.org/10.1021/acs.bioconjchem.6c00171",
