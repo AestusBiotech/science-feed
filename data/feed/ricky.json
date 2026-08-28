@@ -1,5 +1,24 @@
 [
  {
+  "id": "995129b1cf24514232991b0b27bc000e62bcc406",
+  "source": "rss",
+  "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE1qc0xTak1vbUtqZUpUa3RDQkFFLVFwSXdEU2VWQ2hEOG5STlRYcjk5UXFQUUhxVTMxSk9EbkthT0FkYklmc243MFhaUGRhWjhsck8wb3VzNEtZNjU1SnRj?oc=5",
+  "original_title": "Cyclopropanol can function as a caged dual-functional warhead for selective electrochemical bioconjugation - Nature",
+  "title": "A warhead that stays caged until you switch it on",
+  "blurb": "Cyclopropanol working as a dual-functional warhead for bioconjugation, sitting inert until it's deliberately triggered rather than firing the moment it meets its target.",
+  "lane": "biochem",
+  "published": "2026-08-28",
+  "harvested": "2026-08-28",
+  "score": 95,
+  "preprint": false,
+  "venue": "",
+  "image": "",
+  "ricky": {
+   "endorsed_at": "2026-08-28T15:30:39+00:00"
+  },
+  "blurb_long": "Cyclopropanol working as a dual-functional warhead for bioconjugation, sitting inert until it's deliberately triggered rather than firing the moment it meets its target. Electrochemical activation lets you run the reaction on your timeline instead of battling background reactivity, and the dual functionality means you get two coupling handles from one warhead. Cleaner bioconjugates in theory, but whether it stays caged in the cellular reducing environment is the part that actually matters. The conjugation chemistries aren't new, so the win lives in having both triggered by the same external handle rather than fighting for specificity separately. You'd want to see this on actual antibodies before calling it solved. Triggering them externally is at least a cleaner approach than managing separate warheads, though whether that wins in practice depends on caging robustness."
+ },
+ {
   "id": "7b367912e2395a860a2a9665eccda94c017ac79d",
   "source": "crossref",
   "url": "https://doi.org/10.1039/d6ob00609d",
