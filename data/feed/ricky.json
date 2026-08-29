@@ -1,5 +1,24 @@
 [
  {
+  "id": "196861da7431838c3811866cfa776def62ec171b",
+  "source": "pubmed",
+  "url": "https://pubmed.ncbi.nlm.nih.gov/42664704/",
+  "original_title": "Macropa derivatives for radiopharmaceutical and rare-earth element separation.",
+  "title": "Macropa's job description keeps growing",
+  "blurb": "A review of macropa-family chelators, the macrocycle built to hold onto big radiometals for targeted radiopharmaceuticals, now also getting used to separate rare-earth elements. One ligand, two different industries.",
+  "lane": "radiopharma",
+  "published": "2026-08-28",
+  "harvested": "2026-08-29",
+  "score": 85,
+  "preprint": false,
+  "venue": "Curr Opin Chem Biol",
+  "image": "https://ars.els-cdn.com/content/image/1-s2.0-S1367593126001043-ga1.jpg",
+  "ricky": {
+   "endorsed_at": "2026-08-29T10:02:34+00:00"
+  },
+  "blurb_long": "A review of macropa-family chelators, the macrocycle built to hold onto big radiometals for targeted radiopharmaceuticals, now also getting used to separate rare-earth elements. One ligand, two different industries. Macropa's strength is selectivity and stability — it binds the metal you want and lets the others go, which is why it works for both alpha-emitter radiopharmaceuticals and industrial lanthanide/actinide separation. The interesting part is that nobody designed it for rare earths; it turns out the same shape that restrains an actinium-225 works on yttrium or terbium. The catch is affinity ranking — you need the right macropa derivative for each metal pair, and synthesis scales slowly, so it's not a drop-in solution for legacy separation workflows yet. But if the chelator selectivity holds in industrial conditions and can be made cheap enough, it becomes the rare-earth equivalent of a therapeutic radiopharmaceutical: targeted extraction instead of brute-force chemistry."
+ },
+ {
   "id": "995129b1cf24514232991b0b27bc000e62bcc406",
   "source": "rss",
   "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE1qc0xTak1vbUtqZUpUa3RDQkFFLVFwSXdEU2VWQ2hEOG5STlRYcjk5UXFQUUhxVTMxSk9EbkthT0FkYklmc243MFhaUGRhWjhsck8wb3VzNEtZNjU1SnRj?oc=5",
