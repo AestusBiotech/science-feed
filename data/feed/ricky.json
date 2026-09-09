@@ -1,5 +1,24 @@
 [
  {
+  "id": "fd7c0adda9f88306eeb4993eb3243b91abd46580",
+  "source": "chemrxiv",
+  "url": "https://doi.org/10.26434/chemrxiv.15008525/v1",
+  "original_title": "Coupling Insoluble Pteroic Acid Using Quaternary Ammonium Salts: Synthesis of a Peptide Bearing a Folic Acid Moiety",
+  "title": "Getting pteroic acid to dissolve long enough to couple it",
+  "blurb": "Pteroic acid barely dissolves in anything, which has made folate conjugation a pain. Swapping in a tetraalkylammonium hydroxide solubilizes it enough for clean coupling to an amine and an easy workup, and it holds up across several amino acids, so it reads as a general route to folate and pteroate peptide conjugates rather than a one-off trick.",
+  "lane": "org chem",
+  "published": "2026-09-08",
+  "harvested": "2026-09-09",
+  "score": 88,
+  "preprint": true,
+  "venue": "ChemRxiv",
+  "image": "",
+  "ricky": {
+   "endorsed_at": "2026-09-09T08:31:07+00:00"
+  },
+  "blurb_long": "Pteroic acid barely dissolves in anything, which has made folate conjugation a pain. Swapping in a tetraalkylammonium hydroxide solubilizes it enough for clean coupling to an amine and an easy workup, and it holds up across several amino acids, so it reads as a general route to folate and pteroate peptide conjugates rather than a one-off trick. Folate conjugates see real use in drug targeting and diagnostics, so removing a synthesis bottleneck is practical rather than purely academic. The neat part is reagent economy—the quaternary ammonium hydroxide solubilizes the substrate and provides the base in one go, no second reagent. It's clever reagent work rather than deep chemistry, but that's usually what you need to fix a real synthesis problem."
+ },
+ {
   "id": "196861da7431838c3811866cfa776def62ec171b",
   "source": "pubmed",
   "url": "https://pubmed.ncbi.nlm.nih.gov/42664704/",
