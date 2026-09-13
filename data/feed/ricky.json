@@ -1,5 +1,24 @@
 [
  {
+  "id": "6c41d9a7deb0ba61c9e60ea0fb4cbfcc6fc010d7",
+  "source": "crossref",
+  "url": "https://doi.org/10.1021/jacs.6c16358",
+  "original_title": "A Click-Triggered Bioorthogonal Strategy for Dual Activation of Covalent Warheads and Reporter Payloads",
+  "title": "A covalent warhead that stays off until you click it on",
+  "blurb": "Michael acceptors are always-on electrophiles, which is exactly the problem for precision covalent drugs and chemical probes. Here the warhead gets masked with hydroxylamine, then a bioorthogonal click with a cyclooctyne triggers a Cope elimination that regenerates the active electrophile on demand. The same trigger also switches on a reporter payload, so activation and readout land together instead of the electrophile just sitting there reactive the whole time.",
+  "lane": "org chem",
+  "published": "2026-09-12",
+  "harvested": "2026-09-13",
+  "score": 85,
+  "preprint": false,
+  "venue": "Journal of the American Chemical Society",
+  "image": "",
+  "ricky": {
+   "endorsed_at": "2026-09-13T08:16:44+00:00"
+  },
+  "blurb_long": "Michael acceptors are always-on electrophiles, which is exactly the problem for precision covalent drugs and chemical probes. Here the warhead gets masked with hydroxylamine, then a bioorthogonal click with a cyclooctyne triggers a Cope elimination that regenerates the active electrophile on demand. The same trigger also switches on a reporter payload, so activation and readout land together instead of the electrophile just sitting there reactive the whole time. Cope elimination is rapid and mild enough for cells. The catch is that the hydroxylamine mask necessarily adds steric bulk, and whether that hurts target binding enough to offset the off-target reduction is the real bet. If it doesn't, you have precision covalent drugs with tunable activation; if it does, you've just added a synthesis step for no net gain."
+ },
+ {
   "id": "fd7c0adda9f88306eeb4993eb3243b91abd46580",
   "source": "chemrxiv",
   "url": "https://doi.org/10.26434/chemrxiv.15008525/v1",
