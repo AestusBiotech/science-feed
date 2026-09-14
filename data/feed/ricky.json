@@ -1,5 +1,24 @@
 [
  {
+  "id": "8594e5232133e12288a0a1e02b16443800eb1754",
+  "source": "crossref",
+  "url": "https://doi.org/10.1021/jacs.6c15432",
+  "original_title": "Metal-Dependent Coordination Geometry Controls Autolytic Amide Bond Cleavage to Enable Prodrug Activation",
+  "title": "A metal chelate as the trigger, not just the payload carrier",
+  "blurb": "Ga3+, Fe3+, In3+, and Co3+ chelates sit next to an amide bond and drive their own hydrolysis (TMAC), cleaving beside N-methylated and canonical amino acids at rates you can tune just by picking the metal. Each one has its own pH dependence and mechanism, and they hung one off the N-terminus of a cytotoxic payload to see if the chemistry actually works as a prodrug trigger.",
+  "lane": "biochem",
+  "published": "2026-09-14",
+  "harvested": "2026-09-14",
+  "score": 82,
+  "preprint": false,
+  "venue": "Journal of the American Chemical Society",
+  "image": "",
+  "ricky": {
+   "endorsed_at": "2026-09-14T08:55:14+00:00"
+  },
+  "blurb_long": "Ga3+, Fe3+, In3+, and Co3+ chelates sit next to an amide bond and drive their own hydrolysis (TMAC), cleaving beside N-methylated and canonical amino acids at rates you can tune just by picking the metal. Each one has its own pH dependence and mechanism, and they hung one off the N-terminus of a cytotoxic payload to see if the chemistry actually works as a prodrug trigger. This is in vitro chemistry on a model cytotoxic; whether the cleavage rates actually translate to cell killing is untested. The usual prodrug engineering constraint applies—fast activation at the tumor but slow enough in circulation to avoid off-target release. Whether the metal coordination survives in serum is another question."
+ },
+ {
   "id": "6c41d9a7deb0ba61c9e60ea0fb4cbfcc6fc010d7",
   "source": "crossref",
   "url": "https://doi.org/10.1021/jacs.6c16358",
