@@ -1,0 +1,32 @@
+[
+ {
+  "id": "2dedcbb0ea449da41f145989881c3ff7cec3ac0b",
+  "source": "reddit",
+  "url": "https://www.reddit.com/r/Chempros/comments/1wh4d0b/super_fast_nucleationcrystallization_during/",
+  "original_title": "Super fast nucleation/crystallization during spin-coating perovskite",
+  "title": "Super fast nucleation/crystallization during spin-coating perovskite",
+  "blurb": "Hey, I am reaching out to people who work on spin-coating and perovskites/similar. I have recently run into an issue where my thin films seem to crystallize so rapidly that instead of a continuous film, it forms very small particles all over the substrate. From SEM and AFM it looks like these are &quot;eating up&quot; the film. I have been using DMSO as solvent, but I have also tried DMF:DMSO mixture, with a similar if not worse outcome. Spin program is 1000 rpm 5s and 2000 rpm for 30 s. Followed by annealing at 100 Celcius for 5 to 10 minutes. I have also tested spinning at just 1000 rpm and",
+  "lane": "org chem",
+  "published": "2026-09-15",
+  "harvested": "2026-09-16",
+  "score": 62,
+  "preprint": false,
+  "venue": "r/Chempros",
+  "image": ""
+ },
+ {
+  "id": "9dfcbf62135fe4aec2a9b1fee345256e4ae221a7",
+  "source": "reddit",
+  "url": "https://www.reddit.com/r/labrats/comments/1whf1v7/nature_bunsen_burners_reputation_for_sterilizing/",
+  "original_title": "[Nature] Bunsen burners’ reputation for sterilizing workplaces flames out",
+  "title": "[Nature] Bunsen burners’ reputation for sterilizing workplaces flames out",
+  "blurb": "Recently read about this topic in Nature and I was surprised no one has still talked about this in here or any of the microbiology-related subreddits. What's your take? Personally, if this study is as true as it seems, I have been fooled all my career long. Article TL;DR: &quot;A recent study has debunked the long-standing laboratory myth that Bunsen burners help sterilize workbenches by creating protective updrafts. The research empirically demonstrated that this supposed thermal shield is a fallacy and fails to prevent microorganisms from settling. In fact, culture plates placed near an acti",
+  "lane": "methods",
+  "published": "2026-09-15",
+  "harvested": "2026-09-16",
+  "score": 57,
+  "preprint": false,
+  "venue": "r/labrats",
+  "image": "https://external-preview.redd.it/cc0PTWSbMgVAvbJmIXzDBhbl77v9Vkw5AlycgoPKOh8.jpeg?width=640&crop=smart&auto=webp&s=3641063a517ce94e0894d91ac37e2d85e6530305"
+ }
+]

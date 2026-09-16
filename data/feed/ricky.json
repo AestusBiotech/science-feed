@@ -1,5 +1,24 @@
 [
  {
+  "id": "5f04e2e8832e8940ac272c5f63feedf47d953ad8",
+  "source": "pubmed",
+  "url": "https://pubmed.ncbi.nlm.nih.gov/42737682/",
+  "original_title": "[(225)Ac]Ac-iPSMA Radiopharmaceuticals for Targeted Alpha Therapy: Design, Synthesis, and Preclinical Evaluation.",
+  "title": "Another Ac-225-PSMA ligand, this one iPSMA",
+  "blurb": "Design, synthesis, and preclinical workup of Ac-225-iPSMA for targeted alpha therapy, chasing the same PSMA target as most of this year's other alpha-emitter papers. Preclinical only, so no read yet on how it stacks up against the DOTA-PSMA-617 alpha analogs already in trials.",
+  "lane": "radiopharma",
+  "published": "2026-08-31",
+  "harvested": "2026-09-16",
+  "score": 88,
+  "preprint": false,
+  "venue": "Int J Mol Sci",
+  "image": "",
+  "ricky": {
+   "endorsed_at": "2026-09-16T08:45:54+00:00"
+  },
+  "blurb_long": "Design, synthesis, and preclinical workup of Ac-225-iPSMA for targeted alpha therapy, chasing the same PSMA target as most of this year's other alpha-emitter papers. Preclinical only, so no read yet on how it stacks up against the DOTA-PSMA-617 alpha analogs already in trials. The iPSMA chelator engineering probably gets cleaner Ac-225 uptake and kinetics than straightforward PSMA conjugates, but whether that translates to better tumor killing or lower organ toxicity is the actual question, and mice aren't great at answering it. The paper is competent preclinical work, not a reason to get excited about yet another PSMA alpha candidate until someone runs it in patients. Worth watching if it makes it to IND, but that's a higher bar than printing preclinical numbers."
+ },
+ {
   "id": "8594e5232133e12288a0a1e02b16443800eb1754",
   "source": "crossref",
   "url": "https://doi.org/10.1021/jacs.6c15432",
