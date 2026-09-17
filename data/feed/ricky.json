@@ -1,5 +1,24 @@
 [
  {
+  "id": "1a9645c259659029e1c64a4abc6fe1176b40b3c6",
+  "source": "pubmed",
+  "url": "https://pubmed.ncbi.nlm.nih.gov/42745381/",
+  "original_title": "A framework for evaluating unexpected reactions in antibody-drug conjugates during clinical development: a case study of a promiscuous payload.",
+  "title": "A framework for catching ADC payloads that react where they shouldn't",
+  "blurb": "Built around a real clinical case, a payload turning out to be promiscuous and reacting off-target, this lays out how to evaluate that kind of surprise in antibody-drug conjugates systematically instead of case-by-case.",
+  "lane": "biochem",
+  "published": "2026-12-01",
+  "harvested": "2026-09-17",
+  "score": 85,
+  "preprint": false,
+  "venue": "MAbs",
+  "image": "",
+  "ricky": {
+   "endorsed_at": "2026-09-17T08:57:40+00:00"
+  },
+  "blurb_long": "Built around a real clinical case, a payload turning out to be promiscuous and reacting off-target, this lays out how to evaluate that kind of surprise in antibody-drug conjugates systematically instead of case-by-case. A payload that hits more targets than the antibody does is a real way to tank a program, and the usual problem is that it doesn't surface until the clinic, when the money is already in and the trials are months away. The framework walks through what to screen: off-target binding, cross-reactivity patterns, unintended cellular engagement, and when in development to catch it. The specificity is the useful bit, not just generic advice but a roadmap for what to look for and when. It's a postmortem of a single program, and whether this process is actually simpler than empirical testing, which most groups are already running, is not clear."
+ },
+ {
   "id": "5f04e2e8832e8940ac272c5f63feedf47d953ad8",
   "source": "pubmed",
   "url": "https://pubmed.ncbi.nlm.nih.gov/42737682/",
