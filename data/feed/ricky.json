@@ -1,5 +1,24 @@
 [
  {
+  "id": "03227d63a57450e6a0082e2efe9ba1de3f416127",
+  "source": "crossref",
+  "url": "https://doi.org/10.2967/jnumed.126.272648",
+  "original_title": "Beta Atlas: Charting Global Production of Nonconventional β − -Emitters for Targeted Radiopharmaceutical Therapy—Part 1",
+  "title": "Where the world's non-standard beta emitters actually come from",
+  "blurb": "Part 1 of a global survey mapping who is actually producing the nonconventional β⁻-emitters that feed targeted radiopharmaceutical therapy, the supply-chain side of the field nobody asks about until an isotope doesn't show up on time.",
+  "lane": "radiopharma",
+  "published": "2026-09-17",
+  "harvested": "2026-09-18",
+  "score": 88,
+  "preprint": false,
+  "venue": "Journal of Nuclear Medicine",
+  "image": "https://jnm.snmjournals.org/content/jnumed/early/2026/09/17/jnumed.126.272648/F1.medium.gif",
+  "ricky": {
+   "endorsed_at": "2026-09-18T08:29:05+00:00"
+  },
+  "blurb_long": "Part 1 of a global survey mapping who is actually producing the nonconventional β⁻-emitters that feed targeted radiopharmaceutical therapy, the supply-chain side of the field nobody asks about until an isotope doesn't show up on time. The real value is knowing what's actually in production now rather than what's announced but doesn't exist yet—radiopharmaceutical programs routinely get designed around isotopes that don't materialize. Part 1 means the full picture stays incomplete, but even an interim map beats having to scramble to figure out whether your vendor can actually supply your dose schedule. The alternative is the usual cold calls and hoping someone with the data picks up."
+ },
+ {
   "id": "1a9645c259659029e1c64a4abc6fe1176b40b3c6",
   "source": "pubmed",
   "url": "https://pubmed.ncbi.nlm.nih.gov/42745381/",
