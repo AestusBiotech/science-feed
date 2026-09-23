@@ -1,5 +1,24 @@
 [
  {
+  "id": "79d66f902980177c944e4714bc60642eac6a1538",
+  "source": "crossref",
+  "url": "https://doi.org/10.1021/jacs.6c16766",
+  "original_title": "Tyrosinase-Catalyzed Tyr–Aniline Coupling Enables Peptide Editing, Macrocyclization, and Phage-Display-Based Selection",
+  "title": "One enzyme reaction for peptide labeling, cyclization, and phage display",
+  "blurb": "Tyrosinase-catalyzed coupling of tyrosine to aniline groups, run in minutes under mild aqueous conditions, that the authors stretch into labeling, macrocyclization, and phage-display selection within a single reaction. Most Tyr-editing methods stop at labeling, so folding cyclization and ligand discovery into the same pot is the actual news here.",
+  "lane": "biochem",
+  "published": "2026-09-23",
+  "harvested": "2026-09-23",
+  "score": 88,
+  "preprint": false,
+  "venue": "Journal of the American Chemical Society",
+  "image": "",
+  "ricky": {
+   "endorsed_at": "2026-09-23T08:49:18+00:00"
+  },
+  "blurb_long": "Tyrosinase-catalyzed coupling of tyrosine to aniline groups, run in minutes under mild aqueous conditions, that the authors stretch into labeling, macrocyclization, and phage-display selection within a single reaction. Most Tyr-editing methods stop at labeling, so folding cyclization and ligand discovery into the same pot is the actual news here. Anilines are synthetic, not naturally present, so you're buying into a pre-synthesis step before the coupling, but the coupling itself is fast and avoids the chemical protecting-group machinery. Tyrosine selectivity is clean and cuts out the Trp interference issue. Running phage discovery in the same pot as the editing is the clever bit, assuming the conditions are compatible."
+ },
+ {
   "id": "03227d63a57450e6a0082e2efe9ba1de3f416127",
   "source": "crossref",
   "url": "https://doi.org/10.2967/jnumed.126.272648",
