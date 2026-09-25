@@ -1,5 +1,24 @@
 [
  {
+  "id": "e757c9f93903c175ed12456eba897b7c63f236fb",
+  "source": "crossref",
+  "url": "https://doi.org/10.1002/anie.1922738",
+  "original_title": "Site‐Specific Protein Bioconjugation Through Cellular Incorporation of Noncanonical Amino Acids",
+  "title": "Bioconjugation gets site-specific by rewriting the genetic code first",
+  "blurb": "Genetic code expansion installs a noncanonical amino acid with its own reactive handle, so the label goes exactly where that residue sits instead of wherever a stray lysine happens to be. The payoff is homogeneous conjugates instead of the usual mixed bag you get targeting canonical residues. Reads as a review of the approach rather than one new molecule.",
+  "lane": "biochem",
+  "published": "2026-09-24",
+  "harvested": "2026-09-25",
+  "score": 90,
+  "preprint": false,
+  "venue": "Angewandte Chemie International Edition",
+  "image": "",
+  "ricky": {
+   "endorsed_at": "2026-09-25T09:09:20+00:00"
+  },
+  "blurb_long": "Genetic code expansion installs a noncanonical amino acid with its own reactive handle, so the label goes exactly where that residue sits instead of wherever a stray lysine happens to be. The payoff is homogeneous conjugates instead of the usual mixed bag you get targeting canonical residues. For ADCs that matters—drug-to-antibody ratio and position both affect potency and toxicity, so homogeneity is worth the engineering cost. Works in diverse host cells under mild conditions, the practical advantage. Reads as a review of the approach rather than a novel molecule, and that's fine—if GCE gets to scale, site-specific conjugation stops being the ADC bottleneck."
+ },
+ {
   "id": "a5f45d576d0ff2469bbba8028d54ea908027ea21",
   "source": "rss",
   "url": "https://www.biorxiv.org/content/10.64898/2026.09.23.753708v1?rss=1",
