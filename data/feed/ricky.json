@@ -1,5 +1,24 @@
 [
  {
+  "id": "2e89ffb1a64a5b64962122ff85e16e7e308aa365",
+  "source": "crossref",
+  "url": "https://doi.org/10.1021/acs.molpharmaceut.6c00618",
+  "original_title": "Radiohalogenated Tetrazines for Click Chemistry-Mediated Pretargeted Radioimmunotherapy",
+  "title": "Click chemistry pretargeting gets a tetrazine radioligand rundown",
+  "blurb": "The pitch is splitting the job in two: send in a TCO-tagged antibody first, let it find its target and clear out of the blood, then hit it with a small tetrazine radioligand that clicks on via the inverse Diels-Alder reaction. Keeps the antibody's binding without eating the dose and circulation penalty of labeling the whole immunoglobulin directly. Reads like a survey of antibody-antigen and radionuclide pairings people have already tried, not one new result.",
+  "lane": "biochem",
+  "published": "2026-09-26",
+  "harvested": "2026-09-27",
+  "score": 89,
+  "preprint": false,
+  "venue": "Molecular Pharmaceutics",
+  "image": "",
+  "ricky": {
+   "endorsed_at": "2026-09-27T09:17:22+00:00"
+  },
+  "blurb_long": "The pitch is splitting the job in two: send in a TCO-tagged antibody first, let it find its target and clear out of the blood, then hit it with a small tetrazine radioligand that clicks on via the inverse Diels-Alder reaction. Keeps the antibody's binding without eating the dose and circulation penalty of labeling the whole immunoglobulin directly. The dosimetric advantage is real — timing lets you separate antibody accumulation from radiation delivery, so most of the dose lands where you want it instead of irradiating the whole body during clearance. Whether the click stays clean enough in vivo to actually give you selectivity over non-specific binding and blood background is the harder question. This reads like a survey of how the reaction performs across antibody-antigen and radionuclide pairings people have already tried, not one new mechanism or one breakthrough."
+ },
+ {
   "id": "e757c9f93903c175ed12456eba897b7c63f236fb",
   "source": "crossref",
   "url": "https://doi.org/10.1002/anie.1922738",
