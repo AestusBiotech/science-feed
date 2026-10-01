@@ -65,10 +65,11 @@
   "chunk-0063.json",
   "chunk-0064.json",
   "chunk-0065.json",
-  "chunk-0066.json"
+  "chunk-0066.json",
+  "chunk-0067.json"
  ],
- "total": 6548,
- "updated": "2026-09-30T09:57:14+00:00",
+ "total": 6640,
+ "updated": "2026-10-01T10:21:49+00:00",
  "lanes": [
   "org chem",
   "biochem",
