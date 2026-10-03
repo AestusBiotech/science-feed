@@ -1,5 +1,24 @@
 [
  {
+  "id": "5eae38ae6bb7a2eeb858417ae6fa06c95aa8de7d",
+  "source": "pubmed",
+  "url": "https://pubmed.ncbi.nlm.nih.gov/42824612/",
+  "original_title": "Synthesis and Preclinical Evaluation of a Novel [(225)Ac]Ac-PEG(6)-Macropa-PAM4 for Targeted Alpha Therapy of Pancreatic Cancer.",
+  "title": "Macropa chelator points Ac-225 at pancreatic tumors",
+  "blurb": "Macropa is the chelator keeping actinium-225 locked down while PAM4 drags it to pancreatic tumors, with a PEG6 spacer bridging the two. Preclinical only, so no human numbers yet.",
+  "lane": "radiopharma",
+  "published": "2026-10-01",
+  "harvested": "2026-10-03",
+  "score": 88,
+  "preprint": false,
+  "venue": "Nucl Med Mol Imaging",
+  "image": "https://media.springernature.com/m685/springer-static/image/art%3A10.1007%2Fs13139-026-01010-x/MediaObjects/13139_2026_1010_Fig1_HTML.png",
+  "ricky": {
+   "endorsed_at": "2026-10-03T09:15:02+00:00"
+  },
+  "blurb_long": "Macropa is the chelator keeping actinium-225 locked down while PAM4 drags it to pancreatic tumors, with a PEG6 spacer bridging the two. Preclinical only, so no human numbers yet. Macropa's job is to hold Ac-225 tightly enough that it stays on the antibody in vivo—dissociation is how every Ac-225 construct fails, dumping the alpha emitter into bone and kidney instead of the tumor. The biodistribution data will show whether the linker chemistry holds under real conditions and whether tumor uptake is clean enough to matter. Pancreatic cancer is a hard target and Ac-225 is still finding its footing in humans, so this is a mouse-to-IND gap that usually takes years to close."
+ },
+ {
   "id": "2e89ffb1a64a5b64962122ff85e16e7e308aa365",
   "source": "crossref",
   "url": "https://doi.org/10.1021/acs.molpharmaceut.6c00618",
