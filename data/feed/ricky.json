@@ -1,5 +1,24 @@
 [
  {
+  "id": "d07389d04dbfae6419381280d84d7d6c3d3813c7",
+  "source": "openalex",
+  "url": "https://doi.org/10.1002/ange.3744091",
+  "original_title": "Proximity‐Induced Disulfide Rebridging Enables Modular Construction of Stable Antibody–Drug Conjugates",
+  "title": "A rebridging reagent that stops making you choose between fast and stable",
+  "blurb": "Disulfide rebridging for ADCs has usually meant picking a lane: quick conjugation that falls apart, or a stable linkage that reacts too slowly to be practical. This heterotrifunctional reagent, a 5-fluoro-4-(phenylsulfonyl)pyridine derivative, splits the kinetics so the bridging and the locking-in happen on different timescales, letting them build a range of stable ADC architectures off one scaffold.",
+  "lane": "org chem",
+  "published": "2026-10-02",
+  "harvested": "2026-10-05",
+  "score": 90,
+  "preprint": false,
+  "venue": "Angewandte Chemie",
+  "image": "",
+  "ricky": {
+   "endorsed_at": "2026-10-05T10:22:55+00:00"
+  },
+  "blurb_long": "Disulfide rebridging for ADCs has usually meant picking a lane: quick conjugation that falls apart, or a stable linkage that reacts too slowly to be practical. This heterotrifunctional reagent, a 5-fluoro-4-(phenylsulfonyl)pyridine derivative, splits the kinetics so the bridging and the locking-in happen on different timescales, letting them build a range of stable ADC architectures off one scaffold. One reagent works across linker types, so you skip redesigning the conjugation chemistry per variant. The catch is that you've still got a disulfide hanging around, and it needs to stay intact in vivo. Solves the conjugation bottleneck, not the rest."
+ },
+ {
   "id": "5eae38ae6bb7a2eeb858417ae6fa06c95aa8de7d",
   "source": "pubmed",
   "url": "https://pubmed.ncbi.nlm.nih.gov/42824612/",
