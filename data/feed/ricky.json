@@ -1,5 +1,24 @@
 [
  {
+  "id": "b54bd2ec41d0a8b29ed4ba85e23e63394bcf1bfc",
+  "source": "pubmed",
+  "url": "https://pubmed.ncbi.nlm.nih.gov/42854986/",
+  "original_title": "Bioorthogonal chemistries for theranostics and radioconjugates.",
+  "title": "A review of bioorthogonal chemistry for radioconjugates",
+  "blurb": "A round-up of click-type bioorthogonal reactions as they get used in theranostics and radioconjugate construction. No new data, just the field collected in one place.",
+  "lane": "biochem",
+  "published": "2026-10-09",
+  "harvested": "2026-10-10",
+  "score": 92,
+  "preprint": false,
+  "venue": "Adv Drug Deliv Rev",
+  "image": "https://ars.els-cdn.com/content/image/1-s2.0-S0169409X26002127-ga1.jpg",
+  "ricky": {
+   "endorsed_at": "2026-10-10T09:53:24+00:00"
+  },
+  "blurb_long": "A round-up of click-type bioorthogonal reactions as they get used in theranostics and radioconjugate construction. No new data, just the field collected in one place. The appeal is solid: conjugate your payload to a targeting vector in vivo rather than before injection, and you dodge some pharmacokinetics problems and get better specificity. But in vivo click rates lag bench numbers, competing nucleophiles are everywhere, and the reactive handles add weight that can tank your properties. Works great in mice; actually useful in a patient is still the part nobody's proven."
+ },
+ {
   "id": "d07389d04dbfae6419381280d84d7d6c3d3813c7",
   "source": "openalex",
   "url": "https://doi.org/10.1002/ange.3744091",
