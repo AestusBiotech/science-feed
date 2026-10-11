@@ -1,5 +1,24 @@
 [
  {
+  "id": "917320d887d3e228598b4f4a6cb650f6743a8c66",
+  "source": "crossref",
+  "url": "https://doi.org/10.1038/s42004-026-02238-6",
+  "original_title": "Modular multifunctional 5HP2O linkers for the versatile assembly of protein-oligonucleotide conjugates",
+  "title": "A linker that skips maleimide's hydrolysis problem",
+  "blurb": "5HP2O hubs, made in one pot by photo-oxidizing substituted furans, swap in for maleimide chemistry that's prone to hydrolyzing off the protein. Each hub carries its own NHS ester plus a Michael acceptor, so one site turns into a multi-functional handle for protein-oligonucleotide conjugates without the usual multi-step protein surgery.",
+  "lane": "biochem",
+  "published": "2026-10-10",
+  "harvested": "2026-10-11",
+  "score": 90,
+  "preprint": false,
+  "venue": "Communications Chemistry",
+  "image": "",
+  "ricky": {
+   "endorsed_at": "2026-10-11T10:03:05+00:00"
+  },
+  "blurb_long": "5HP2O hubs, made in one pot by photo-oxidizing substituted furans, swap in for maleimide chemistry that's prone to hydrolyzing off the protein. Each hub carries its own NHS ester plus a Michael acceptor, so one site turns into a multi-functional handle for protein-oligonucleotide conjugates without the usual multi-step protein surgery. The specificity matters: this is purpose-built for POCs, not a general conjugation tool, so substrate scope is narrower than the modular framing suggests. Maleimide hydrolysis is a documented in vivo problem for these conjugates, and the one-pot photooxidation is genuinely simpler than the stepwise synthesis. Whether the improved stability actually drives better therapeutic performance in vivo is unproven."
+ },
+ {
   "id": "b54bd2ec41d0a8b29ed4ba85e23e63394bcf1bfc",
   "source": "pubmed",
   "url": "https://pubmed.ncbi.nlm.nih.gov/42854986/",
