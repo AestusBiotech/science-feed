@@ -1,0 +1,47 @@
+[
+ {
+  "id": "754a9229a090a08c67509f713925b50a3278dce0",
+  "source": "crossref",
+  "url": "https://doi.org/10.1039/d6cc04666e",
+  "original_title": "Recent advances in cyclization reactions of conjugated ynals",
+  "title": "A roundup of what conjugated ynals cyclize into",
+  "blurb": "A review covering recent cyclization chemistry on conjugated ynals: asymmetric annulations, two-component cyclizations, and multicomponent cascades. A survey of the field, not a new result of its own.",
+  "lane": "org chem",
+  "published": "2026-01-01",
+  "harvested": "2026-10-19",
+  "score": 58,
+  "preprint": false,
+  "venue": "Chemical Communications",
+  "image": ""
+ },
+ {
+  "id": "3ea64cc344faeaac00f81385ab9cf305fcb30f53",
+  "source": "openalex",
+  "url": "https://doi.org/10.1021/acs.nanolett.6c03672",
+  "original_title": "Plasmonic Coupling within Atomically Precise Nanocluster Dimers for Engineering Hot-Carrier Generation and Molecular Activation",
+  "title": "Two silver nanoclusters, close enough together, can crack N2",
+  "blurb": "Real-time TDDFT with Ehrenfest dynamics on paired Ag20 nanoclusters shows plasmonic coupling between them concentrates hot carriers enough to activate and dissociate N2, which is normally too chemically stubborn to bother. The effect tracks with how far apart the two clusters sit, so it's the dimer geometry doing the work, not just the metal. All simulation so far, nobody's run this experimentally.",
+  "lane": "org chem",
+  "published": "2026-10-17",
+  "harvested": "2026-10-19",
+  "score": 58,
+  "preprint": false,
+  "venue": "Nano Letters",
+  "image": ""
+ },
+ {
+  "id": "0ef0c0a1894db632dcc99c8b511f785aa43b891e",
+  "source": "reddit",
+  "url": "https://www.reddit.com/r/OrganicChemistry/comments/1x9e57p/i_need_help_with_amidation_reactions/",
+  "original_title": "I need help with amidation reactions",
+  "title": "I need help with amidation reactions",
+  "blurb": "I need help with amidation reactions. Good afternoon. I have typically performed amidation reactions for my derivatives using EDC/HOBt or HBTU, starting primarily from aromatic amines (anilines) that I synthesized and commercially available aromatic acids. However, in my current reactions, the amines are failing to react. I have also tried using SOCl₂ or (COCl)₂, but the acid chloride route generally does not yield my desired product. Are there any other ways to carry out amidations, or are there specific conditions that might improve these reactions? I would appreciate suggestions that are co",
+  "lane": "biochem",
+  "published": "2026-10-18",
+  "harvested": "2026-10-19",
+  "score": 80,
+  "preprint": false,
+  "venue": "r/OrganicChemistry",
+  "image": ""
+ }
+]
