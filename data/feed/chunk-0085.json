@@ -1,0 +1,32 @@
+[
+ {
+  "id": "872969507f81902b188522adcaae4718c2357d9f",
+  "source": "reddit",
+  "url": "https://www.reddit.com/r/Chempros/comments/1xcfu23/cdmo_folks_handling_oeb_35_compounds_from_gram_to/",
+  "original_title": "CDMO folks handling OEB 3–5 compounds from gram to kg scale — what PPE/gowning are you actually using?",
+  "title": "CDMO folks handling OEB 3–5 compounds from gram to kg scale — what PPE/gowning are you actually using?",
+  "blurb": "For those working in CDMOs making potent compounds—roughly OEB 3–5, depending on your site’s banding scheme—at gram through kg scale, what gowning/PPE are you using in practice? I’m especially curious about how much it changes with: •Band: OEB 3 vs 4 vs 5, or however your site defines them •Scale: bench/gram-scale, pilot, and kg-scale manufacturing •Operation: open dispensing/weighing, charging solids, filtration/drying, milling, packaging, cleaning, etc. •Containment: open hood, downflow booth, isolator/glovebox, closed transfers/SBVs, RABS, etc. &#32;",
+  "lane": "org chem",
+  "published": "2026-10-22",
+  "harvested": "2026-10-23",
+  "score": 67,
+  "preprint": false,
+  "venue": "r/Chempros",
+  "image": ""
+ },
+ {
+  "id": "7739d081e4f023a95338d052ac61fc99fe1d78b3",
+  "source": "reddit",
+  "url": "https://www.reddit.com/r/Chempros/comments/1xci8wu/safety_concerns_when_synthesizing_ti₃c₂tₓ_mxene/",
+  "original_title": "Safety concerns when synthesizing Ti₃C₂Tₓ MXene using concentrated HF",
+  "title": "Safety concerns when synthesizing Ti₃C₂Tₓ MXene using concentrated HF",
+  "blurb": "Hi everyone, I recently started my PhD, and my project involves synthesizing MXenes from the Ti₃AlC₂ MAX phase. The protocol I have been looking at uses an etching mixture of 2 mL of 50 wt% HF, 12 mL of HCl, and 6 mL of deionized water in an HDPE bottle. 1 g of Ti₃AlC₂ MAX phase is then slowly added and stirred for 24 hours at 350 rpm and 35 °C. The reaction also involves hydrogen evolution, which raises concerns regarding gas management and pressure buildup. Unfortunately, our dedicated HF-compatible fume hood was destroyed in an accident, and the only available option is a conventional fume",
+  "lane": "org chem",
+  "published": "2026-10-22",
+  "harvested": "2026-10-23",
+  "score": 62,
+  "preprint": false,
+  "venue": "r/Chempros",
+  "image": ""
+ }
+]

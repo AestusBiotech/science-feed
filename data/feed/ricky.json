@@ -1,5 +1,24 @@
 [
  {
+  "id": "3d9d6f4755f0f3ea19d840d8b00b2ffc793e32ac",
+  "source": "chemrxiv",
+  "url": "https://doi.org/10.26434/chemrxiv.15010926/v1",
+  "original_title": "Expanding Antibody-Drug Conjugates Mechanistic Diversity with Verubulin: A Dual Tubulin-Binding and Vascular-Disrupting Payload.",
+  "title": "A tubulin poison that also wrecks the tumor's blood supply, now as an ADC payload",
+  "blurb": "Verubulin pairs tubulin inhibition with vascular disruption in one payload, aimed at the thin menu of cytotoxins ADCs currently rely on. The first linkage chemistry, amide/carbamate, was unstable and only modestly effective, but switching to a quaternarization approach gave stable conjugates with better efficacy. Payload chemistry progress, not clinical data.",
+  "lane": "biochem",
+  "published": "2026-10-23",
+  "harvested": "2026-10-23",
+  "score": 90,
+  "preprint": true,
+  "venue": "ChemRxiv",
+  "image": "",
+  "ricky": {
+   "endorsed_at": "2026-10-23T08:51:08+00:00"
+  },
+  "blurb_long": "Verubulin pairs tubulin inhibition with vascular disruption in one payload, aimed at the thin menu of cytotoxins ADCs currently rely on. The first linkage chemistry, amide/carbamate, was unstable and only modestly effective, but switching to a quaternarization approach gave stable conjugates with better efficacy. The appeal of dual mechanism—hitting both mitotic checkpoint and tumor perfusion instead of a single target—is there, and stability-wise the quaternarization fix is real progress. What's unproven is whether the breadth of mechanism actually improves therapeutic window; that's the next question if the payload makes it to IND. Whether it survives manufacturing scale and human trials is another story, and both stages have killed candidates that looked better in cells."
+ },
+ {
   "id": "917320d887d3e228598b4f4a6cb650f6743a8c66",
   "source": "crossref",
   "url": "https://doi.org/10.1038/s42004-026-02238-6",
