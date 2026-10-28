@@ -1483,5 +1483,23 @@
   "preprint": false,
   "venue": "r/Chempros",
   "image": ""
+ },
+ {
+  "id": "513023c5530a940dd2fbe26693a23110d72ff1e1",
+  "source": "pubmed",
+  "url": "https://pubmed.ncbi.nlm.nih.gov/42937828/",
+  "original_title": "A Click-Triggered Bioorthogonal Strategy for Dual Activation of Covalent Warheads and Reporter Payloads.",
+  "title": "One click switches on both the warhead and the reporter",
+  "blurb": "A bioorthogonal click reaction that activates a covalent warhead and a reporter payload at the same time, off one trigger. Neat if you want hit-and-track in one shot instead of two separate activation steps.",
+  "lane": "biochem",
+  "published": "2026-09-30",
+  "harvested": "2026-10-28",
+  "score": 87,
+  "preprint": false,
+  "venue": "J Am Chem Soc",
+  "image": "",
+  "ricky": {
+   "endorsed_at": "2026-10-28T09:55:59+00:00"
+  }
  }
 ]

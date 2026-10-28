@@ -1,5 +1,24 @@
 [
  {
+  "id": "513023c5530a940dd2fbe26693a23110d72ff1e1",
+  "source": "pubmed",
+  "url": "https://pubmed.ncbi.nlm.nih.gov/42937828/",
+  "original_title": "A Click-Triggered Bioorthogonal Strategy for Dual Activation of Covalent Warheads and Reporter Payloads.",
+  "title": "One click switches on both the warhead and the reporter",
+  "blurb": "A bioorthogonal click reaction that activates a covalent warhead and a reporter payload at the same time, off one trigger. Neat if you want hit-and-track in one shot instead of two separate activation steps.",
+  "lane": "biochem",
+  "published": "2026-09-30",
+  "harvested": "2026-10-28",
+  "score": 87,
+  "preprint": false,
+  "venue": "J Am Chem Soc",
+  "image": "",
+  "ricky": {
+   "endorsed_at": "2026-10-28T09:55:59+00:00"
+  },
+  "blurb_long": "A bioorthogonal click reaction that activates a covalent warhead and a reporter payload at the same time, off one trigger. Neat if you want hit-and-track in one shot instead of two separate activation steps. The catch is keeping the warhead reactive when you're dragging a reporter linker on it—the usual friction when you load dual payloads onto a single trigger. Whether this works across different warhead types and reporter scaffolds, not just the test cases, is what matters. Clean in theory, probably narrow in scope."
+ },
+ {
   "id": "3d9d6f4755f0f3ea19d840d8b00b2ffc793e32ac",
   "source": "chemrxiv",
   "url": "https://doi.org/10.26434/chemrxiv.15010926/v1",
