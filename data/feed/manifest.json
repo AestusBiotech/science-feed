@@ -91,10 +91,11 @@
   "chunk-0089.json",
   "chunk-0090.json",
   "chunk-0091.json",
-  "chunk-0092.json"
+  "chunk-0092.json",
+  "chunk-0093.json"
  ],
- "total": 9188,
- "updated": "2026-11-02T10:54:49+00:00",
+ "total": 9251,
+ "updated": "2026-11-03T10:48:59+00:00",
  "lanes": [
   "org chem",
   "biochem",
