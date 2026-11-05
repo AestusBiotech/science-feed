@@ -1,5 +1,24 @@
 [
  {
+  "id": "1c8f9e4211f49fb95591ae474009e8d3b4bbaec2",
+  "source": "rss",
+  "url": "https://www.biorxiv.org/content/10.64898/2026.10.31.763105v1?rss=1",
+  "original_title": "Direct Bioconjugations of Diverse Payloads using an Extraordinarily Donor-Promiscuous Flavin Transferase",
+  "title": "One flavin transferase, almost any payload",
+  "blurb": "Enzymatic bioconjugation usually stalls on bulky or structurally odd payloads, which is why most platforms resort to a clunky two-step attachment. This flavin transferase is unusually promiscuous on the donor side and does the conjugation directly, skipping that workaround. Still an engineered-enzyme paper, so the real test is whether that promiscuity holds across payloads nobody's tried yet.",
+  "lane": "biochem",
+  "published": "2026-11-03",
+  "harvested": "2026-11-05",
+  "score": 90,
+  "preprint": true,
+  "venue": "",
+  "image": "",
+  "ricky": {
+   "endorsed_at": "2026-11-05T10:54:42+00:00"
+  },
+  "blurb_long": "Enzymatic bioconjugation usually stalls on bulky or structurally odd payloads, which is why most platforms resort to a clunky two-step attachment. This flavin transferase is unusually promiscuous on the donor side and does the conjugation directly, skipping that workaround. Still an engineered-enzyme paper, so the real test is whether that promiscuity holds across payloads nobody's tried yet. One-pot attachment also sidesteps the prep and degradation issues that plague two-step routes, which matters for expensive or unstable cargo. If this scales to real payload diversity it becomes a platform, but if the promiscuity flattens on anything beyond the tested set, it stays a lab tool."
+ },
+ {
   "id": "513023c5530a940dd2fbe26693a23110d72ff1e1",
   "source": "pubmed",
   "url": "https://pubmed.ncbi.nlm.nih.gov/42937828/",
