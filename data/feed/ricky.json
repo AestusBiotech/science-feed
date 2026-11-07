@@ -1,5 +1,24 @@
 [
  {
+  "id": "b3e43e18316726569d41763ef3e45d00de7d461a",
+  "source": "pubmed",
+  "url": "https://pubmed.ncbi.nlm.nih.gov/42990131/",
+  "original_title": "A community audit of error control in crosslinking mass spectrometry.",
+  "title": "Auditing the error rates nobody checks in crosslinking MS",
+  "blurb": "A community effort to actually quantify how often crosslinking mass spec calls are wrong, instead of everyone just trusting their FDR cutoff.",
+  "lane": "methods",
+  "published": "2026-10-28",
+  "harvested": "2026-11-07",
+  "score": 90,
+  "preprint": false,
+  "venue": "bioRxiv",
+  "image": "",
+  "ricky": {
+   "endorsed_at": "2026-11-07T10:09:03+00:00"
+  },
+  "blurb_long": "A community effort to actually quantify how often crosslinking mass spec calls are wrong, instead of everyone just trusting their FDR cutoff. They collected data from multiple labs to see whether standard FDR thresholds actually deliver the false positive rates you'd expect. Crosslinking MS error control probably isn't uniform across instruments and conditions, so you'd need a coordinated test to catch systematic failures. If they find that standard cutoffs don't hold up, that's actionable; if it's more granular, labs still need to know which combinations are unreliable. It's a preprint, so the conclusions might shift, but this is the kind of method validation that usually gets skipped."
+ },
+ {
   "id": "1c8f9e4211f49fb95591ae474009e8d3b4bbaec2",
   "source": "rss",
   "url": "https://www.biorxiv.org/content/10.64898/2026.10.31.763105v1?rss=1",
