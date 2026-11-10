@@ -1,5 +1,24 @@
 [
  {
+  "id": "b381b1ca412e1c61f9515329f597aca553eb5aeb",
+  "source": "pubmed",
+  "url": "https://pubmed.ncbi.nlm.nih.gov/43003049/",
+  "original_title": "Glucocorticoid-based immunology antibody-drug conjugates: linker, warhead, and targeting strategies for anti-inflammatory drug development.",
+  "title": "Borrowing the ADC playbook for steroids",
+  "blurb": "A review of adapting antibody-drug conjugate tricks, linkers, warheads, targeting, to deliver glucocorticoids instead of chemo payloads, aimed at anti-inflammatory disease rather than oncology. The appeal is dodging systemic steroid side effects by only unloading the drug where the antibody binds.",
+  "lane": "biochem",
+  "published": "2026-11-06",
+  "harvested": "2026-11-10",
+  "score": 88,
+  "preprint": false,
+  "venue": "Bioorg Chem",
+  "image": "https://ars.els-cdn.com/content/image/1-s2.0-S0045206826012733-ga1.jpg",
+  "ricky": {
+   "endorsed_at": "2026-11-10T11:14:03+00:00"
+  },
+  "blurb_long": "A review of adapting antibody-drug conjugate tricks, linkers, warheads, targeting, to deliver glucocorticoids instead of chemo payloads, aimed at anti-inflammatory disease rather than oncology. The appeal is dodging systemic steroid side effects by only unloading the drug where the antibody binds. The real catch is that systemic steroids aren't usually the limiting factor in inflammatory disease; efficacy and durability are. You're paying for ADC complexity on a three-cent payload and betting that targeting actually prevents sufficient systemic exposure to matter clinically. The review surveys linker stability, payload release kinetics, and tissue penetration from preclinical work, though whether any of it translates to meaningful benefit in humans remains unproven. If it does, you'd gain rapid offset of immunosuppression once the antibody clears, which is genuinely useful for induction therapy. Still early for the field to call this strategy worthwhile rather than expensive."
+ },
+ {
   "id": "b3e43e18316726569d41763ef3e45d00de7d461a",
   "source": "pubmed",
   "url": "https://pubmed.ncbi.nlm.nih.gov/42990131/",
