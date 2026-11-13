@@ -1,5 +1,24 @@
 [
  {
+  "id": "de27011481011174b409c8cbd295fc16a4b5c501",
+  "source": "crossref",
+  "url": "https://doi.org/10.1021/acs.bioconjchem.6c00541",
+  "original_title": "Fc Cavity Conjugation Improves Developability and In Vivo Efficacy of Antibody Drug Conjugates",
+  "title": "Hiding the ADC payload in the Fc cavity instead of letting it dangle",
+  "blurb": "Engineered cysteines shield the linker-payload inside the Fc cavity so it isn't exposed loose during circulation, and the authors show that translates into better developability and stronger in vivo efficacy. Where you tuck the payload away seems to matter almost as much as what the payload is.",
+  "lane": "biochem",
+  "published": "2026-11-12",
+  "harvested": "2026-11-13",
+  "score": 92,
+  "preprint": false,
+  "venue": "Bioconjugate Chemistry",
+  "image": "",
+  "ricky": {
+   "endorsed_at": "2026-11-13T11:05:25+00:00"
+  },
+  "blurb_long": "Engineered cysteines shield the linker-payload inside the Fc cavity so it isn't exposed loose during circulation, and the authors show that translates into better developability and stronger in vivo efficacy. Where you tuck the payload away seems to matter almost as much as what the payload is. Cathepsin cleavage and HIC confirm the linker stays shielded; the in vivo data suggests that means less off-target release and cleaner pharmacokinetics. Premature payload release is a known failure point in ADC design, so the Fc cavity is a sensible hiding place. The open question is whether the site generalizes across different payloads and models, or if you're re-optimizing for each new drug."
+ },
+ {
   "id": "b381b1ca412e1c61f9515329f597aca553eb5aeb",
   "source": "pubmed",
   "url": "https://pubmed.ncbi.nlm.nih.gov/43003049/",
