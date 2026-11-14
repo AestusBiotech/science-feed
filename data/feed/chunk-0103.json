@@ -1,0 +1,47 @@
+[
+ {
+  "id": "45784456e5061aa49502003e9a32e406ef71748b",
+  "source": "reddit",
+  "url": "https://www.reddit.com/r/OrganicChemistry/comments/1xvindf/fmoc_decomposition/",
+  "original_title": "FMOC decomposition?",
+  "title": "FMOC decomposition?",
+  "blurb": "Has anyone ever had trouble with FMOC decomposition during purification? I’m making a modified phenylalanine derivative and was finishing off the synthesis with FMOC protection, crude NMR looked decent but after a column and rotovapping I’ve got what appears to be a decent amount of DBF in the spectrum. I’ve never worked with FMOC before but I’ve read it was pretty stable in non-basic conditions. Anyone have similar issues before? &#32;",
+  "lane": "org chem",
+  "published": "2026-11-13",
+  "harvested": "2026-11-14",
+  "score": 67,
+  "preprint": false,
+  "venue": "r/OrganicChemistry",
+  "image": ""
+ },
+ {
+  "id": "3bff95ceffa51df5a0a2f4e66f626cfe2646cbff",
+  "source": "reddit",
+  "url": "https://www.reddit.com/r/OrganicChemistry/comments/1xvjb1e/literature_on_enzymatic_organic_synthesis/",
+  "original_title": "Literature on Enzymatic Organic Synthesis",
+  "title": "Literature on Enzymatic Organic Synthesis",
+  "blurb": "Starting PhD applications and also just have a natural interest in the subject. Can anybody point me in the direction of research groups in this field that are interesting reads? Apologies, I tried searching the topic and it's seemingly a young enough field to not have a lot of online discussion outside journals. &#32;",
+  "lane": "org chem",
+  "published": "2026-11-13",
+  "harvested": "2026-11-14",
+  "score": 60,
+  "preprint": false,
+  "venue": "r/OrganicChemistry",
+  "image": ""
+ },
+ {
+  "id": "8daf3a8cafa397f09d89e60d8d9b4c947dad575f",
+  "source": "reddit",
+  "url": "https://www.reddit.com/r/chemistry/comments/1xv7s5z/made_a_low_partial_pressure_iodine_vapor_ampoule/",
+  "original_title": "Made a low partial pressure iodine vapor ampoule, wondering if anyone has a more relaible way of producing a strong vacuum with basic hobby chem equipment that isint just using a syringe to pull partial pressure.",
+  "title": "Made a low partial pressure iodine vapor ampoule, wondering if anyone has a more relaible way of producing a strong vacuum with basic hobby chem equipment that isint just using a syringe to pull partial pressure.",
+  "blurb": "Inside the ampoule there is of course still some atmospheric gas that remained in the ampoule at the time of sealing. After some basic calculating I came to the conclusion that this is roughly 0.3-0.4 atm (3-4 kPa) but of course I cannot accuratly verify the exact pressure or the remainig gas composition. Since Iodine has a high vapor pressure, there should be a lot of iodine vapor in the ampoule slighly raising the pressure inside. The sight of the purple glow caused by the tesla coil is a good sign that there is a partial low pressure and that hopefully there is moslty iodine vapor inside. I",
+  "lane": "org chem",
+  "published": "2026-11-13",
+  "harvested": "2026-11-14",
+  "score": 57,
+  "preprint": false,
+  "venue": "r/chemistry",
+  "image": "https://preview.redd.it/5q2huhpeqd1i1.jpeg?width=140&height=140&crop=1:1,smart&auto=webp&s=3c4b9a5265fd208a56d028679370e1fcfcd30790"
+ }
+]
