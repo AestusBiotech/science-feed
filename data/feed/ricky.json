@@ -1,5 +1,24 @@
 [
  {
+  "id": "e83e1f45cd7729efd5572b4c8d223a5a1dc1ffde",
+  "source": "pubmed",
+  "url": "https://pubmed.ncbi.nlm.nih.gov/43036304/",
+  "original_title": "A C(2v) Symmetry Linker With Built-In Hydroxamic Handle for the Macrocyclization of Thiol-Containing Peptide Sequences.",
+  "title": "A symmetric linker that staples cysteines shut, hydroxamic handle included",
+  "blurb": "A C2v-symmetric bis-electrophile macrocyclizes thiol-containing peptides via double thioether formation, with a hydroxamic acid built into the linker itself rather than bolted on after for whatever chelation or conjugation chemistry comes next.",
+  "lane": "biochem",
+  "published": "2026-12-01",
+  "harvested": "2026-11-16",
+  "score": 87,
+  "preprint": false,
+  "venue": "J Pept Sci",
+  "image": "",
+  "ricky": {
+   "endorsed_at": "2026-11-16T11:00:59+00:00"
+  },
+  "blurb_long": "A C2v-symmetric bis-electrophile macrocyclizes thiol-containing peptides via double thioether formation, with a hydroxamic acid built into the linker itself rather than bolted on after for whatever chelation or conjugation chemistry comes next. The symmetric design ensures both electrophilic sites are equivalent, so you get concurrent double thioether formation rather than a stepwise or mis-targeted reaction. Building the handle in saves a post-synthesis step and keeps it intact for downstream work, cleaner than decoration-after-synthesis when you're stacking chemistries. Thioethers formed on peptide cysteines are generally stable, but they're not bulletproof in strong denaturants or in some downstream couplings, so the handle's fate depends on what conditions come next. The linker probably has to be selective between intended cysteine pairs in multi-cysteine peptides, which is where the practical scope limits show up."
+ },
+ {
   "id": "de27011481011174b409c8cbd295fc16a4b5c501",
   "source": "crossref",
   "url": "https://doi.org/10.1021/acs.bioconjchem.6c00541",
