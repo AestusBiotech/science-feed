@@ -1,5 +1,24 @@
 [
  {
+  "id": "d3a40c06e722e09a7592480bef35095a0b93b08f",
+  "source": "crossref",
+  "url": "https://doi.org/10.1021/acs.bioconjchem.6c00525",
+  "original_title": "Beyond Thiol-First Chemistry: Thiophosphonium-Gated Activation-State Capture in Disulfide Bioconjugation",
+  "title": "Catching the disulfide mid-activation, before it even becomes a thiol",
+  "blurb": "Most disulfide bioconjugation chemistry reduces the bond to free thiols first and only reports on that end state, missing whatever species forms the moment the S-S bond is actually activated. This proposes a thiophosphonium-gated approach to trap that transient activation state directly instead. It's a framework paper, so the real test is whether anyone builds a useful conjugation method on top of it.",
+  "lane": "biochem",
+  "published": "2026-11-16",
+  "harvested": "2026-11-17",
+  "score": 92,
+  "preprint": false,
+  "venue": "Bioconjugate Chemistry",
+  "image": "",
+  "ricky": {
+   "endorsed_at": "2026-11-17T12:00:47+00:00"
+  },
+  "blurb_long": "Most disulfide bioconjugation chemistry reduces the bond to free thiols first, missing whatever species actually forms during the activation step. This proposes a thiophosphonium-gated approach to trap that intermediate directly. On multi-disulfide proteins, catching the activated state before reduction could let you selectively hit one S-S instead of the whole cluster. Whether the intermediate is stable enough to actually be useful for bioconjugation is the open question. It's a framework paper, so the test is whether anyone builds a useful conjugation method on top of it and whether that method enables chemistry you can't do with standard reduction-alkylation."
+ },
+ {
   "id": "e83e1f45cd7729efd5572b4c8d223a5a1dc1ffde",
   "source": "pubmed",
   "url": "https://pubmed.ncbi.nlm.nih.gov/43036304/",
