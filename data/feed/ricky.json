@@ -1,5 +1,24 @@
 [
  {
+  "id": "cf652dcefaa5eba56ae6f34124cfdf72058cd6b1",
+  "source": "pubmed",
+  "url": "https://pubmed.ncbi.nlm.nih.gov/43046845/",
+  "original_title": "Trifunctional Pyrrolidine-Carbamate Self-Immolative Spacers Decouple Enzymatic Activation from Drug Release in Antibody-Drug Conjugates.",
+  "title": "Splitting the ADC linker's two jobs apart",
+  "blurb": "A pyrrolidine-carbamate spacer built so the enzyme that cuts the linker and the step that actually releases the drug aren't the same event, letting each be tuned on its own instead of being yoked together. The pitch is control over release kinetics independent of cleavage, which is normally the hard part of ADC linker design.",
+  "lane": "biochem",
+  "published": "2026-11-18",
+  "harvested": "2026-11-18",
+  "score": 88,
+  "preprint": false,
+  "venue": "Bioconjug Chem",
+  "image": "",
+  "ricky": {
+   "endorsed_at": "2026-11-18T11:34:28+00:00"
+  },
+  "blurb_long": "A pyrrolidine-carbamate spacer built so the enzyme that cuts the linker and the step that actually releases the drug aren't the same event, letting each be tuned on its own instead of being yoked together. The pitch is control over release kinetics independent of cleavage, which is normally the hard part of ADC linker design. In principle that lets you dial in activation and release independently, narrowing the therapeutic window and cutting systemic off-target drug. Most linkers lock both steps into a single rate-limiting event, so faster activation forces faster release whether you want it or not. The question is whether independent control actually improves therapeutic index in a real ADC in vivo."
+ },
+ {
   "id": "d3a40c06e722e09a7592480bef35095a0b93b08f",
   "source": "crossref",
   "url": "https://doi.org/10.1021/acs.bioconjchem.6c00525",
