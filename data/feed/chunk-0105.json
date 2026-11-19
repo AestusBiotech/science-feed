@@ -1426,5 +1426,83 @@
   "preprint": false,
   "venue": "ACS Appl Mater Interfaces",
   "image": ""
+ },
+ {
+  "id": "f01150682a9eb14cff6112ec8fdfd5ed02695631",
+  "source": "pubmed",
+  "url": "https://pubmed.ncbi.nlm.nih.gov/43051374/",
+  "original_title": "Click and bioorthogonal chemistry in drug delivery and bioconjugation: Design principles, biological performance, and translational outlook.",
+  "title": "The click chemistry literature, collected into one review",
+  "blurb": "A review tracing bioorthogonal and click reactions from reagent design through biological performance to where they actually land in the clinic. A map of the field, not a new result.",
+  "lane": "biochem",
+  "published": "2026-11-18",
+  "harvested": "2026-11-19",
+  "score": 95,
+  "preprint": false,
+  "venue": "Adv Drug Deliv Rev",
+  "image": "https://ars.els-cdn.com/content/image/1-s2.0-S0169409X26002292-ga1.jpg",
+  "ricky": {
+   "endorsed_at": "2026-11-19T11:37:06+00:00"
+  }
+ },
+ {
+  "id": "919845d14baf252580f46d08d8b270de043db55c",
+  "source": "pubmed",
+  "url": "https://pubmed.ncbi.nlm.nih.gov/43053373/",
+  "original_title": "Facile Maleimide-Hydrazine Reaction to Form Stable Bonds in Dynamic Hydrazone-Cross-Linked Hydrogels.",
+  "title": "Locking one stable bond into an otherwise reversible hydrogel",
+  "blurb": "Hydrazone cross-links give these hydrogels their dynamic, self-healing character, but a maleimide-hydrazine reaction drops in a permanent bond wherever you need one. Lets you pin down a spot without the rest of the network losing its reversibility.",
+  "lane": "biochem",
+  "published": "2026-11-18",
+  "harvested": "2026-11-19",
+  "score": 90,
+  "preprint": false,
+  "venue": "J Am Chem Soc",
+  "image": ""
+ },
+ {
+  "id": "c9bba0e5e9b47d6804eca4d23317fa6d323a6de9",
+  "source": "openalex",
+  "url": "https://doi.org/10.1038/s41598-026-77990-9",
+  "original_title": "His-tag-directed, stable conjugation of proteins via [CoIII(NTA/IDA)(CO3)]2−/− reagents",
+  "title": "Tagging His-tagged proteins by the tag, not the protein",
+  "blurb": "Cobalt(III) carbonate reagents built on NTA or IDA chelators latch onto the His-tag itself, giving a stable, site-selective conjugate under physiological conditions instead of the usual tradeoff between stability and keeping the protein functional. Works on an antibody too, which is the part worth noting.",
+  "lane": "biochem",
+  "published": "2026-11-16",
+  "harvested": "2026-11-19",
+  "score": 88,
+  "preprint": false,
+  "venue": "Scientific Reports",
+  "image": "https://media.springernature.com/m685/springer-static/image/art%3A10.1038%2Fs41598-026-77990-9/MediaObjects/41598_2026_77990_Fig1_HTML.png"
+ },
+ {
+  "id": "5fe238aa7135836ee61166ef7d2f7cec71a59114",
+  "source": "openalex",
+  "url": "https://doi.org/10.54097/k2468v26",
+  "original_title": "Chemically Programmable Antibody-Drug Conjugates: Strategies from Targeting Programmability to Payload Activation",
+  "title": "ADCs you could keep editing after they're already built",
+  "blurb": "A review on making ADC chemistry programmable post-assembly, swapping or activating targeting and payload modules on a fixed antibody scaffold instead of locking everything in at manufacture. Strategy roundup, not a working drug.",
+  "lane": "biochem",
+  "published": "2026-11-15",
+  "harvested": "2026-11-19",
+  "score": 87,
+  "preprint": false,
+  "venue": "International Journal of Biology and Life Sciences",
+  "image": ""
+ },
+ {
+  "id": "012a85254b805dd732603efad4b1e231e48ec10f",
+  "source": "pubmed",
+  "url": "https://pubmed.ncbi.nlm.nih.gov/43050537/",
+  "original_title": "Membrane-confined self-assembly enables localized bioorthogonal prodrug activation and selective cancer therapy.",
+  "title": "Confining prodrug activation to the membrane, on purpose",
+  "blurb": "Self-assembly kept at the membrane localizes bioorthogonal prodrug activation right where it's wanted, giving selective killing in cancer cells. Thin on detail beyond that, but the localization trick is the whole point.",
+  "lane": "biochem",
+  "published": "2026-11-20",
+  "harvested": "2026-11-19",
+  "score": 87,
+  "preprint": false,
+  "venue": "Sci Adv",
+  "image": ""
  }
 ]

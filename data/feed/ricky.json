@@ -1,5 +1,24 @@
 [
  {
+  "id": "f01150682a9eb14cff6112ec8fdfd5ed02695631",
+  "source": "pubmed",
+  "url": "https://pubmed.ncbi.nlm.nih.gov/43051374/",
+  "original_title": "Click and bioorthogonal chemistry in drug delivery and bioconjugation: Design principles, biological performance, and translational outlook.",
+  "title": "The click chemistry literature, collected into one review",
+  "blurb": "A review tracing bioorthogonal and click reactions from reagent design through biological performance to where they actually land in the clinic. A map of the field, not a new result.",
+  "lane": "biochem",
+  "published": "2026-11-18",
+  "harvested": "2026-11-19",
+  "score": 95,
+  "preprint": false,
+  "venue": "Adv Drug Deliv Rev",
+  "image": "https://ars.els-cdn.com/content/image/1-s2.0-S0169409X26002292-ga1.jpg",
+  "ricky": {
+   "endorsed_at": "2026-11-19T11:37:06+00:00"
+  },
+  "blurb_long": "A review tracing bioorthogonal and click reactions from reagent design through biological performance to where they actually land in the clinic. A map of the field, not a new result. The appeal is obvious: reactions that work selectively in living systems without mangling endogenous proteins or nucleotides. The reality is messier. CuAAC is still the workhorse but copper's not exactly biocompatible at the concentrations you need, so you end up chasing alternatives like strain-promoted cycloadditions or tetrazine-inverse-electron-demand Diels–Alder, each with its own trade-offs. Most applications still live in preclinical proof-of-concept or early translational work; the clinic-ready examples are thin on the ground. Worth reading if you're building a drug platform that needs selective conjugation in vivo, or if you want to know what's actually moved past the in-vitro stage and what's still stuck there."
+ },
+ {
   "id": "cf652dcefaa5eba56ae6f34124cfdf72058cd6b1",
   "source": "pubmed",
   "url": "https://pubmed.ncbi.nlm.nih.gov/43046845/",
