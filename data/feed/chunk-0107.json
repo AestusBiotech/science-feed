@@ -1453,5 +1453,50 @@
   "preprint": false,
   "venue": "Journal of Nuclear Medicine",
   "image": ""
+ },
+ {
+  "id": "1da82b7b7066edd5f15155432001cb80b959b7ee",
+  "source": "pubmed",
+  "url": "https://pubmed.ncbi.nlm.nih.gov/43062581/",
+  "original_title": "Cysteine-Conjugated Antibody-Drug Conjugate (ADC) Production and Characterization.",
+  "title": "A step-by-step for cysteine-linked ADCs",
+  "blurb": "A Methods in Molecular Biology protocol for producing and characterizing cysteine-conjugated ADCs, the standard thiol-maleimide route rather than anything new. A lab manual chapter, not a finding.",
+  "lane": "biochem",
+  "published": "2027-01-01",
+  "harvested": "2026-11-21",
+  "score": 95,
+  "preprint": false,
+  "venue": "Methods Mol Biol",
+  "image": ""
+ },
+ {
+  "id": "9a7df748d8f2b47398ce2cf9826b8c388484174a",
+  "source": "pubmed",
+  "url": "https://pubmed.ncbi.nlm.nih.gov/43062585/",
+  "original_title": "Synthesis of Site-Specific Antibody-Drug Conjugates via Endoglycosidase-Catalyzed Fc Glycan Remodeling.",
+  "title": "Glycan remodeling as the site-specific ADC route",
+  "blurb": "A protocol using endoglycosidases to trim and remodel the Fc glycan, then hang the payload off that one defined site instead of random cysteines or lysines. Site-specific conjugation via glycoengineering rather than mutagenesis.",
+  "lane": "biochem",
+  "published": "2027-01-01",
+  "harvested": "2026-11-21",
+  "score": 90,
+  "preprint": false,
+  "venue": "Methods Mol Biol",
+  "image": ""
+ },
+ {
+  "id": "351aa3e937c341f5e8d3671f0e927e3540bfc11d",
+  "source": "pubmed",
+  "url": "https://pubmed.ncbi.nlm.nih.gov/43064003/",
+  "original_title": "Development and In Vitro Evaluation of [(225)Ac]Ac-DOTATATE for Targeted Alpha Therapy of Neuroblastoma.",
+  "title": "An Ac-225-DOTATATE conjugate aimed at neuroblastoma, tested in vitro",
+  "blurb": "DOTATATE targets somatostatin receptors, labeled here with Actinium-225 for alpha therapy and put through in vitro evaluation against neuroblastoma. Development-stage cell work, nothing dosed in an animal yet.",
+  "lane": "radiopharma",
+  "published": "2026-11-20",
+  "harvested": "2026-11-21",
+  "score": 88,
+  "preprint": false,
+  "venue": "Eur J Pharm Sci",
+  "image": "https://ars.els-cdn.com/content/image/1-s2.0-S0928098726002988-ga1.jpg"
  }
 ]
