@@ -1,5 +1,24 @@
 [
  {
+  "id": "4e29d12bd64ba7fea2bf7b4bdd2fb156ded464bc",
+  "source": "crossref",
+  "url": "https://doi.org/10.1002/chem.71928",
+  "original_title": "Selective Reduction of Interchain Disulfides in Native Antibodies is an Underexplored Problem",
+  "title": "Antibody disulfides: nobody's bothered to reduce just one pair",
+  "blurb": "Native IgG1 has four interchain disulfides, two H-H in the hinge and two H-L, and conjugation chemistry has mostly only learned to use all of them for DAR4 or DAR8 ADCs. Selectively reducing just one pair would give finer control over drug loading and open up dual-payload ADCs without redesigning the linker or engineering the antibody, but apparently almost nobody's tried it.",
+  "lane": "org chem",
+  "published": "2026-11-23",
+  "harvested": "2026-11-23",
+  "score": 88,
+  "preprint": false,
+  "venue": "Chemistry – A European Journal",
+  "image": "",
+  "ricky": {
+   "endorsed_at": "2026-11-23T12:02:20+00:00"
+  },
+  "blurb_long": "Native IgG1 has four interchain disulfides, two H–H in the hinge and two H–L, and conjugation chemistry has mostly only learned to use all of them for DAR4 or DAR8 ADCs. Selectively reducing just one pair would give finer control over drug loading and open up dual-payload ADCs without redesigning the linker or engineering the antibody, but apparently almost nobody's tried it. The selectivity is the catch: the disulfides are similar enough that you need reagent tuning or protection strategies to reduce one pair without hitting the others. If it works, you get two independent conjugation sites—the H–L pair and the H–H hinge—and can load different payloads in controlled ratios without rebuilding the antibody. Early-stage dual-payload work showed this geometry mattered for Fc function and target avidity, but emphasis has since shifted to full antibody engineering, leaving the native-antibody route underdeveloped."
+ },
+ {
   "id": "f01150682a9eb14cff6112ec8fdfd5ed02695631",
   "source": "pubmed",
   "url": "https://pubmed.ncbi.nlm.nih.gov/43051374/",
