@@ -1,5 +1,24 @@
 [
  {
+  "id": "66a4991fe2141840e6f96318fbb14024d21177ed",
+  "source": "crossref",
+  "url": "https://doi.org/10.1021/acs.jmedchem.6c01157",
+  "original_title": "A Modular Multi-Arm Linker Platform Yields a Homogeneous Dual-Payload ADC Targeting Treatment-Resistant HER2-Positive Cancers",
+  "title": "Two warheads, one antibody, finally at a clean ratio",
+  "blurb": "A multi-arm linker platform bundles two different payloads, efflux-resistant MMAF and bystander-active exatecan, onto one HER2 antibody at a fixed 4:4 ratio instead of the usual messy conjugation mix. The resulting ADC, TE-1182, beats single-drug versions on cytotoxicity. Still cells in a dish, not patients.",
+  "lane": "biochem",
+  "published": "2026-11-26",
+  "harvested": "2026-11-27",
+  "score": 92,
+  "preprint": false,
+  "venue": "Journal of Medicinal Chemistry",
+  "image": "",
+  "ricky": {
+   "endorsed_at": "2026-11-27T12:20:07+00:00"
+  },
+  "blurb_long": "A multi-arm linker platform bundles two different payloads, efflux-resistant MMAF and bystander-active exatecan, onto one HER2 antibody at a fixed 4:4 ratio instead of the usual messy conjugation mix. The resulting ADC, TE-1182, beats single-drug versions on cytotoxicity in cells. HER2 tumors evade single-payload ADCs, so the dual-hit approach could matter if both drugs carry their weight. MMAF avoids the efflux pumps that kill standard topoisomerase poisons, and exatecan hits neighbors to cover tumor heterogeneity. Homogeneity and site-specific conjugation beat random lysine modification for consistency and bioanalysis. Still cells in a dish, not patients."
+ },
+ {
   "id": "4e29d12bd64ba7fea2bf7b4bdd2fb156ded464bc",
   "source": "crossref",
   "url": "https://doi.org/10.1002/chem.71928",
